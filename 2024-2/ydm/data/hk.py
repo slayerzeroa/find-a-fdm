@@ -96,10 +96,12 @@ else:
     print("Error Code : " + str(rescode) + " | " + res.text)
 
 # print(res.json()['output'])
-print(res.json())
+# print(res.json())
 
 pd.set_option('display.max_columns', None)
-print(json2df(res.json()['output2']))
+df = json2df(res.json()['output2'])
+print(df.columns)
+print(df)
 
 
 
