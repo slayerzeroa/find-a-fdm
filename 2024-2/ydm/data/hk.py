@@ -1,6 +1,8 @@
 #### 한국투자증권 KIS DEVELOPER
 
 #### 라이브러리 Import
+import datetime
+
 import os
 import json
 
@@ -15,6 +17,7 @@ from helpful_functions import json2df
 load_dotenv(dotenv_path='C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/.env')
 APP_KEY = os.getenv("APP_KEY")
 APP_SECRET = os.getenv("APP_SECRET")
+KRX_API = os.getenv("KRX_API")  
 
 
 #### 최초 실시간 (웹소켓) 접속키 발급
@@ -67,41 +70,87 @@ except:
         TOKEN = f.read()
 
 
-#### 당일 1분봉 데이터 요청
-headers = {
-    "content-type": "application/json; charset=utf-8",
-    "authorization": f"Bearer {TOKEN}",
-    "appkey": APP_KEY,
-    "appsecret": APP_SECRET,
-    "tr_id": "FHKST03010200",
-    "custtype": "P"
-}
+'''
+데이터 관련 함수
+'''
 
-params = {
-    "fid_cond_mrkt_div_code": "J",
-    "fid_etc_cls_code": "",
-    "fid_input_hour_1": "090000",
-    "fid_input_iscd": "000660",
-    "fid_pw_data_incu_yn": "Y"
-}
+def get_stock_list(market:str='KOSPI', date:str=(datetime.datetime.now()-datetime.timedelta(days=1)).strftime('%Y%m%d')):
+    '''
+    market에 따른 종목코드 리스트 반환
+    '''
+    ## 근데 왜 당일 데이터가 안나오지?
+    if market == 'KOSPI' or market == 'kospi' or market == '코스피':
+        market_code = 'stk'
+    elif market == 'KOSDAQ' or market == 'kosdaq' or market == '코스닥':
+        market_code = 'ksq'
+    else:
+        return 'Invalid market code'
+        
+    headers = {
+        'AUTH_KEY': KRX_API 
+    }
 
-url = "https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice"
+    url = f'http://data-dbg.krx.co.kr/svc/apis/sto/{market_code}_isu_base_info?basDd={date}'
 
-res = requests.get(url, params=params, headers=headers)
-rescode = res.status_code
-if rescode == 200:
-    print(res.headers)
-    print(str(rescode) + " | " + res.text)
-else:
-    print("Error Code : " + str(rescode) + " | " + res.text)
+    response = requests.get(url=url, headers=headers)
+    res_json = response.json()['OutBlock_1']
+    res_df = pd.DataFrame(res_json)
 
-# print(res.json()['output'])
-# print(res.json())
+    stock_list = res_df['ISU_SRT_CD'].tolist()
 
-pd.set_option('display.max_columns', None)
-df = json2df(res.json()['output2'])
-print(df.columns)
-print(df)
+    return stock_list
+
+
+def get_minute_data(ticker:str='005930', time:str='093000'):
+    #### 1분봉 데이터 요청
+    headers = {
+        "content-type": "application/json; charset=utf-8",
+        "authorization": f"Bearer {TOKEN}",
+        "appkey": APP_KEY,
+        "appsecret": APP_SECRET,
+        "tr_id": "FHKST03010200",
+        "custtype": "P"
+    }
+
+    params = {
+        "fid_cond_mrkt_div_code": "J",
+        "fid_etc_cls_code": "",
+        "fid_input_hour_1": time,
+        "fid_input_iscd": ticker,
+        "fid_pw_data_incu_yn": "Y"
+    }
+
+    url = "https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice"
+
+    res = requests.get(url, params=params, headers=headers)
+    rescode = res.status_code
+    if rescode == 200:
+        df = json2df(res.json()['output2'])
+        return df
+    else:
+        return ("Error Code : " + str(rescode) + " | " + res.text)
+
+stock_list = get_stock_list(market='코스피')
+print(get_minute_data(ticker=stock_list[0], time='090000'))
+
+
+def get_every_minutes_data(ticker:str='005930'):
+    '''
+    종목코드에 대한 당일 1분봉 데이터 반환
+    '''
+    start = '090000'
+
+    while start != '153000':
+        df = get_minute_data(ticker=ticker, time=start)
+        if start == '090000':
+            result = df
+        else:
+            result = pd.concat([result, df], axis=0)
+        start = str(int(start) + 10000)
+
+    return result
+
+
 
 
 
