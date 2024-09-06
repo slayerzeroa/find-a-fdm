@@ -2,22 +2,30 @@
 
 #### 라이브러리 Import
 import datetime
+import time
 
 import os
 import json
+from tracemalloc import start
 
+from arrow import get
 import requests
 import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
 
-from helpful_functions import json2df
+from db import update_minutes_df
+
+from helpful_functions import json2df, get_minutes_list
 
 #### 환경변수 세팅
 load_dotenv(dotenv_path='C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/.env')
 APP_KEY = os.getenv("APP_KEY")
 APP_SECRET = os.getenv("APP_SECRET")
 KRX_API = os.getenv("KRX_API")  
+
+minutes_list = get_minutes_list(reversed=True)
+
 
 
 #### 최초 실시간 (웹소켓) 접속키 발급
@@ -101,7 +109,7 @@ def get_stock_list(market:str='KOSPI', date:str=(datetime.datetime.now()-datetim
     return stock_list
 
 
-def get_minute_data(ticker:str='005930', time:str='093000'):
+def get_minute_data(ticker:str='005930', minutes:str='093000'):
     #### 1분봉 데이터 요청
     headers = {
         "content-type": "application/json; charset=utf-8",
@@ -115,7 +123,7 @@ def get_minute_data(ticker:str='005930', time:str='093000'):
     params = {
         "fid_cond_mrkt_div_code": "J",
         "fid_etc_cls_code": "",
-        "fid_input_hour_1": time,
+        "fid_input_hour_1": minutes,
         "fid_input_iscd": ticker,
         "fid_pw_data_incu_yn": "Y"
     }
@@ -130,29 +138,51 @@ def get_minute_data(ticker:str='005930', time:str='093000'):
     else:
         return ("Error Code : " + str(rescode) + " | " + res.text)
 
-stock_list = get_stock_list(market='코스피')
-print(get_minute_data(ticker=stock_list[0], time='090000'))
-
 
 def get_every_minutes_data(ticker:str='005930'):
     '''
     종목코드에 대한 당일 1분봉 데이터 반환
     '''
-    start = '090000'
+    result = pd.DataFrame()
+    for minutes in minutes_list:
+        df = get_minute_data(ticker=ticker, minutes=minutes)
+        result = pd.concat([result, df], axis=0)
+        time.sleep(0.03)
 
-    while start != '153000':
-        df = get_minute_data(ticker=ticker, time=start)
-        if start == '090000':
-            result = df
-        else:
-            result = pd.concat([result, df], axis=0)
-        start = str(int(start) + 10000)
+
+    today = datetime.datetime.now().strftime('%Y%m%d')
+    result = result[result['stck_bsop_date'] == today]
+
+    result['ticker'] = ticker 
 
     return result
 
 
+def get_every_stock_data(market:str='KOSPI'):
+    stock_list = get_stock_list(market=market)
+    result = pd.DataFrame()
+    for stock in stock_list:
+        df = get_every_minutes_data(ticker=stock)
+        result = pd.concat([result, df], axis=0)
+    result['market'] = market
+    return result
 
 
+start = time.time()
+kospi_df = get_every_stock_data()
+update_minutes_df(kospi_df)
+
+kosdaq_df = get_every_stock_data(market='KOSDAQ')
+update_minutes_df(kosdaq_df)
+print(time.time()-start)
+
+# df = get_every_minutes_data('005930')
+# df = df.reset_index(drop=True)
+
+# pd.set_option('display.max_columns', None)
+# print(df)
+
+# update_minutes_df(df)
 
 
 # #### 일별 주가 데이터
