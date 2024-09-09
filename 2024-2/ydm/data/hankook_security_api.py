@@ -14,9 +14,9 @@ import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
 
-from db import update_minutes_df
+from .db import update_minutes_df
 
-from helpful_functions import json2df, get_minutes_list
+from .helpful_functions import json2df, get_minutes_list
 
 #### 환경변수 세팅
 load_dotenv(dotenv_path='C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/.env')
@@ -82,7 +82,7 @@ except:
 데이터 관련 함수
 '''
 
-def get_stock_list(market:str='KOSPI', date:str=(datetime.datetime.now()-datetime.timedelta(days=1)).strftime('%Y%m%d')):
+def get_stock_list(market:str='KOSPI', date:str=(datetime.datetime.now())):
     '''
     market에 따른 종목코드 리스트 반환
     '''
