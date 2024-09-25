@@ -67,16 +67,6 @@ def get_access_token():
     access_token = response_data['access_token']
     return access_token
 
-try:
-    TOKEN = get_access_token()
-    txt_path = 'C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/token.txt'
-    with open(txt_path, 'w') as f:
-        f.write(TOKEN)
-except:
-    txt_path = 'C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/token.txt'
-    with open(txt_path, 'r') as f:
-        TOKEN = f.read()
-
 
 '''
 데이터 관련 함수
@@ -159,6 +149,18 @@ def get_every_minutes_data(ticker:str='005930'):
 
 
 def get_every_stock_data(market:str='KOSPI'):
+
+    # 웹소켓 토큰 발급
+    try:
+        TOKEN = get_access_token()
+        txt_path = 'C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/token.txt'
+        with open(txt_path, 'w') as f:
+            f.write(TOKEN)
+    except:
+        txt_path = 'C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/token.txt'
+        with open(txt_path, 'r') as f:
+            TOKEN = f.read()
+
     stock_list = get_stock_list(market=market)
     result = pd.DataFrame()
     for stock in stock_list:
