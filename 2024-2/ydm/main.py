@@ -19,7 +19,7 @@ def main():
     except:
         print("error")
 
-# main()
+main()
 schedule.every().day.at("16:00").do(main)
 
 if __name__ == '__main__':

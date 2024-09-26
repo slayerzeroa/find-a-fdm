@@ -99,7 +99,7 @@ def get_stock_list(market:str='KOSPI', date:str=(datetime.datetime.now())):
     return stock_list
 
 
-def get_minute_data(ticker:str='005930', minutes:str='093000'):
+def get_minute_data(ticker:str='005930', minutes:str='093000', TOKEN:str=None):
     #### 1분봉 데이터 요청
     headers = {
         "content-type": "application/json; charset=utf-8",
@@ -129,13 +129,13 @@ def get_minute_data(ticker:str='005930', minutes:str='093000'):
         return ("Error Code : " + str(rescode) + " | " + res.text)
 
 
-def get_every_minutes_data(ticker:str='005930'):
+def get_every_minutes_data(ticker:str='005930', TOKEN:str=None):
     '''
     종목코드에 대한 당일 1분봉 데이터 반환
     '''
     result = pd.DataFrame()
     for minutes in minutes_list:
-        df = get_minute_data(ticker=ticker, minutes=minutes)
+        df = get_minute_data(ticker=ticker, minutes=minutes, TOKEN=TOKEN)
         result = pd.concat([result, df], axis=0)
         time.sleep(0.03)
 
@@ -164,7 +164,7 @@ def get_every_stock_data(market:str='KOSPI'):
     stock_list = get_stock_list(market=market)
     result = pd.DataFrame()
     for stock in stock_list:
-        df = get_every_minutes_data(ticker=stock)
+        df = get_every_minutes_data(ticker=stock, TOKEN=TOKEN)
         result = pd.concat([result, df], axis=0)
     result['market'] = market
     return result
