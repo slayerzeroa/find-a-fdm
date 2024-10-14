@@ -9,17 +9,18 @@ import schedule
 def main():
     try:
         start = time.time()
-        print("main start")
+        print("main start at ", datetime.datetime.now())
         kospi_df = get_every_stock_data()
         update_minutes_df(kospi_df)
 
         kosdaq_df = get_every_stock_data(market='KOSDAQ')
         update_minutes_df(kosdaq_df)
         print(time.time()-start)
+        print("main end at ", datetime.datetime.now())
     except:
         print("error")
 
-main()
+# main()
 schedule.every().day.at("16:00").do(main)
 
 if __name__ == '__main__':
