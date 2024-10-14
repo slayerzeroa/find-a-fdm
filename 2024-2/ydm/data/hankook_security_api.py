@@ -19,7 +19,7 @@ from .db import update_minutes_df
 from .helpful_functions import json2df, get_minutes_list
 
 #### 환경변수 세팅
-load_dotenv(dotenv_path='C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/.env')
+load_dotenv(dotenv_path='/config/find-a-fdm/2024-2/ydm/env/.env')
 APP_KEY = os.getenv("APP_KEY")
 APP_SECRET = os.getenv("APP_SECRET")
 KRX_API = os.getenv("KRX_API")  
@@ -153,11 +153,11 @@ def get_every_stock_data(market:str='KOSPI'):
     # 웹소켓 토큰 발급
     try:
         TOKEN = get_access_token()
-        txt_path = 'C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/token.txt'
+        txt_path = '/config/find-a-fdm/2024-2/ydm/env/token.txt'
         with open(txt_path, 'w') as f:
             f.write(TOKEN)
     except:
-        txt_path = 'C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/token.txt'
+        txt_path = '/config/find-a-fdm/2024-2/ydm/env/token.txt'
         with open(txt_path, 'r') as f:
             TOKEN = f.read()
 
