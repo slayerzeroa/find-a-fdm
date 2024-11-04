@@ -16,3 +16,9 @@ db_port = os.getenv('DB_PORT')
 def update_minutes_df(minutes_df: pd.DataFrame):
     engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}:{db_port}/{db_name}?charset=utf8mb4")
     minutes_df.to_sql(name='minutes_data', con=engine, if_exists='append', index=False)
+
+
+
+def update_stock_options_daily_data(stock_options_df: pd.DataFrame):
+    engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}:{db_port}/{db_name}?charset=utf8mb4")
+    stock_options_df.to_sql(name='stock_options_daily_data', con=engine, if_exists='append', index=False)

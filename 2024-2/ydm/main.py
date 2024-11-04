@@ -1,4 +1,4 @@
-from data.hankook_security_api import *
+from data.api import *
 from data.db import *
 from data.helpful_functions import *
 
@@ -16,6 +16,7 @@ def main():
     update_minutes_df(kosdaq_df)
     print(time.time()-start)
 
+main()
 schedule.every().day.at("16:00").do(main)
 
 if __name__ == '__main__':
@@ -23,5 +24,3 @@ if __name__ == '__main__':
         schedule.run_pending()
         time.sleep(1)
 
-
-main()
