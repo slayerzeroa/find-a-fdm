@@ -22,3 +22,8 @@ def update_minutes_df(minutes_df: pd.DataFrame):
 def update_stock_options_daily_data(stock_options_df: pd.DataFrame):
     engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}:{db_port}/{db_name}?charset=utf8mb4")
     stock_options_df.to_sql(name='stock_options_daily_data', con=engine, if_exists='append', index=False)
+
+
+def update_index_options(index_options_df: pd.DataFrame):
+    engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}:{db_port}/{db_name}?charset=utf8mb4")
+    index_options_df.to_sql(name='index_option_kospi', con=engine, if_exists='append', index=False)
