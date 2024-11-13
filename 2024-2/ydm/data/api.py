@@ -8,6 +8,7 @@ import time
 import os
 import json
 from tracemalloc import start
+from unittest import result
 
 from arrow import get
 import requests
@@ -273,7 +274,6 @@ def get_domestic_future_master_dataframe(base_dir):
 
 
 def get_index_option_dataframe():
-
     df = get_domestic_future_master_dataframe(base_dir)
     print("Done")
 
@@ -297,6 +297,8 @@ def get_index_option_dataframe():
     rho_list = []
     otst_list = []
 
+
+    n = 0
     for i in code_list:
         time.sleep(0.05)
         delta, gamma, theta, vega, rho, otst = (get_greeks_info(APP_KEY, APP_SECRET, TOKEN, "O", i))
@@ -363,32 +365,99 @@ def get_index_option_dataframe():
     kospi_put_option_df['rho'] = kospi_put_option_df['rho'].astype(float)
     kospi_put_option_df['otst'] = kospi_put_option_df['otst'].astype(int)
 
-
-
     ### Gamma Exposure 계산
     kospi_call_option_df['gamma_exposure'] = kospi_call_option_df['gamma'] * kospi_call_option_df['otst']
     kospi_put_option_df['gamma_exposure'] = kospi_put_option_df['gamma'] * kospi_put_option_df['otst']
 
 
-    call_total_gamma = kospi_call_option_df['gamma_exposure'].sum()
-    put_total_gamma = kospi_put_option_df['gamma_exposure'].sum()
+    # call_total_gamma = kospi_call_option_df['gamma_exposure'].sum()
+    # put_total_gamma = kospi_put_option_df['gamma_exposure'].sum()
 
-    print("call total gamma:", call_total_gamma, "put total gamma:", put_total_gamma)
+    # print("call total gamma:", call_total_gamma, "put total gamma:", put_total_gamma)
 
-    print("net GEX:", call_total_gamma - put_total_gamma)
-    print("P/C GEX:", put_total_gamma / call_total_gamma)
+    # print("net GEX:", call_total_gamma - put_total_gamma)
+    # print("P/C GEX:", put_total_gamma / call_total_gamma)
 
     kospi_call_option_df.columns = ['PRODUCT_TYPE', 'SHORT_CODE', 'STANDARD_CODE', 'KOREAN_NAME', 'ATM_DIVISION', 'STRIKE_PRICE', 'EXPIRATION_DATE_CODE', 'UNDERLYING_ASSET_SHORT_CODE', 'UNDERLYING_ASSET_NAME', 'MARKET_CODE', 'EXPIRATION_DATE', 'DELTA', 'GAMMA', 'THETA', 'VEGA', 'RHO', 'OPEN_INTEREST', 'DATE', 'GAMMA_EXPOSURE']
     kospi_put_option_df.columns = ['PRODUCT_TYPE', 'SHORT_CODE', 'STANDARD_CODE', 'KOREAN_NAME', 'ATM_DIVISION', 'STRIKE_PRICE', 'EXPIRATION_DATE_CODE', 'UNDERLYING_ASSET_SHORT_CODE', 'UNDERLYING_ASSET_NAME', 'MARKET_CODE', 'EXPIRATION_DATE', 'DELTA', 'GAMMA', 'THETA', 'VEGA', 'RHO', 'OPEN_INTEREST', 'DATE', 'GAMMA_EXPOSURE']
 
     return kospi_call_option_df, kospi_put_option_df
 
-# ## 데이터 저장
-# kospi_call_option_df.to_csv('C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/data/kospi_call_option.csv', index=False)
-# kospi_put_option_df.to_csv('C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/data/kospi_put_option.csv', index=False)
+
+def cal_gamma_exposure(call_df, put_df):
+
+    call_df.loc[:, 'GAMMA_EXPOSURE'] = call_df.loc[:, 'GAMMA_EXPOSURE'].astype(float).copy()
+    put_df.loc[:, 'GAMMA_EXPOSURE'] = put_df.loc[:, 'GAMMA_EXPOSURE'].astype(float).copy()
 
 
-# print(df['단축코드'])
-# print(df['한글종목명'])
+    call_total_gamma = call_df['GAMMA_EXPOSURE'].sum()
+    put_total_gamma = put_df['GAMMA_EXPOSURE'].sum()
 
-# print(kospi_option_df[''])
+    net_gex = call_total_gamma - put_total_gamma
+    pc_gex = put_total_gamma / call_total_gamma
+
+    return net_gex, pc_gex
+
+
+
+# 따로 계산하려고 만든 함수 중요 X
+def get_index_option_from_krx(basDd:str=(datetime.datetime.now()-datetime.timedelta(days=2)).strftime('%Y%m%d') ,include_fundamental:bool=True):
+    '''
+    한국거래소에서 지수옵션 데이터 가져오기
+    '''
+    headers = {
+        'AUTH_KEY': KRX_API 
+    }
+
+    url = 'http://data-dbg.krx.co.kr/svc/apis/drv/opt_bydd_trd'
+
+    params = {
+        'basDd': basDd,
+    }
+
+    response = requests.get(url=url, headers=headers, params=params)
+    res_json = response.json()['OutBlock_1']
+    res_df = pd.DataFrame(res_json)
+
+    kospi_option_df = res_df[res_df['PROD_NM'] == '코스피200 옵션'].copy()
+    kospi_option_df.loc[:, 'EXPIRATION_DATE'] = kospi_option_df.loc[:, 'ISU_NM'].apply(lambda x: x.split(' ')[2])
+
+    if include_fundamental:
+        def get_fundamental_info():
+            url = 'http://data-dbg.krx.co.kr/svc/apis/idx/kospi_dd_trd'
+            response = requests.get(url=url, headers=headers, params=params)
+            res_json = response.json()['OutBlock_1']
+            res_df = pd.DataFrame(res_json)
+
+            fundamental_df = res_df[res_df['IDX_NM'] == '코스피 200'].copy()
+
+            return fundamental_df
+
+        fundamental_df = get_fundamental_info()
+        fundamental_df = fundamental_df[['BAS_DD', 'CLSPRC_IDX']]
+        fundamental_df.columns = ['BAS_DD', 'FUNDAMENTAL_CLSPRC']
+
+        kospi_option_df = pd.merge(kospi_option_df, fundamental_df, how='left', left_on='BAS_DD', right_on='BAS_DD')
+
+    return kospi_option_df
+
+
+
+### 옵션 + 기초자산 df의 델타, 감마 계산 함수
+def cal_greeks(df):
+    result = pd.DataFrame()
+    isu_list = df['ISU_CD'].unique().tolist()
+    df[['TDD_CLSPRC', 'FUNDAMENTAL_CLSPRC']] = df[['TDD_CLSPRC', 'FUNDAMENTAL_CLSPRC']].apply(pd.to_numeric, errors='coerce').copy()
+
+    for isu in isu_list:
+        temp_df = df[df['ISU_CD'] == isu].copy()
+        temp_df['OPTION_DIFF'] = temp_df['TDD_CLSPRC'].copy().diff()
+        temp_df['FUNDA_DIFF'] = temp_df['FUNDAMENTAL_CLSPRC'].copy().diff()
+        temp_df['DELTA'] = (temp_df['OPTION_DIFF'] / temp_df['FUNDA_DIFF']).copy()
+        temp_df['GAMMA'] = (temp_df['DELTA'].diff() / temp_df['FUNDA_DIFF']).copy()
+        result = pd.concat([result, temp_df], axis=0)
+
+    result = result.sort_values(by=['ISU_NM']).copy()
+    result = result.reset_index(drop=True).copy()
+
+    return result
