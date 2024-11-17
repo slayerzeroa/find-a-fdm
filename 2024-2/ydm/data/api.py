@@ -274,6 +274,7 @@ def get_domestic_future_master_dataframe(base_dir):
 
 
 def get_index_option_dataframe():
+    TOKEN = get_access_token()
     df = get_domestic_future_master_dataframe(base_dir)
     print("Done")
 

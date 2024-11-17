@@ -37,7 +37,7 @@ def main():
     
     print(time.time()-start)
     print("done!")
-    
+
 schedule.every().day.at("20:00").do(main)
 
 if __name__ == '__main__':
