@@ -8,16 +8,17 @@ import time
 import os
 import json
 from tracemalloc import start
+from unittest import result
 
 from arrow import get
 import requests
 import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
+from torch import res
 
-from db import update_minutes_df
-
-from helpful_functions import json2df, get_minutes_list
+from .db import update_minutes_df
+from .helpful_functions import json2df, get_minutes_list
 
 #### 환경변수 세팅
 load_dotenv(dotenv_path='C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/.env')
@@ -71,15 +72,15 @@ def get_access_token():
     access_token = response_data['access_token']
     return access_token
 
-try:
-    TOKEN = get_access_token()
-    txt_path = 'C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/token.txt'
-    with open(txt_path, 'w') as f:
-        f.write(TOKEN)
-except:
-    txt_path = 'C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/token.txt'
-    with open(txt_path, 'r') as f:
-        TOKEN = f.read()
+# try:
+#     TOKEN = get_access_token()
+#     txt_path = 'C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/token.txt'
+#     with open(txt_path, 'w') as f:
+#         f.write(TOKEN)
+# except:
+#     txt_path = 'C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/token.txt'
+#     with open(txt_path, 'r') as f:
+#         TOKEN = f.read()
 
 
 '''
@@ -115,6 +116,8 @@ def get_stock_list(market:str='KOSPI', date:str=(datetime.datetime.now())):
 
 def get_minute_data(ticker:str='005930', minutes:str='093000'):
     #### 1분봉 데이터 요청
+
+    TOKEN = get_access_token()
     
     headers = {
         "content-type": "application/json; charset=utf-8",
@@ -185,7 +188,7 @@ def get_greeks_info(appkey, appsecret, access_token, market_code, item_code):
     otst: 미결제약정
     '''
     url = "https://openapi.koreainvestment.com:9443/uapi/domestic-futureoption/v1/quotations/inquire-price"
-    
+
     headers = {
         "content-type": "application/json; charset=utf-8",
         "authorization": f"Bearer {access_token}",
@@ -272,130 +275,218 @@ def get_domestic_future_master_dataframe(base_dir):
 
     return df
 
-pd.set_option('display.max_columns', None)
-df = get_domestic_future_master_dataframe(base_dir)
-# print(df)
-print("Done")
+
+def get_index_option_dataframe():
+    TOKEN = get_access_token()
+    df = get_domestic_future_master_dataframe(base_dir)
+    print("Done")
+
+    # 전처리
+    kospi_option_df = df[df['기초자산 명']=='KOSPI200']
+    kospi_option_df.loc[:, '시장분류코드'] = kospi_option_df.loc[:,'한글종목명'].apply(lambda x: x[0])
+    kospi_call_option_df = kospi_option_df[kospi_option_df.loc[:,'시장분류코드']=='C']
+    kospi_put_option_df = kospi_option_df[kospi_option_df.loc[:,'시장분류코드']=='P']
+
+    kospi_call_option_df.loc[:, '만기'] = kospi_call_option_df.loc[:,'한글종목명'].apply(lambda x: x.split(' ')[1])
+    kospi_put_option_df.loc[:, '만기'] = kospi_put_option_df.loc[:, '한글종목명'].apply(lambda x: x.split(' ')[1])
 
 
-# 전처리
-kospi_option_df = df[df['기초자산 명']=='KOSPI200']
-kospi_option_df.loc[:, '시장분류코드'] = kospi_option_df.loc[:,'한글종목명'].apply(lambda x: x[0])
-kospi_call_option_df = kospi_option_df[kospi_option_df.loc[:,'시장분류코드']=='C']
-kospi_put_option_df = kospi_option_df[kospi_option_df.loc[:,'시장분류코드']=='P']
+    ### 콜옵션 그릭스 정보 가져오기
+    code_list = list(kospi_call_option_df['단축코드'])
 
-kospi_call_option_df.loc[:, '만기'] = kospi_call_option_df.loc[:,'한글종목명'].apply(lambda x: x.split(' ')[1])
-kospi_put_option_df.loc[:, '만기'] = kospi_put_option_df.loc[:, '한글종목명'].apply(lambda x: x.split(' ')[1])
-
-
-### 콜옵션 그릭스 정보 가져오기
-code_list = list(kospi_call_option_df['단축코드'])
-
-delta_list = []
-gamma_list = []
-theta_list = []
-vega_list = []
-rho_list = []
-otst_list = []
-
-for i in code_list:
-    time.sleep(0.05)
-    delta, gamma, theta, vega, rho, otst = (get_greeks_info(APP_KEY, APP_SECRET, TOKEN, "O", i))
-    delta_list.append(delta)
-    gamma_list.append(gamma)
-    theta_list.append(theta)
-    vega_list.append(vega)
-    rho_list.append(rho)
-    otst_list.append(otst)
-
-    print(i, delta, gamma, theta, vega, rho, otst)
-
-kospi_call_option_df['delta'] = delta_list
-kospi_call_option_df['gamma'] = gamma_list
-kospi_call_option_df['theta'] = theta_list
-kospi_call_option_df['vega'] = vega_list
-kospi_call_option_df['rho'] = rho_list
-kospi_call_option_df['otst'] = otst_list
-kospi_call_option_df['date'] = datetime.datetime.now().strftime('%Y%m%d')
-
-print(kospi_call_option_df)
+    delta_list = []
+    gamma_list = []
+    theta_list = []
+    vega_list = []
+    rho_list = []
+    otst_list = []
 
 
+    n = 0
+    for i in code_list:
+        time.sleep(0.05)
+        delta, gamma, theta, vega, rho, otst = (get_greeks_info(APP_KEY, APP_SECRET, TOKEN, "O", i))
+        delta_list.append(delta)
+        gamma_list.append(gamma)
+        theta_list.append(theta)
+        vega_list.append(vega)
+        rho_list.append(rho)
+        otst_list.append(otst)
 
-### 풋옵션 그릭스 정보 가져오기
-code_list = list(kospi_put_option_df['단축코드'])
+        print(i, delta, gamma, theta, vega, rho, otst)
 
-delta_list = []
-gamma_list = []
-theta_list = []
-vega_list = []
-rho_list = []
-otst_list = []
-
-for i in code_list:
-    time.sleep(0.05)
-    delta, gamma, theta, vega, rho, otst = (get_greeks_info(APP_KEY, APP_SECRET, TOKEN, "O", i))
-    delta_list.append(delta)
-    gamma_list.append(gamma)
-    theta_list.append(theta)
-    vega_list.append(vega)
-    rho_list.append(rho)
-    otst_list.append(otst)
-
-    print(i, delta, gamma, theta, vega, rho, otst)
-
-kospi_put_option_df['delta'] = delta_list
-kospi_put_option_df['gamma'] = gamma_list
-kospi_put_option_df['theta'] = theta_list
-kospi_put_option_df['vega'] = vega_list
-kospi_put_option_df['rho'] = rho_list
-kospi_put_option_df['otst'] = otst_list
-kospi_put_option_df['date'] = datetime.datetime.now().strftime('%Y%m%d')
-
-print(kospi_put_option_df)
+    kospi_call_option_df['delta'] = delta_list
+    kospi_call_option_df['gamma'] = gamma_list
+    kospi_call_option_df['theta'] = theta_list
+    kospi_call_option_df['vega'] = vega_list
+    kospi_call_option_df['rho'] = rho_list
+    kospi_call_option_df['otst'] = otst_list
+    kospi_call_option_df['date'] = datetime.datetime.now().strftime('%Y%m%d')
 
 
-### Type Casting
-kospi_call_option_df['delta'] = kospi_call_option_df['delta'].astype(float)
-kospi_call_option_df['gamma'] = kospi_call_option_df['gamma'].astype(float)
-kospi_call_option_df['theta'] = kospi_call_option_df['theta'].astype(float)
-kospi_call_option_df['vega'] = kospi_call_option_df['vega'].astype(float)
-kospi_call_option_df['rho'] = kospi_call_option_df['rho'].astype(float)
-kospi_call_option_df['otst'] = kospi_call_option_df['otst'].astype(int)
+    ### 풋옵션 그릭스 정보 가져오기
+    code_list = list(kospi_put_option_df['단축코드'])
 
-kospi_put_option_df['delta'] = kospi_put_option_df['delta'].astype(float)
-kospi_put_option_df['gamma'] = kospi_put_option_df['gamma'].astype(float)
-kospi_put_option_df['theta'] = kospi_put_option_df['theta'].astype(float)
-kospi_put_option_df['vega'] = kospi_put_option_df['vega'].astype(float)
-kospi_put_option_df['rho'] = kospi_put_option_df['rho'].astype(float)
-kospi_put_option_df['otst'] = kospi_put_option_df['otst'].astype(int)
+    delta_list = []
+    gamma_list = []
+    theta_list = []
+    vega_list = []
+    rho_list = []
+    otst_list = []
+
+    for i in code_list:
+        time.sleep(0.05)
+        delta, gamma, theta, vega, rho, otst = (get_greeks_info(APP_KEY, APP_SECRET, TOKEN, "O", i))
+        delta_list.append(delta)
+        gamma_list.append(gamma)
+        theta_list.append(theta)
+        vega_list.append(vega)
+        rho_list.append(rho)
+        otst_list.append(otst)
+
+        print(i, delta, gamma, theta, vega, rho, otst)
+
+    kospi_put_option_df['delta'] = delta_list
+    kospi_put_option_df['gamma'] = gamma_list
+    kospi_put_option_df['theta'] = theta_list
+    kospi_put_option_df['vega'] = vega_list
+    kospi_put_option_df['rho'] = rho_list
+    kospi_put_option_df['otst'] = otst_list
+    kospi_put_option_df['date'] = datetime.datetime.now().strftime('%Y%m%d')
+
+    ### Type Casting
+    kospi_call_option_df['delta'] = kospi_call_option_df['delta'].astype(float)
+    kospi_call_option_df['gamma'] = kospi_call_option_df['gamma'].astype(float)
+    kospi_call_option_df['theta'] = kospi_call_option_df['theta'].astype(float)
+    kospi_call_option_df['vega'] = kospi_call_option_df['vega'].astype(float)
+    kospi_call_option_df['rho'] = kospi_call_option_df['rho'].astype(float)
+    kospi_call_option_df['otst'] = kospi_call_option_df['otst'].astype(int)
+
+    kospi_put_option_df['delta'] = kospi_put_option_df['delta'].astype(float)
+    kospi_put_option_df['gamma'] = kospi_put_option_df['gamma'].astype(float)
+    kospi_put_option_df['theta'] = kospi_put_option_df['theta'].astype(float)
+    kospi_put_option_df['vega'] = kospi_put_option_df['vega'].astype(float)
+    kospi_put_option_df['rho'] = kospi_put_option_df['rho'].astype(float)
+    kospi_put_option_df['otst'] = kospi_put_option_df['otst'].astype(int)
+
+    ### Gamma Exposure 계산
+    kospi_call_option_df['gamma_exposure'] = kospi_call_option_df['gamma'] * kospi_call_option_df['otst']
+    kospi_put_option_df['gamma_exposure'] = kospi_put_option_df['gamma'] * kospi_put_option_df['otst']
+
+
+    # call_total_gamma = kospi_call_option_df['gamma_exposure'].sum()
+    # put_total_gamma = kospi_put_option_df['gamma_exposure'].sum()
+
+    # print("call total gamma:", call_total_gamma, "put total gamma:", put_total_gamma)
+
+    # print("net GEX:", call_total_gamma - put_total_gamma)
+    # print("P/C GEX:", put_total_gamma / call_total_gamma)
+
+    kospi_call_option_df.columns = ['PRODUCT_TYPE', 'SHORT_CODE', 'STANDARD_CODE', 'KOREAN_NAME', 'ATM_DIVISION', 'STRIKE_PRICE', 'EXPIRATION_DATE_CODE', 'UNDERLYING_ASSET_SHORT_CODE', 'UNDERLYING_ASSET_NAME', 'MARKET_CODE', 'EXPIRATION_DATE', 'DELTA', 'GAMMA', 'THETA', 'VEGA', 'RHO', 'OPEN_INTEREST', 'DATE', 'GAMMA_EXPOSURE']
+    kospi_put_option_df.columns = ['PRODUCT_TYPE', 'SHORT_CODE', 'STANDARD_CODE', 'KOREAN_NAME', 'ATM_DIVISION', 'STRIKE_PRICE', 'EXPIRATION_DATE_CODE', 'UNDERLYING_ASSET_SHORT_CODE', 'UNDERLYING_ASSET_NAME', 'MARKET_CODE', 'EXPIRATION_DATE', 'DELTA', 'GAMMA', 'THETA', 'VEGA', 'RHO', 'OPEN_INTEREST', 'DATE', 'GAMMA_EXPOSURE']
+
+    return kospi_call_option_df, kospi_put_option_df
+
+
+def cal_gamma_exposure(call_df, put_df):
+
+    call_df.loc[:, 'GAMMA_EXPOSURE'] = call_df.loc[:, 'GAMMA_EXPOSURE'].astype(float).copy()
+    put_df.loc[:, 'GAMMA_EXPOSURE'] = put_df.loc[:, 'GAMMA_EXPOSURE'].astype(float).copy()
+
+
+    call_total_gamma = call_df['GAMMA_EXPOSURE'].sum()
+    put_total_gamma = put_df['GAMMA_EXPOSURE'].sum()
+
+    net_gex = call_total_gamma - put_total_gamma
+    pc_gex = put_total_gamma / call_total_gamma
+
+    return net_gex, pc_gex
+
+
+def get_fundamental_info(basDd):
+
+    headers = {
+        'AUTH_KEY': KRX_API 
+    }
+
+    params = {
+        'basDd': basDd,
+    }
+    
+    url = 'http://data-dbg.krx.co.kr/svc/apis/idx/kospi_dd_trd'
+    response = requests.get(url=url, headers=headers, params=params)
+    res_json = response.json()['OutBlock_1']
+    res_df = pd.DataFrame(res_json)
+
+    if res_df.empty:
+        return res_df
+
+    fundamental_df = res_df[res_df['IDX_NM'] == '코스피 200'].copy()
+
+    return fundamental_df
+
+
+def get_fundamental_series(start:str, end:str):
+    result = pd.DataFrame()
+    for date in pd.date_range(start=start, end=end):
+        date = date.strftime('%Y%m%d')
+        df = get_fundamental_info(date)
+        result = pd.concat([result, df], axis=0)
+    return result
+
+
+# 따로 계산하려고 만든 함수 중요 X
+def get_index_option_from_krx(basDd:str=(datetime.datetime.now()-datetime.timedelta(days=2)).strftime('%Y%m%d'), include_fundamental:bool=True):
+    '''
+    한국거래소에서 지수옵션 데이터 가져오기
+    '''
+    headers = {
+        'AUTH_KEY': KRX_API 
+    }
+
+    url = 'http://data-dbg.krx.co.kr/svc/apis/drv/opt_bydd_trd'
+
+    params = {
+        'basDd': basDd,
+    }
+
+    response = requests.get(url=url, headers=headers, params=params)
+    print(response.status_code)
+    res_json = response.json()['OutBlock_1']
+    res_df = pd.DataFrame(res_json)
+
+    print(res_df)
+
+    kospi_option_df = res_df[res_df['PROD_NM'] == '코스피200 옵션'].copy()
+    kospi_option_df.loc[:, 'EXPIRATION_DATE'] = kospi_option_df.loc[:, 'ISU_NM'].apply(lambda x: x.split(' ')[2])
+
+    if include_fundamental:
+        fundamental_df = get_fundamental_info()
+        fundamental_df = fundamental_df[['BAS_DD', 'CLSPRC_IDX']]
+        fundamental_df.columns = ['BAS_DD', 'FUNDAMENTAL_CLSPRC']
+
+        kospi_option_df = pd.merge(kospi_option_df, fundamental_df, how='left', left_on='BAS_DD', right_on='BAS_DD')
+
+    return kospi_option_df
 
 
 
-### Gamma Exposure 계산
-kospi_call_option_df['gamma_exposure'] = kospi_call_option_df['gamma'] * kospi_call_option_df['otst']
-kospi_put_option_df['gamma_exposure'] = kospi_put_option_df['gamma'] * kospi_put_option_df['otst']
+### 옵션 + 기초자산 df의 델타, 감마 계산 함수
+def cal_greeks(df):
+    result = pd.DataFrame()
+    isu_list = df['ISU_CD'].unique().tolist()
+    df[['TDD_CLSPRC', 'FUNDAMENTAL_CLSPRC']] = df[['TDD_CLSPRC', 'FUNDAMENTAL_CLSPRC']].apply(pd.to_numeric, errors='coerce').copy()
 
+    for isu in isu_list:
+        temp_df = df[df['ISU_CD'] == isu].copy()
+        temp_df['OPTION_DIFF'] = temp_df['TDD_CLSPRC'].copy().diff()
+        temp_df['FUNDA_DIFF'] = temp_df['FUNDAMENTAL_CLSPRC'].copy().diff()
+        temp_df['DELTA'] = (temp_df['OPTION_DIFF'] / temp_df['FUNDA_DIFF']).copy()
+        temp_df['GAMMA'] = (temp_df['DELTA'].diff() / temp_df['FUNDA_DIFF']).copy()
+        result = pd.concat([result, temp_df], axis=0)
 
-call_total_gamma = kospi_call_option_df['gamma_exposure'].sum()
-put_total_gamma = kospi_put_option_df['gamma_exposure'].sum()
+    result = result.sort_values(by=['ISU_NM']).copy()
+    result = result.reset_index(drop=True).copy()
 
-print("call total gamma:", call_total_gamma, "put total gamma:", put_total_gamma)
+    return result
 
-print("net GEX:", call_total_gamma - put_total_gamma)
-print("P/C GEX:", put_total_gamma / call_total_gamma)
-
-
-## 데이터 저장
-
-kospi_call_option_df.to_csv('C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/data/kospi_call_option.csv', index=False)
-kospi_put_option_df.to_csv('C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/data/kospi_put_option.csv', index=False)
-
-
-
-
-
-# print(df['단축코드'])
-# print(df['한글종목명'])
-
-# print(kospi_option_df[''])
