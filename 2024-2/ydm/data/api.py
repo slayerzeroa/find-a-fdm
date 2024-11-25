@@ -15,6 +15,7 @@ import requests
 import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
+from torch import res
 
 from .db import update_minutes_df
 from .helpful_functions import json2df, get_minutes_list
@@ -71,15 +72,15 @@ def get_access_token():
     access_token = response_data['access_token']
     return access_token
 
-try:
-    TOKEN = get_access_token()
-    txt_path = 'C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/token.txt'
-    with open(txt_path, 'w') as f:
-        f.write(TOKEN)
-except:
-    txt_path = 'C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/token.txt'
-    with open(txt_path, 'r') as f:
-        TOKEN = f.read()
+# try:
+#     TOKEN = get_access_token()
+#     txt_path = 'C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/token.txt'
+#     with open(txt_path, 'w') as f:
+#         f.write(TOKEN)
+# except:
+#     txt_path = 'C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/token.txt'
+#     with open(txt_path, 'r') as f:
+#         TOKEN = f.read()
 
 
 '''
@@ -115,6 +116,8 @@ def get_stock_list(market:str='KOSPI', date:str=(datetime.datetime.now())):
 
 def get_minute_data(ticker:str='005930', minutes:str='093000'):
     #### 1분봉 데이터 요청
+
+    TOKEN = get_access_token()
     
     headers = {
         "content-type": "application/json; charset=utf-8",
@@ -185,7 +188,7 @@ def get_greeks_info(appkey, appsecret, access_token, market_code, item_code):
     otst: 미결제약정
     '''
     url = "https://openapi.koreainvestment.com:9443/uapi/domestic-futureoption/v1/quotations/inquire-price"
-    
+
     headers = {
         "content-type": "application/json; charset=utf-8",
         "authorization": f"Bearer {access_token}",
@@ -400,9 +403,40 @@ def cal_gamma_exposure(call_df, put_df):
     return net_gex, pc_gex
 
 
+def get_fundamental_info(basDd):
+
+    headers = {
+        'AUTH_KEY': KRX_API 
+    }
+
+    params = {
+        'basDd': basDd,
+    }
+    
+    url = 'http://data-dbg.krx.co.kr/svc/apis/idx/kospi_dd_trd'
+    response = requests.get(url=url, headers=headers, params=params)
+    res_json = response.json()['OutBlock_1']
+    res_df = pd.DataFrame(res_json)
+
+    if res_df.empty:
+        return res_df
+
+    fundamental_df = res_df[res_df['IDX_NM'] == '코스피 200'].copy()
+
+    return fundamental_df
+
+
+def get_fundamental_series(start:str, end:str):
+    result = pd.DataFrame()
+    for date in pd.date_range(start=start, end=end):
+        date = date.strftime('%Y%m%d')
+        df = get_fundamental_info(date)
+        result = pd.concat([result, df], axis=0)
+    return result
+
 
 # 따로 계산하려고 만든 함수 중요 X
-def get_index_option_from_krx(basDd:str=(datetime.datetime.now()-datetime.timedelta(days=2)).strftime('%Y%m%d') ,include_fundamental:bool=True):
+def get_index_option_from_krx(basDd:str=(datetime.datetime.now()-datetime.timedelta(days=2)).strftime('%Y%m%d'), include_fundamental:bool=True):
     '''
     한국거래소에서 지수옵션 데이터 가져오기
     '''
@@ -417,23 +451,16 @@ def get_index_option_from_krx(basDd:str=(datetime.datetime.now()-datetime.timede
     }
 
     response = requests.get(url=url, headers=headers, params=params)
+    print(response.status_code)
     res_json = response.json()['OutBlock_1']
     res_df = pd.DataFrame(res_json)
+
+    print(res_df)
 
     kospi_option_df = res_df[res_df['PROD_NM'] == '코스피200 옵션'].copy()
     kospi_option_df.loc[:, 'EXPIRATION_DATE'] = kospi_option_df.loc[:, 'ISU_NM'].apply(lambda x: x.split(' ')[2])
 
     if include_fundamental:
-        def get_fundamental_info():
-            url = 'http://data-dbg.krx.co.kr/svc/apis/idx/kospi_dd_trd'
-            response = requests.get(url=url, headers=headers, params=params)
-            res_json = response.json()['OutBlock_1']
-            res_df = pd.DataFrame(res_json)
-
-            fundamental_df = res_df[res_df['IDX_NM'] == '코스피 200'].copy()
-
-            return fundamental_df
-
         fundamental_df = get_fundamental_info()
         fundamental_df = fundamental_df[['BAS_DD', 'CLSPRC_IDX']]
         fundamental_df.columns = ['BAS_DD', 'FUNDAMENTAL_CLSPRC']
@@ -462,3 +489,4 @@ def cal_greeks(df):
     result = result.reset_index(drop=True).copy()
 
     return result
+
