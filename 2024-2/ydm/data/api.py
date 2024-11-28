@@ -17,7 +17,6 @@ import numpy as np
 from dotenv import load_dotenv
 from torch import res
 
-from .db import update_minutes_df
 from .helpful_functions import json2df, get_minutes_list
 
 #### 환경변수 세팅
@@ -174,6 +173,42 @@ def get_every_stock_data(market:str='KOSPI'):
         result = pd.concat([result, df], axis=0)
     result['market'] = market
     return result
+
+
+
+def check_business_day(date: str):
+    # 휴장일 조회
+    '''
+    input: date (str)
+    output: Y or N
+    '''
+    TOKEN = get_access_token()
+
+    headers = {
+        "content-type": "application/json; charset=utf-8",
+        "authorization": f"Bearer {TOKEN}",
+        "appkey": APP_KEY,
+        "appsecret": APP_SECRET,
+        "tr_id": "CTCA0903R",
+        "custtype": "P"
+    }
+
+    params = {
+        "BASS_DT": date,
+        "CTX_AREA_NK": "",
+        "CTX_AREA_FK": ""
+        }
+    
+    url = "https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/quotations/chk-holiday"
+
+    response = requests.get(url, headers=headers, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        return data['output'][0]['opnd_yn']
+    else:
+        print("HTTP Error:", response.status_code)
+        return None
 
 
 
@@ -386,21 +421,6 @@ def get_index_option_dataframe():
     kospi_put_option_df.columns = ['PRODUCT_TYPE', 'SHORT_CODE', 'STANDARD_CODE', 'KOREAN_NAME', 'ATM_DIVISION', 'STRIKE_PRICE', 'EXPIRATION_DATE_CODE', 'UNDERLYING_ASSET_SHORT_CODE', 'UNDERLYING_ASSET_NAME', 'MARKET_CODE', 'EXPIRATION_DATE', 'DELTA', 'GAMMA', 'THETA', 'VEGA', 'RHO', 'OPEN_INTEREST', 'DATE', 'GAMMA_EXPOSURE']
 
     return kospi_call_option_df, kospi_put_option_df
-
-
-def cal_gamma_exposure(call_df, put_df):
-
-    call_df.loc[:, 'GAMMA_EXPOSURE'] = call_df.loc[:, 'GAMMA_EXPOSURE'].astype(float).copy()
-    put_df.loc[:, 'GAMMA_EXPOSURE'] = put_df.loc[:, 'GAMMA_EXPOSURE'].astype(float).copy()
-
-
-    call_total_gamma = call_df['GAMMA_EXPOSURE'].sum()
-    put_total_gamma = put_df['GAMMA_EXPOSURE'].sum()
-
-    net_gex = call_total_gamma - put_total_gamma
-    pc_gex = put_total_gamma / call_total_gamma
-
-    return net_gex, pc_gex
 
 
 def get_fundamental_info(basDd):

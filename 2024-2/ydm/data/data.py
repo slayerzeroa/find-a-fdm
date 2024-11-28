@@ -73,3 +73,22 @@ def get_gamma(S, K, T, r, sigma):
     return gamma
 
 
+def cal_gamma_exposure(option_df: pd.DataFrame):
+    '''
+    option_df 내 데이터는 모두 같은 날짜의 데이터여야 함.
+    '''
+
+    call_df = option_df[option_df['MARKET_CODE'] == 'C']
+    put_df = option_df[option_df['MARKET_CODE'] == 'P']
+
+    call_df.loc[:, 'GAMMA_EXPOSURE'] = call_df.loc[:, 'GAMMA_EXPOSURE'].astype(float).copy()
+    put_df.loc[:, 'GAMMA_EXPOSURE'] = put_df.loc[:, 'GAMMA_EXPOSURE'].astype(float).copy()
+
+
+    call_total_gamma = call_df['GAMMA_EXPOSURE'].sum()
+    put_total_gamma = put_df['GAMMA_EXPOSURE'].sum()
+
+    net_gex = call_total_gamma - put_total_gamma
+    pc_gex = put_total_gamma / call_total_gamma
+
+    return net_gex, pc_gex

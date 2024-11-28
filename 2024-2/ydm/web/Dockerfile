@@ -1,26 +1,27 @@
-# 가져올 이미지를 정의
+# 1. Node.js 이미지를 기반으로 설정
 FROM node:14
-# 경로 설정하기
+
+# 2. 컨테이너 내 작업 디렉토리 설정
 WORKDIR /app
-# package.json 워킹 디렉토리에 복사 (.은 설정한 워킹 디렉토리를 뜻함)
+
+# 3. package.json 및 package-lock.json 복사
 COPY package.json .
 
-# 명령어 실행 (의존성 설치)
+# 4. 의존성 설치
 RUN npm install
-# 현재 디렉토리의 모든 파일을 도커 컨테이너의 워킹 디렉토리에 복사한다.
+
+# 5. 필요한 Babel 플러그인 설치 (에러 방지를 위해 추가)
+RUN npm install @babel/plugin-proposal-private-property-in-object --save-dev
+
+# 6. 소스 코드 전체 복사
 COPY . .
 
-# 각각의 명령어들은 한줄 한줄씩 캐싱되어 실행된다.
-# package.json의 내용은 자주 바뀌진 않을 거지만
-# 소스 코드는 자주 바뀌는데
-# npm install과 COPY . . 를 동시에 수행하면
-# 소스 코드가 조금 달라질때도 항상 npm install을 수행해서 리소스가 낭비된다.
+# 7. React 서버의 HOST와 PORT 설정
+ENV HOST=0.0.0.0
+ENV PORT=3001
 
-# 3001번 포트 노출
+# 8. 3001번 포트 노출
 EXPOSE 3001
 
-# npm start 스크립트 실행
+# 9. 개발 서버 시작 명령
 CMD ["npm", "start"]
-
-# 그리고 Dockerfile로 docker 이미지를 빌드해야한다.
-# $ docker build .

@@ -182,7 +182,6 @@ def get_business_days(from_date: str, to_date: str):
 
 option_df = pd.read_csv('option_data.csv')
 
-
 fundamental_price = float(api.get_fundamental_info(option_df['BAS_DD'].values[0])['CLSPRC_IDX'])
 # fundamental_price = float(api.get_fundamental_info('20241104')['OPNPRC_IDX'])
 option_df['FUNDAMENTAL'] = fundamental_price
@@ -194,7 +193,7 @@ option_df['STRIKE_PRICE'] = option_df['STRIKE_PRICE'].astype(float)
 # pd.set_option('display.max_columns', None)
 
 option_df['NXTDD_BAS_PRC'] = option_df['NXTDD_BAS_PRC'].astype(float)
-option_df['IV'] = option_df['IMP_VOLT'].astype(float)
+option_df['IMP_VOLT'] = option_df['IMP_VOLT'].astype(float)
 option_df['REMAINING_DAYS'] = option_df['REMAINING_DAYS'].astype(float)
 
 working_day = 252
