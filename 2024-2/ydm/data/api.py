@@ -176,40 +176,64 @@ def get_every_stock_data(market:str='KOSPI'):
 
 
 
-def check_business_day(date: str):
+# def check_business_day(date: str, TOKEN: str):
+#     # 휴장일 조회
+#     '''
+#     input: date (str) ex) 
+#     output: Y or N
+#     '''
+
+#     headers = {
+#         "content-type": "application/json; charset=utf-8",
+#         "authorization": f"Bearer {TOKEN}",
+#         "appkey": APP_KEY,
+#         "appsecret": APP_SECRET,
+#         "tr_id": "FHKUP03500100",
+#         "custtype": "P"
+#     }
+
+#     params = {
+#         "fid_cond_mrkt_div_code": 'U',
+#         "fid_input_date_1": '0001',
+#         "fid_input_date_2": date,
+#         "fid_input_iscd": date,
+#         "fid_period_div_code": 'D'
+#         }
+    
+#     url = "https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/quotations/inquire-daily-indexchartprice"
+
+#     response = requests.get(url, headers=headers, params=params)
+
+#     print(response.json())
+
+def check_business_day(TOKEN: str):
     # 휴장일 조회
     '''
-    input: date (str)
+    input: date (str) ex) 
     output: Y or N
     '''
-    TOKEN = get_access_token()
 
     headers = {
         "content-type": "application/json; charset=utf-8",
         "authorization": f"Bearer {TOKEN}",
         "appkey": APP_KEY,
         "appsecret": APP_SECRET,
-        "tr_id": "CTCA0903R",
+        "tr_id": "HHMCM000002C0",
         "custtype": "P"
     }
-
-    params = {
-        "BASS_DT": date,
-        "CTX_AREA_NK": "",
-        "CTX_AREA_FK": ""
-        }
     
-    url = "https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/quotations/chk-holiday"
+    url = "https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/quotations/market-time"
 
-    response = requests.get(url, headers=headers, params=params)
-
-    if response.status_code == 200:
-        data = response.json()
-        return data['output'][0]['opnd_yn']
+    response = requests.get(url, headers=headers)
+    response_json = response.json()
+    print(response_json)
+    output = response_json['output1']
+    business_day_list = [output['date1'], output['date2'], output['date3'], output['date4'], output['date5']]
+    today = output['today']
+    if today in business_day_list:
+        return 'Y'
     else:
-        print("HTTP Error:", response.status_code)
-        return None
-
+        return 'N'
 
 
 
@@ -311,8 +335,7 @@ def get_domestic_future_master_dataframe(base_dir):
     return df
 
 
-def get_index_option_dataframe():
-    TOKEN = get_access_token()
+def get_index_option_dataframe(TOKEN: str):
     df = get_domestic_future_master_dataframe(base_dir)
     print("Done")
 

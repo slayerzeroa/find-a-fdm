@@ -53,6 +53,6 @@ export default AboutHeader;
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: width * 11,
+    fontSize: width * 8,
   },
 });

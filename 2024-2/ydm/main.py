@@ -30,15 +30,15 @@ import QuantLib as ql
 
 # # update_gamma_exposure(input_df)
 
-
 def main():
-    # 오늘이 working day인지 확인
-    business_day_flag = api.check_business_day(datetime.datetime.now().strftime("%Y%m%d"))
+    TOKEN = api.get_access_token()
 
+    # 오늘이 working day인지 확인
+    business_day_flag = api.check_business_day(TOKEN)
     if business_day_flag == 'Y':
         start = time.time()
         print("main start")
-        kospi_call, kospi_put = api.get_index_option_dataframe()
+        kospi_call, kospi_put = api.get_index_option_dataframe(TOKEN)
         print("update index options...")
 
         db.update_index_options(kospi_call)
@@ -52,7 +52,7 @@ def main():
         net_gex, pc_gex = data.cal_gamma_exposure(option_data)
 
         df = pd.DataFrame()
-        df['DATE'] = [start]
+        df['DATE'] = [datetime.datetime.now().strftime("%Y%m%d")]
         df['NET_GEX'] = [net_gex]
         df['PC_GEX'] = [pc_gex]
 

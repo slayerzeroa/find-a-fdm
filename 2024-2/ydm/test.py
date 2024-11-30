@@ -215,19 +215,3 @@ ooption_df = ooption_df.sort_values(by='ISU_CD')
 
 print(ttest_df)
 print(ooption_df)
-
-# print(option_df[['ISU_CD', 'NXTDD_BAS_PRC', 'STRIKE_PRICE', 'IMP_VOLT', 'REMAINING_DAYS', 'DELTA']])
-
-# print(option_df['DELTA'].unique())
-
-# pd.set_option('display.max_columns', None)
-# test = api.get_fundamental_series(start='20240901', end='20241120')
-# test['CLSPRC_IDX'] = test['CLSPRC_IDX'].astype(float)
-
-# # 기초자산 가격
-# test_S = test[test['BAS_DD'] == '20241101'].CLSPRC_IDX.values[0]
-
-# # volatility 계산
-# historical_volatility = data.get_historical_volatility(test, window=20)
-# test_vol = historical_volatility[historical_volatility['BAS_DD'] == '20241101'].volatility.values[0]
-

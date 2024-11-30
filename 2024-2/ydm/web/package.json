@@ -26,9 +26,12 @@
     "sass": "1.54.0",
     "styled-components": "^5.3.6"
   },
+  "__comment__": {
+    "comment": "export PORT=3001 &&"
+  },
   "scripts": {
-    "start": "export PORT=3001 && react-scripts start",
-    "build": "export PORT=3001 && react-scripts build && gulp licenses",
+    "start": "react-scripts start",
+    "build": "react-scripts build && gulp licenses",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
