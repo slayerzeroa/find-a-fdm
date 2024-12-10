@@ -63,7 +63,7 @@ def main():
         print("Today is not a business day.")
 
 schedule.every().day.at("20:00").do(main)
-
+main()
 if __name__ == '__main__':
     while True:
         schedule.run_pending()

@@ -213,5 +213,38 @@ ooption_df = option_df[['ISU_CD', 'DELTA', 'GAMMA']]
 ttest_df = ttest_df.sort_values(by='단축코드')
 ooption_df = ooption_df.sort_values(by='ISU_CD')
 
-print(ttest_df)
-print(ooption_df)
+
+from arrow import get
+pd.set_option('display.max_columns', None)
+
+result_df = pd.DataFrame()
+
+basDd = "20241030"
+
+for i in range(1, 4):
+    try:
+        option_df = api.get_index_option_from_krx(basDd=basDd, include_fundamental=True)
+        result_df = pd.concat([result_df, option_df])
+        basDd = get(basDd).shift(days=1).format("YYYYMMDD")
+    except:
+        print(f"{basDd}에 해당하는 데이터가 없습니다.")
+        basDd = get(basDd).shift(days=1).format("YYYYMMDD")
+
+
+print(result_df)
+
+
+test_df = api.cal_greeks(result_df)
+
+test_df = test_df[test_df['BAS_DD'] == '20241101']
+
+test_df = test_df[['ISU_CD', 'DELTA', 'GAMMA']]
+
+print('Target Data')
+print(ttest_df.iloc[230:239, :])
+
+print('Using BSM')
+print(ooption_df.iloc[230:239, :])
+
+print('Using Discrete Difference')
+print(test_df.iloc[230:239, :])

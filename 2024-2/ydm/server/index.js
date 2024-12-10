@@ -4,7 +4,7 @@ const mariadb = require("mariadb");
 const cors = require("cors");
 const path = require("path");
 
-dotenv.config({ path: path.resolve(__dirname, "../env/.env") });
+dotenv.config({ path: path.resolve(__dirname, "./env/.env") });
 
 const db_host = process.env.DB_HOST;
 const db_user = process.env.DB_USER;
@@ -37,16 +37,21 @@ app.get("/gex", (req, res) => {
   pool
     .getConnection()
     .then((conn) => {
-      return conn
-        .query("SELECT * FROM gamma_exposure")
-        .then((rows) => res.json(rows))
-        .catch((err) => {
-          console.error("Query error:", err);
-          res
-            .status(500)
-            .json({ error: "Database query failed", details: err.message });
-        })
-        .finally(() => conn.release()); // 연결 해제
+      return (
+        conn
+          .query(
+            "SELECT * FROM (SELECT * FROM gamma_exposure ORDER BY `ID` DESC LIMIT 10) AS subquery ORDER BY `ID` ASC;"
+          )
+          // .query("SELECT * FROM gamma_exposure LIMIT 10;")
+          .then((rows) => res.json(rows))
+          .catch((err) => {
+            console.error("Query error:", err);
+            res
+              .status(500)
+              .json({ error: "Database query failed", details: err.message });
+          })
+          .finally(() => conn.release())
+      ); // 연결 해제
     })
     .catch((err) => {
       console.error("Database connection error:", err);

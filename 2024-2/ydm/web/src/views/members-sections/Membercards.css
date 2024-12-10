@@ -1,0 +1,67 @@
+.membercards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  padding: 10px;
+}
+
+.membercards-container > * {
+  flex: 1 1 calc(18% - 15px); /* 한 행에 5개 */
+  max-width: calc(18% - 15px);
+  box-sizing: border-box;
+  min-width: 120px;
+  max-height: 240px; /* 카드 전체 높이를 제한 */
+  display: flex;
+  flex-direction: column; /* 세로 방향 배치 */
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.membercards-container img {
+  flex: 0 0 33%; /* 높이를 카드의 1/3로 제한 */
+  width: 40%;
+  object-fit: cover;
+}
+
+.membercards-container .content {
+  flex: 1 1 auto;
+  padding: 10px;
+  text-align: center;
+}
+
+.membercards-container .content h3 {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+.membercards-container .content p {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+@media (max-width: 1200px) {
+  .membercards-container > * {
+    flex: 1 1 calc(24% - 15px); /* 한 행에 4개 */
+  }
+}
+
+@media (max-width: 768px) {
+  .membercards-container > * {
+    flex: 1 1 calc(48% - 15px); /* 한 행에 2개 */
+  }
+}
+
+@media (max-width: 480px) {
+  .membercards-container > * {
+    flex: 1 1 calc(100% - 15px); /* 한 행에 1개 */
+  }
+}
+
+@media (max-width: 240px) {
+  .membercards-container > * {
+    flex: 1 1 calc(130% - 15px); /* 한 행에 1개 */
+  }
+}

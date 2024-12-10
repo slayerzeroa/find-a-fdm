@@ -15,6 +15,7 @@ import requests
 import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
+from sympy import Q
 from torch import res
 
 from .helpful_functions import json2df, get_minutes_list
@@ -498,13 +499,15 @@ def get_index_option_from_krx(basDd:str=(datetime.datetime.now()-datetime.timede
     res_json = response.json()['OutBlock_1']
     res_df = pd.DataFrame(res_json)
 
-    print(res_df)
+    # print(res_df)
 
     kospi_option_df = res_df[res_df['PROD_NM'] == '코스피200 옵션'].copy()
     kospi_option_df.loc[:, 'EXPIRATION_DATE'] = kospi_option_df.loc[:, 'ISU_NM'].apply(lambda x: x.split(' ')[2])
+    
+    # print(kospi_option_df)
 
     if include_fundamental:
-        fundamental_df = get_fundamental_info()
+        fundamental_df = get_fundamental_info(basDd=basDd)
         fundamental_df = fundamental_df[['BAS_DD', 'CLSPRC_IDX']]
         fundamental_df.columns = ['BAS_DD', 'FUNDAMENTAL_CLSPRC']
 
@@ -518,7 +521,7 @@ def get_index_option_from_krx(basDd:str=(datetime.datetime.now()-datetime.timede
 def cal_greeks(df):
     result = pd.DataFrame()
     isu_list = df['ISU_CD'].unique().tolist()
-    df[['TDD_CLSPRC', 'FUNDAMENTAL_CLSPRC']] = df[['TDD_CLSPRC', 'FUNDAMENTAL_CLSPRC']].apply(pd.to_numeric, errors='coerce').copy()
+    df[['TDD_CLSPRC', 'FUNDAMENTAL_CLSPRC']] = df[['NXTDD_BAS_PRC', 'FUNDAMENTAL_CLSPRC']].apply(pd.to_numeric, errors='coerce').copy()
 
     for isu in isu_list:
         temp_df = df[df['ISU_CD'] == isu].copy()

@@ -113,17 +113,10 @@ function IndexNavbar() {
                 {/* <NavLink to="/activities" tag={Link}> */}
                 <NavLink>Activities</NavLink>
               </NavItem>
-              <NavItem
-                data-tooltip-content="개발중입니다.. 뚠뚠.."
-                id="members"
-              >
-                <Tooltip
-                  anchorId="members"
-                  place="top"
-                  style={{ fontSize: "50%" }}
-                />
-                {/* <NavLink to="/members" tag={Link}> */}
-                <NavLink>Members</NavLink>
+              <NavItem>
+                <NavLink to="/members" tag={Link}>
+                  Members
+                </NavLink>
               </NavItem>
 
               <NavItem
