@@ -9,8 +9,9 @@ function Membercards() {
     alert(`More info about ${name}`);
   };
 
-  const handleContact = (name) => {
-    alert(`Contacting ${name}`);
+  const handleContact = (contact) => {
+    const url = contact.includes("@") ? `mailto:${contact}` : contact;
+    window.open(url, "_blank");
   };
 
   const membersByBatch = {
@@ -19,40 +20,39 @@ function Membercards() {
         name: "유대명",
         role: "팀장",
         image: require("assets/img/members/ydm.png"),
-        description:
-          "데이터분석을 통해 퀀트 전략을 검증하고, 퀀트 전략을 통해 수익을 창출합니다.",
+        description: "Gamma Exposure 프로젝트",
+        contact: "https://blog.naver.com/slayerzeroa",
       },
       {
         name: "김가영",
         role: "팀원",
-        image: require("assets/img/members/Unknown_person.jpg"),
-        description:
-          "데이터분석을 통해 퀀트 전략을 검증하고, 퀀트 전략을 통해 수익을 창출합니다.",
+        image: require("assets/img/members/kky.png"),
+        description: "Gamma Exposure 프로젝트",
+        contact: "kayeongkim43@gmail.com",
       },
       {
         name: "이문기",
         role: "팀원",
         image: require("assets/img/members/lmk.png"),
-        description:
-          "다양한 투자 포트폴리오를 관리하며 최적의 수익률을 추구합니다.",
+        description: "Gamma Exposure 프로젝트",
+        contact: "ansrl23@naver.com",
       },
       {
         name: "장건",
         role: "팀원",
         image: require("assets/img/members/Unknown_person.jpg"),
-        description:
-          "데이터 기반으로 투자 성과를 분석하고 개선점을 제시합니다. 합리적인 의사결정 도구 창출.",
+        description: "Gamma Exposure 프로젝트",
       },
       {
         name: "정지휴",
         role: "팀원",
         image: require("assets/img/members/jjh.png"),
-        description:
-          "투자 전략을 지원하는 소프트웨어 도구를 개발합니다. 전략 개발 및 검증에 활용됩니다.",
+        description: "Gamma Exposure 프로젝트",
+        contact: "jihyujung@yonsei.ac.kr",
       },
     ],
-    "2기": [],
-    "3기": [],
+    // "2기": [],
+    // "3기": [],
   };
 
   return (
@@ -90,8 +90,9 @@ function Membercards() {
                 role={member.role}
                 image={member.image}
                 description={member.description}
+                contact={member.contact}
                 onMoreInfo={() => handleMoreInfo(member.name)}
-                onContact={() => handleContact(member.name)}
+                onContact={() => handleContact(member.contact)}
               />
             ))}
           </Box>

@@ -8,7 +8,15 @@ import {
   Button,
 } from "@mui/material";
 
-const Membercard = ({ name, role, image, description, onMoreInfo }) => {
+const Membercard = ({
+  name,
+  role,
+  image,
+  contact,
+  description,
+  onMoreInfo,
+  onContact,
+}) => {
   return (
     <Card sx={{ maxWidth: 240, borderRadius: "16px", boxShadow: 3 }}>
       <CardMedia
@@ -37,6 +45,12 @@ const Membercard = ({ name, role, image, description, onMoreInfo }) => {
         >
           {description}
         </Typography>
+        <Typography
+          fontSize={10}
+          sx={{ marginTop: 1.5, textAlign: "center" }} // textAlign으로 가운데 정렬
+        >
+          {contact}
+        </Typography>
       </CardContent>
       <CardActions
         sx={{
@@ -49,7 +63,12 @@ const Membercard = ({ name, role, image, description, onMoreInfo }) => {
         <Button size="small" onClick={onMoreInfo}>
           More Info
         </Button>
-        <Button size="small" color="primary" variant="contained">
+        <Button
+          size="small"
+          color="primary"
+          variant="contained"
+          onClick={onContact}
+        >
           Contact
         </Button>
       </CardActions>
