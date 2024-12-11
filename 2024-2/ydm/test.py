@@ -182,7 +182,6 @@ def get_business_days(from_date: str, to_date: str):
 
 option_df = pd.read_csv('option_data.csv')
 
-
 fundamental_price = float(api.get_fundamental_info(option_df['BAS_DD'].values[0])['CLSPRC_IDX'])
 # fundamental_price = float(api.get_fundamental_info('20241104')['OPNPRC_IDX'])
 option_df['FUNDAMENTAL'] = fundamental_price
@@ -194,7 +193,7 @@ option_df['STRIKE_PRICE'] = option_df['STRIKE_PRICE'].astype(float)
 # pd.set_option('display.max_columns', None)
 
 option_df['NXTDD_BAS_PRC'] = option_df['NXTDD_BAS_PRC'].astype(float)
-option_df['IV'] = option_df['IMP_VOLT'].astype(float)
+option_df['IMP_VOLT'] = option_df['IMP_VOLT'].astype(float)
 option_df['REMAINING_DAYS'] = option_df['REMAINING_DAYS'].astype(float)
 
 working_day = 252
@@ -214,21 +213,38 @@ ooption_df = option_df[['ISU_CD', 'DELTA', 'GAMMA']]
 ttest_df = ttest_df.sort_values(by='단축코드')
 ooption_df = ooption_df.sort_values(by='ISU_CD')
 
-print(ttest_df)
-print(ooption_df)
 
-# print(option_df[['ISU_CD', 'NXTDD_BAS_PRC', 'STRIKE_PRICE', 'IMP_VOLT', 'REMAINING_DAYS', 'DELTA']])
+from arrow import get
+pd.set_option('display.max_columns', None)
 
-# print(option_df['DELTA'].unique())
+result_df = pd.DataFrame()
 
-# pd.set_option('display.max_columns', None)
-# test = api.get_fundamental_series(start='20240901', end='20241120')
-# test['CLSPRC_IDX'] = test['CLSPRC_IDX'].astype(float)
+basDd = "20241030"
 
-# # 기초자산 가격
-# test_S = test[test['BAS_DD'] == '20241101'].CLSPRC_IDX.values[0]
+for i in range(1, 4):
+    try:
+        option_df = api.get_index_option_from_krx(basDd=basDd, include_fundamental=True)
+        result_df = pd.concat([result_df, option_df])
+        basDd = get(basDd).shift(days=1).format("YYYYMMDD")
+    except:
+        print(f"{basDd}에 해당하는 데이터가 없습니다.")
+        basDd = get(basDd).shift(days=1).format("YYYYMMDD")
 
-# # volatility 계산
-# historical_volatility = data.get_historical_volatility(test, window=20)
-# test_vol = historical_volatility[historical_volatility['BAS_DD'] == '20241101'].volatility.values[0]
 
+print(result_df)
+
+
+test_df = api.cal_greeks(result_df)
+
+test_df = test_df[test_df['BAS_DD'] == '20241101']
+
+test_df = test_df[['ISU_CD', 'DELTA', 'GAMMA']]
+
+print('Target Data')
+print(ttest_df.iloc[230:239, :])
+
+print('Using BSM')
+print(ooption_df.iloc[230:239, :])
+
+print('Using Discrete Difference')
+print(test_df.iloc[230:239, :])

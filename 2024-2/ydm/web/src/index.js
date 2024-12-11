@@ -1,14 +1,14 @@
-/*!
+/*
 
 =========================================================
-* Black Dashboard React v1.2.2
+* Now UI Kit React - v1.5.1
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
+* Product Page: https://www.creative-tim.com/product/now-ui-kit-react
+* Copyright 2022 Creative Tim (http://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/now-ui-kit-react/blob/main/LICENSE.md)
 
-* Coded by Creative Tim
+* Designed by www.invisionapp.com Coded by www.creative-tim.com
 
 =========================================================
 
@@ -19,32 +19,41 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
-import AdminLayout from "layouts/Admin/Admin.js";
-import RTLLayout from "layouts/RTL/RTL.js";
-
-import "assets/scss/black-dashboard-react.scss";
-import "assets/demo/demo.css";
-import "assets/css/nucleo-icons.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-
-import ThemeContextWrapper from "./components/ThemeWrapper/ThemeWrapper";
-import BackgroundColorWrapper from "./components/BackgroundColorWrapper/BackgroundColorWrapper";
+// styles for this kit
+import "assets/css/bootstrap.min.css";
+import "assets/scss/now-ui-kit.scss?v=1.5.0";
+import "assets/demo/demo.css?v=1.5.0";
+import "assets/demo/nucleo-icons-page-styles.css?v=1.5.0";
+// pages for this kit
+import Index from "pages/Index.js";
+import NucleoIcons from "views/NucleoIcons.js";
+import LoginPage from "views/examples/LoginPage.js";
+import LandingPage from "views/examples/LandingPage.js";
+import ProfilePage from "views/examples/ProfilePage.js";
+import About from "pages/About";
+import Projects from "pages/Projects";
+import Members from "pages/Members";
+import Fdm from "pages/Fdm";
+import Contact from "pages/Contact";
+import Activities from "pages/Activities";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <ThemeContextWrapper>
-    <BackgroundColorWrapper>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/admin/*" element={<AdminLayout />} />
-          <Route path="/rtl/*" element={<RTLLayout />} />
-          <Route
-            path="*"
-            element={<Navigate to="/admin/dashboard" replace />}
-          />
-        </Routes>
-      </BrowserRouter>
-    </BackgroundColorWrapper>
-  </ThemeContextWrapper>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/activities" element={<Activities />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/fdm" element={<Fdm />} />
+      <Route path="/members" element={<Members />} />
+      <Route path="/projects" element={<Projects />} />
+      <Route path="/index" element={<Index />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/nucleo-icons" element={<NucleoIcons />} />
+      <Route path="/landing-page" element={<LandingPage />} />
+      <Route path="/profile-page" element={<ProfilePage />} />
+      <Route path="/login-page" element={<LoginPage />} />
+      <Route path="/" element={<Navigate to="/index" />} />
+    </Routes>
+  </BrowserRouter>
 );

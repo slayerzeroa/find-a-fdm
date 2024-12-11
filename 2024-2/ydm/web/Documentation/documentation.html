@@ -1,146 +1,150 @@
 <!--
-/*!
 
 =========================================================
-* Black Dashboard React v1.2.2
+* Now UI Kit React - v1.5.1
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
+* Product Page: https://www.creative-tim.com/product/now-ui-kit-react
+* Copyright 2022 Creative Tim (http://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/now-ui-kit-react/blob/main/LICENSE.md)
 
-* Coded by Creative Tim
+* Designed by www.invisionapp.com Coded by www.creative-tim.com
 
 =========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-*/
 -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
     <link
       rel="apple-touch-icon"
       sizes="76x76"
       href="../public/apple-icon.png"
     />
     <link rel="icon" type="image/png" href="../public/favicon.png" />
-    <title>
-      Components Documentation - Black Dashboard React by Creative Tim
-    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>FEPSI</title>
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no"
+      name="viewport"
+    />
     <!--     Fonts and icons     -->
     <link
-      href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800"
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200"
       rel="stylesheet"
     />
     <link
-      href="https://use.fontawesome.com/releases/v5.0.6/css/all.css"
       rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
     />
-    <!-- Nucleo Icons -->
-    <link href="../src/assets/css/nucleo-icons.css" rel="stylesheet" />
     <!-- CSS Files -->
-    <link
-      href="../src/assets/css/black-dashboard-react.css?v=1.2.0"
-      rel="stylesheet"
-    />
+    <link href="../src/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../src/assets/css/now-ui-kit.css?v=1.5.0" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="../src/assets/demo/demo.css" rel="stylesheet" />
   </head>
 
   <body class="offline-doc">
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
+    <nav
+      class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent"
+      color-on-scroll="400"
+    >
       <div class="container">
-        <div class="navbar-wrapper">
-          <div class="navbar-toggle d-inline">
-            <button type="button" class="navbar-toggler">
-              <span class="navbar-toggler-bar bar1"></span>
-              <span class="navbar-toggler-bar bar2"></span>
-              <span class="navbar-toggler-bar bar3"></span>
-            </button>
-          </div>
-          <a class="navbar-brand" href="javascript:void(0)"
-            >Black Dashboard React</a
+        <div class="navbar-translate">
+          <a
+            class="navbar-brand"
+            href="https://demos.creative-tim.com/now-ui-kit-react/#/index?ref=nukr-static-docs"
+            rel="tooltip"
+            title="Designed by Invision. Coded by Creative Tim"
+            data-placement="bottom"
+            target="_blank"
           >
+            Now Ui Kit
+          </a>
+          <button
+            class="navbar-toggler navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navigation"
+            aria-controls="navigation-index"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-bar top-bar"></span>
+            <span class="navbar-toggler-bar middle-bar"></span>
+            <span class="navbar-toggler-bar bottom-bar"></span>
+          </button>
         </div>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navigation"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navigation"
+          data-nav-image="../src/assets/img/blurred-image-1.jpg"
         >
-          <span class="navbar-toggler-bar navbar-kebab"></span>
-          <span class="navbar-toggler-bar navbar-kebab"></span>
-          <span class="navbar-toggler-bar navbar-kebab"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navigation">
-          <ul class="navbar-nav ml-auto">
+          <ul class="navbar-nav">
             <li class="nav-item">
               <a
                 class="nav-link"
-                href="https://github.com/creativetimofficial/black-dashboard-react/issues"
+                rel="tooltip"
+                title="Follow us on Twitter"
+                data-placement="bottom"
+                href="https://twitter.com/CreativeTim?ref=creativetim"
                 target="_blank"
               >
-                Have an issue?
+                <i class="fab fa-twitter"></i>
+                <p class="d-lg-none d-xl-none">Twitter</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                rel="tooltip"
+                title="Like us on Facebook"
+                data-placement="bottom"
+                href="https://www.facebook.com/CreativeTim?ref=creativetim"
+                target="_blank"
+              >
+                <i class="fab fa-facebook-square"></i>
+                <p class="d-lg-none d-xl-none">Facebook</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                rel="tooltip"
+                title="Follow us on Instagram"
+                data-placement="bottom"
+                href="https://www.instagram.com/CreativeTimOfficial?ref=creativetim"
+                target="_blank"
+              >
+                <i class="fab fa-instagram"></i>
+                <p class="d-lg-none d-xl-none">Instagram</p>
               </a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-    <div
-      class="modal modal-search fade"
-      id="searchModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="searchModal"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <input
-              type="text"
-              class="form-control"
-              id="inlineFormInputGroup"
-              placeholder="SEARCH"
-            />
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <i class="tim-icons icon-simple-remove"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- End Navbar -->
-    <div class="page-header clear-filter">
+    <div class="page-header clear-filter" filter-color="info">
       <div
         class="page-header-image"
-        style="background-image: url('../src/assets/img/img_3115.jpg')"
+        style="background-image: url('../src/assets/img/header.jpg')"
       ></div>
-      <div class="content-center">
+      <div class="container text-center">
         <div class="col-md-8 ml-auto mr-auto">
           <div class="brand">
-            <h1 class="title">Black Dashboard React</h1>
-            <h3 class="description">Documentation v1.2.0</h3>
+            <h1 class="title">Now UI Kit React</h1>
+            <h3 class="description">Documentation v1.5.0</h3>
             <br />
             <a
-              href="https://demos.creative-tim.com/black-dashboard-react/#/documentation/tutorial"
-              class="btn btn-primary btn-round btn-lg"
+              href="https://demos.creative-tim.com/now-ui-kit-react/#/documentation/introduction?ref=nukr-static-docs"
+              class="btn btn-info btn-round btn-lg"
               >View documentation</a
             >
           </div>
@@ -148,32 +152,65 @@
       </div>
     </div>
     <footer class="footer">
-      <div class="container">
-        <ul class="nav">
-          <li class="nav-item">
-            <a href="javascript:void(0)" class="nav-link"> Creative Tim </a>
-          </li>
-          <li class="nav-item">
-            <a href="javascript:void(0)" class="nav-link"> About Us </a>
-          </li>
-          <li class="nav-item">
-            <a href="javascript:void(0)" class="nav-link"> Blog </a>
-          </li>
-        </ul>
-        <div class="copyright">
-          ©
+      <div class="container-fluid">
+        <nav>
+          <ul>
+            <li>
+              <a
+                href="https://www.creative-tim.com?ref=nukr-static-docs"
+                target="_blank"
+              >
+                Creative Tim
+              </a>
+            </li>
+            <li>
+              <a
+                href="http://presentation.creative-tim.com?ref=nukr-static-docs"
+                target="_blank"
+              >
+                About Us
+              </a>
+            </li>
+            <li>
+              <a
+                href="http://blog.creative-tim.com?ref=nukr-static-docs"
+                target="_blank"
+              >
+                Blog
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="copyright" id="copyright">
+          &copy;
           <script>
-            document.write(new Date().getFullYear());
+            document
+              .getElementById("copyright")
+              .appendChild(document.createTextNode(new Date().getFullYear()));
           </script>
-          made with <i class="tim-icons icon-heart-2"></i> by
-          <a href="javascript:void(0)" target="_blank">Creative Tim</a> for a
-          better web.
+          , Designed by
+          <a href="https://www.invisionapp.com" target="_blank">Invision</a>.
+          Coded by
+          <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a
+          >.
         </div>
       </div>
     </footer>
     <!--   Core JS Files   -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

@@ -15,9 +15,9 @@ import requests
 import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
+from sympy import Q
 from torch import res
 
-from .db import update_minutes_df
 from .helpful_functions import json2df, get_minutes_list
 
 #### 환경변수 세팅
@@ -177,6 +177,66 @@ def get_every_stock_data(market:str='KOSPI'):
 
 
 
+# def check_business_day(date: str, TOKEN: str):
+#     # 휴장일 조회
+#     '''
+#     input: date (str) ex) 
+#     output: Y or N
+#     '''
+
+#     headers = {
+#         "content-type": "application/json; charset=utf-8",
+#         "authorization": f"Bearer {TOKEN}",
+#         "appkey": APP_KEY,
+#         "appsecret": APP_SECRET,
+#         "tr_id": "FHKUP03500100",
+#         "custtype": "P"
+#     }
+
+#     params = {
+#         "fid_cond_mrkt_div_code": 'U',
+#         "fid_input_date_1": '0001',
+#         "fid_input_date_2": date,
+#         "fid_input_iscd": date,
+#         "fid_period_div_code": 'D'
+#         }
+    
+#     url = "https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/quotations/inquire-daily-indexchartprice"
+
+#     response = requests.get(url, headers=headers, params=params)
+
+#     print(response.json())
+
+def check_business_day(TOKEN: str):
+    # 휴장일 조회
+    '''
+    input: date (str) ex) 
+    output: Y or N
+    '''
+
+    headers = {
+        "content-type": "application/json; charset=utf-8",
+        "authorization": f"Bearer {TOKEN}",
+        "appkey": APP_KEY,
+        "appsecret": APP_SECRET,
+        "tr_id": "HHMCM000002C0",
+        "custtype": "P"
+    }
+    
+    url = "https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/quotations/market-time"
+
+    response = requests.get(url, headers=headers)
+    response_json = response.json()
+    print(response_json)
+    output = response_json['output1']
+    business_day_list = [output['date1'], output['date2'], output['date3'], output['date4'], output['date5']]
+    today = output['today']
+    if today in business_day_list:
+        return 'Y'
+    else:
+        return 'N'
+
+
 
 def get_greeks_info(appkey, appsecret, access_token, market_code, item_code):
     '''
@@ -276,8 +336,7 @@ def get_domestic_future_master_dataframe(base_dir):
     return df
 
 
-def get_index_option_dataframe():
-    TOKEN = get_access_token()
+def get_index_option_dataframe(TOKEN: str):
     df = get_domestic_future_master_dataframe(base_dir)
     print("Done")
 
@@ -388,21 +447,6 @@ def get_index_option_dataframe():
     return kospi_call_option_df, kospi_put_option_df
 
 
-def cal_gamma_exposure(call_df, put_df):
-
-    call_df.loc[:, 'GAMMA_EXPOSURE'] = call_df.loc[:, 'GAMMA_EXPOSURE'].astype(float).copy()
-    put_df.loc[:, 'GAMMA_EXPOSURE'] = put_df.loc[:, 'GAMMA_EXPOSURE'].astype(float).copy()
-
-
-    call_total_gamma = call_df['GAMMA_EXPOSURE'].sum()
-    put_total_gamma = put_df['GAMMA_EXPOSURE'].sum()
-
-    net_gex = call_total_gamma - put_total_gamma
-    pc_gex = put_total_gamma / call_total_gamma
-
-    return net_gex, pc_gex
-
-
 def get_fundamental_info(basDd):
 
     headers = {
@@ -455,13 +499,15 @@ def get_index_option_from_krx(basDd:str=(datetime.datetime.now()-datetime.timede
     res_json = response.json()['OutBlock_1']
     res_df = pd.DataFrame(res_json)
 
-    print(res_df)
+    # print(res_df)
 
     kospi_option_df = res_df[res_df['PROD_NM'] == '코스피200 옵션'].copy()
     kospi_option_df.loc[:, 'EXPIRATION_DATE'] = kospi_option_df.loc[:, 'ISU_NM'].apply(lambda x: x.split(' ')[2])
+    
+    # print(kospi_option_df)
 
     if include_fundamental:
-        fundamental_df = get_fundamental_info()
+        fundamental_df = get_fundamental_info(basDd=basDd)
         fundamental_df = fundamental_df[['BAS_DD', 'CLSPRC_IDX']]
         fundamental_df.columns = ['BAS_DD', 'FUNDAMENTAL_CLSPRC']
 
@@ -475,7 +521,7 @@ def get_index_option_from_krx(basDd:str=(datetime.datetime.now()-datetime.timede
 def cal_greeks(df):
     result = pd.DataFrame()
     isu_list = df['ISU_CD'].unique().tolist()
-    df[['TDD_CLSPRC', 'FUNDAMENTAL_CLSPRC']] = df[['TDD_CLSPRC', 'FUNDAMENTAL_CLSPRC']].apply(pd.to_numeric, errors='coerce').copy()
+    df[['TDD_CLSPRC', 'FUNDAMENTAL_CLSPRC']] = df[['NXTDD_BAS_PRC', 'FUNDAMENTAL_CLSPRC']].apply(pd.to_numeric, errors='coerce').copy()
 
     for isu in isu_list:
         temp_df = df[df['ISU_CD'] == isu].copy()
