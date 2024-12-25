@@ -40,8 +40,9 @@ function Membercards() {
       {
         name: "장건",
         role: "팀원",
-        image: require("assets/img/members/Unknown_person.jpg"),
+        image: require("assets/img/members/jg.png"),
         description: "Gamma Exposure 프로젝트",
+        contact: "geon8074@naver.com",
       },
       {
         name: "정지휴",

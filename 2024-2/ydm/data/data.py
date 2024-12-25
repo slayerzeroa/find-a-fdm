@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 
-from scipy.stats import norm
 import math
 
 from datetime import datetime
@@ -10,6 +9,7 @@ from datetime import datetime
 
 
 def black_scholes_price(S, K, T, r, sigma, option_type="call"):
+    from scipy.stats import norm
     """
     Black-Scholes 모델을 사용하여 옵션 가격을 계산.
     S: 기초자산 가격
@@ -41,6 +41,7 @@ def get_historical_volatility(data: pd.DataFrame, window=20):
     return data[["BAS_DD", "volatility"]]
 
 def get_delta(S, K, T, r, sigma, option_type="call"):
+    from scipy.stats import norm
     """
     Delta 계산.
     S: 기초자산 가격

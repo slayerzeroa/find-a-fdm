@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 import os
 import pymysql
 
-load_dotenv(dotenv_path='C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/.env')
+load_dotenv(dotenv_path='.env')
 
 host = os.getenv('DB_HOST')
 user = os.getenv('DB_USER')

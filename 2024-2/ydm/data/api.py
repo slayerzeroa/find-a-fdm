@@ -1,27 +1,21 @@
 #### 한국투자증권 KIS DEVELOPER
 
 #### 라이브러리 Import
-import code
 import datetime
 import time
 
 import os
 import json
-from tracemalloc import start
-from unittest import result
 
-from arrow import get
 import requests
 import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
-from sympy import Q
-from torch import res
 
-from .helpful_functions import json2df, get_minutes_list
+from helpful_functions import json2df, get_minutes_list
 
 #### 환경변수 세팅
-load_dotenv(dotenv_path='C:/Users/slaye/VscodeProjects/find-a-fdm/2024-2/ydm/env/.env')
+load_dotenv()
 APP_KEY = os.getenv("APP_KEY")
 APP_SECRET = os.getenv("APP_SECRET")
 KRX_API = os.getenv("KRX_API")  
