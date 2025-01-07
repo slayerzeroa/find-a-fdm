@@ -11,17 +11,56 @@ import requests
 import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
+from bs4 import BeautifulSoup
 
-from helpful_functions import json2df, get_minutes_list
+
 
 #### 환경변수 세팅
 load_dotenv()
 APP_KEY = os.getenv("APP_KEY")
 APP_SECRET = os.getenv("APP_SECRET")
 KRX_API = os.getenv("KRX_API")  
+ECOS_API = os.getenv("ECOS_API")
+
+
+
+'''
+기타 툴 함수
+'''
+
+
+def json2df(json_data):
+    df = pd.DataFrame(json_data)
+    return df
+
+
+def get_minutes_list(reversed=False):
+    '''
+    9:00 ~ 15:30 사이의 시간 리스트를 반환합니다. (30분 간격)
+    '''
+
+    # 시작 시간과 종료 시간 설정
+    start_time = datetime.datetime.strptime("09:00", "%H:%M")
+    end_time = datetime.datetime.strptime("15:30", "%H:%M")
+
+    # 시간 간격 설정 (30분)
+    time_interval = datetime.timedelta(minutes=30)
+
+    # 시간 리스트 생성
+    minutes_list = []
+    current_time = start_time
+    while current_time <= end_time:
+        minutes_list.append(current_time.strftime("%H%M%S"))
+        current_time += time_interval
+
+    if reversed:
+        minutes_list.reverse()
+
+    return minutes_list
+
 
 minutes_list = get_minutes_list(reversed=True)
-
+today = datetime.datetime.today().strftime('%Y%m%d')
 
 '''
 한국투자증권 API 관련 함수
@@ -170,68 +209,6 @@ def get_every_stock_data(market:str='KOSPI'):
     return result
 
 
-
-# def check_business_day(date: str, TOKEN: str):
-#     # 휴장일 조회
-#     '''
-#     input: date (str) ex) 
-#     output: Y or N
-#     '''
-
-#     headers = {
-#         "content-type": "application/json; charset=utf-8",
-#         "authorization": f"Bearer {TOKEN}",
-#         "appkey": APP_KEY,
-#         "appsecret": APP_SECRET,
-#         "tr_id": "FHKUP03500100",
-#         "custtype": "P"
-#     }
-
-#     params = {
-#         "fid_cond_mrkt_div_code": 'U',
-#         "fid_input_date_1": '0001',
-#         "fid_input_date_2": date,
-#         "fid_input_iscd": date,
-#         "fid_period_div_code": 'D'
-#         }
-    
-#     url = "https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/quotations/inquire-daily-indexchartprice"
-
-#     response = requests.get(url, headers=headers, params=params)
-
-#     print(response.json())
-
-def check_business_day(TOKEN: str):
-    # 휴장일 조회
-    '''
-    input: date (str) ex) 
-    output: Y or N
-    '''
-
-    headers = {
-        "content-type": "application/json; charset=utf-8",
-        "authorization": f"Bearer {TOKEN}",
-        "appkey": APP_KEY,
-        "appsecret": APP_SECRET,
-        "tr_id": "HHMCM000002C0",
-        "custtype": "P"
-    }
-    
-    url = "https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/quotations/market-time"
-
-    response = requests.get(url, headers=headers)
-    response_json = response.json()
-    print(response_json)
-    output = response_json['output1']
-    business_day_list = [output['date1'], output['date2'], output['date3'], output['date4'], output['date5']]
-    today = output['today']
-    if today in business_day_list:
-        return 'Y'
-    else:
-        return 'N'
-
-
-
 def get_greeks_info(appkey, appsecret, access_token, market_code, item_code):
     '''
     delta: 델타
@@ -288,7 +265,36 @@ def get_greeks_info(appkey, appsecret, access_token, market_code, item_code):
     
     return None
 
-# print(get_greeks_info(APP_KEY, APP_SECRET, TOKEN, "F", "101W12"))
+
+def check_business_day(TOKEN: str):
+    # 휴장일 조회
+    '''
+    input: date (str) ex) 
+    output: Y or N
+    '''
+
+    headers = {
+        "content-type": "application/json; charset=utf-8",
+        "authorization": f"Bearer {TOKEN}",
+        "appkey": APP_KEY,
+        "appsecret": APP_SECRET,
+        "tr_id": "HHMCM000002C0",
+        "custtype": "P"
+    }
+    
+    url = "https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/quotations/market-time"
+
+    response = requests.get(url, headers=headers)
+    response_json = response.json()
+    print(response_json)
+    output = response_json['output1']
+    business_day_list = [output['date1'], output['date2'], output['date3'], output['date4'], output['date5']]
+    today = output['today']
+    if today in business_day_list:
+        return 'Y'
+    else:
+        return 'N'
+
 
 
 
@@ -510,6 +516,42 @@ def get_index_option_from_krx(basDd:str=(datetime.datetime.now()-datetime.timede
     return kospi_option_df
 
 
+'''
+무위험이자율 가져오는 함수
+'''
+
+def get_interest_df(start: str, end: str=today):
+    '''
+    start: 시작일자 (예시) 20210101
+    end: 종료일자 (예시) 20240101
+    '''
+
+    code_dict = {'콜금리':'010101000', 'CD91일':'010502000', '국고채_2년':'010195000'}
+
+    result_df = pd.DataFrame()
+    for key, value in code_dict.items():
+        url = f'https://ecos.bok.or.kr/api/StatisticSearch/{ECOS_API}/json/kr/1/100000/817Y002/D/{start}/{end}/{value}'
+        response = requests.get(url)
+        res_df = interest_json_df(response)
+        temp_df = res_df[['TIME', 'DATA_VALUE']]
+        temp_df = temp_df.set_index('TIME')
+        temp_df.columns = [key]
+        result_df = pd.concat([result_df, temp_df], axis=1)
+    
+    return result_df
+
+
+def interest_json_df(response):
+    contents = response.json()['StatisticSearch']['row']
+    res_df = pd.DataFrame(contents)
+    return res_df
+
+# print(get_interest_df('20200102', '20241202'))
+
+
+'''
+계산함수
+'''
 
 ### 옵션 + 기초자산 df의 델타, 감마 계산 함수
 def cal_greeks(df):

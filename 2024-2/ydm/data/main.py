@@ -8,7 +8,7 @@ import time
 import datetime
 import schedule
 
-import data
+import helpful_functions as hf
 import requests  # 예: 네트워크 관련 예외 처리를 위해
 
 
@@ -31,7 +31,7 @@ def main():
 
         print("update gamma exposure...")
         option_data = db.load_index_options(datetime.datetime.now().strftime("%Y%m%d"))
-        net_gex, pc_gex = data.cal_gamma_exposure(option_data)
+        net_gex, pc_gex = hf.cal_gamma_exposure(option_data)
 
         df = pd.DataFrame()
         df['DATE'] = [datetime.datetime.now().strftime("%Y%m%d")]

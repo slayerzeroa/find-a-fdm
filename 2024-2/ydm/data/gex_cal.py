@@ -1,5 +1,5 @@
 import db
-import data
+import helpful_functions as hf
 import api
 
 import pandas as pd
@@ -14,7 +14,7 @@ while start <= '20241127':
         option_data = db.load_index_options(start)
         print(option_data)
         print('====================')
-        net_gex, pc_gex = data.cal_gamma_exposure(option_data)
+        net_gex, pc_gex = hf.cal_gamma_exposure(option_data)
         print(net_gex, pc_gex)
         print('====================')
 
