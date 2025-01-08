@@ -59,3 +59,11 @@ def update_krx_index_option(krx_index_option_df: pd.DataFrame):
 def update_krx_gamma_exposure(krx_gamma_exposure_df: pd.DataFrame):
     engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}:{db_port}/{db_name}?charset=utf8mb4")
     krx_gamma_exposure_df.to_sql(name='krx_gamma_exposure', con=engine, if_exists='append', index=False)
+
+
+def load_krx_index_options(target_date: str):
+    engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}:{db_port}/{db_name}?charset=utf8mb4")
+    query = f"SELECT * FROM krx_index_option WHERE `BAS_DD` = '{target_date}'"
+    krx_index_options = pd.read_sql(query, engine)
+
+    return krx_index_options

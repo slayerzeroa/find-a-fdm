@@ -516,6 +516,31 @@ def get_index_option_from_krx(basDd:str=(datetime.datetime.now()-datetime.timede
     return kospi_option_df
 
 
+def get_index_market_cap(basDd:str):
+    '''
+    코스피 200 market_cap 가져오기
+    '''
+
+    headers = {
+        'AUTH_KEY': KRX_API 
+    }
+
+    url = 'http://data-dbg.krx.co.kr/svc/apis/idx/kospi_dd_trd'
+
+    params = {
+        'basDd': basDd,
+    }
+
+    response = requests.get(url=url, headers=headers, params=params)
+    print(response.status_code)
+    res_json = response.json()['OutBlock_1']
+    res_df = pd.DataFrame(res_json)
+
+    market_cap = float(res_df[res_df['IDX_NM'] == '코스피 200']['MKTCAP'])
+
+    return market_cap
+
+
 '''
 무위험이자율 가져오는 함수
 '''
