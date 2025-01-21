@@ -7,7 +7,7 @@ import { Container } from "reactstrap";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { colors, width, height } from "../../assets/config/globalStyles"; //width,height 받아오기
 
-function FdmHeader() {
+function ArchiveHeader() {
   let pageHeader = React.createRef();
 
   React.useEffect(() => {
@@ -50,7 +50,7 @@ function FdmHeader() {
   );
 }
 
-export default FdmHeader;
+export default ArchiveHeader;
 
 const styles = StyleSheet.create({
   header: {

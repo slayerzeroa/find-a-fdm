@@ -33,9 +33,10 @@ import ProfilePage from "views/examples/ProfilePage.js";
 import About from "pages/About";
 import Projects from "pages/Projects";
 import Members from "pages/Members";
-import Fdm from "pages/Fdm";
+import Archive from "pages/Archive";
 import Contact from "pages/Contact";
 import Activities from "pages/Activities";
+import ArchiveDetails from "views/archive-sections/ArchiveDetails";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -44,7 +45,7 @@ root.render(
     <Routes>
       <Route path="/activities" element={<Activities />} />
       <Route path="/contact" element={<Contact />} />
-      <Route path="/fdm" element={<Fdm />} />
+      <Route path="/archive" element={<Archive />} />
       <Route path="/members" element={<Members />} />
       <Route path="/projects" element={<Projects />} />
       <Route path="/index" element={<Index />} />
@@ -53,6 +54,7 @@ root.render(
       <Route path="/landing-page" element={<LandingPage />} />
       <Route path="/profile-page" element={<ProfilePage />} />
       <Route path="/login-page" element={<LoginPage />} />
+      <Route path="/archive/:id" element={<ArchiveDetails />} />
       <Route path="/" element={<Navigate to="/index" />} />
     </Routes>
   </BrowserRouter>
