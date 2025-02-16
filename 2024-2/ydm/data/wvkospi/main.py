@@ -17,10 +17,10 @@ def main():
         t = (now - datetime.timedelta(days=3)).date()
     
     # wvkospi 데이터 가져오기
-    underlying, target = wvkospi.get_wvkospi(t=t)
+    underlying, target, vkospi = wvkospi.get_wvkospi(t=t)
     
     # DataFrame 생성
-    df = pd.DataFrame({'BAS_DD': [t.strftime('%Y%m%d')], 'KOSPI': [underlying], 'WVKOSPI': [target]})
+    df = pd.DataFrame({'BAS_DD': [t.strftime('%Y%m%d')], 'KOSPI': [underlying], 'WVKOSPI': [target], 'VKOSPI': [vkospi]})
     
     # DB 업데이트
     db.update_wvkospi(df)

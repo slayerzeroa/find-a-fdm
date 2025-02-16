@@ -103,6 +103,7 @@ def get_weekly_option_df(start: str='20230801', end: str=today):
         res_json = response.json()['OutBlock_1']
 
         res_df = pd.DataFrame(res_json)
+        print(res_df)
         if res_df.empty:
             start_date += datetime.timedelta(days=1)
             continue

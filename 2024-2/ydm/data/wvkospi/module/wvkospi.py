@@ -188,7 +188,7 @@ def preprocess_option(option_data: pd.DataFrame, option_type:str):
 def get_option_data(t: datetime, near_date: datetime):
 
     option_df = finance_api.get_weekly_option_df(t.strftime('%Y%m%d'), t.strftime('%Y%m%d'))
-
+    # print(option_df)
     # 옵션 데이터 전처리
     option_data_m = option_df[option_df['PROD_NM'].str.contains('월')]
     option_data_t = option_df[option_df['PROD_NM'].str.contains('목')]
@@ -292,8 +292,9 @@ def get_wvkospi(t: datetime):
     underlying = (finance_api.get_kospi_df(t.strftime('%Y%m%d'), t.strftime('%Y%m%d')))['CLSPRC_IDX'].astype(float).values[0]
     rate = finance_api.get_interest_df(start=t.strftime('%Y%m%d'), end=t.strftime('%Y%m%d')).astype(float)
     wvkospi = cal_wvkospi(t, underlying, rate)
+    vkospi = get_vkospi(t)
 
-    return underlying, wvkospi
+    return underlying, wvkospi, vkospi
 
 
 # target_date = datetime(2024, 10, 24).date()
