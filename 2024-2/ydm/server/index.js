@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to the server!!");
 });
 
-// Fetch all data
+// Fetch all data about GEX(KOSPI 200 Gamma Exposure)
 app.get("/gex", (req, res) => {
   pool
     .getConnection()
@@ -41,6 +41,64 @@ app.get("/gex", (req, res) => {
         conn
           .query(
             "SELECT * FROM (SELECT * FROM gamma_exposure ORDER BY `ID` DESC LIMIT 10) AS subquery ORDER BY `ID` ASC;"
+          )
+          // .query("SELECT * FROM gamma_exposure LIMIT 10;")
+          .then((rows) => res.json(rows))
+          .catch((err) => {
+            console.error("Query error:", err);
+            res
+              .status(500)
+              .json({ error: "Database query failed", details: err.message });
+          })
+          .finally(() => conn.release())
+      ); // 연결 해제
+    })
+    .catch((err) => {
+      console.error("Database connection error:", err);
+      res
+        .status(500)
+        .json({ error: "Failed to connect to database", details: err.message });
+    });
+});
+
+// Fetch all data
+app.get("/vkospi", (req, res) => {
+  pool
+    .getConnection()
+    .then((conn) => {
+      return (
+        conn
+          .query(
+            "SELECT * FROM (SELECT * FROM wvkospi ORDER BY `ID` DESC LIMIT 10) AS subquery ORDER BY `ID` ASC;"
+          )
+          // .query("SELECT * FROM gamma_exposure LIMIT 10;")
+          .then((rows) => res.json(rows))
+          .catch((err) => {
+            console.error("Query error:", err);
+            res
+              .status(500)
+              .json({ error: "Database query failed", details: err.message });
+          })
+          .finally(() => conn.release())
+      ); // 연결 해제
+    })
+    .catch((err) => {
+      console.error("Database connection error:", err);
+      res
+        .status(500)
+        .json({ error: "Failed to connect to database", details: err.message });
+    });
+});
+
+// Fetch all data
+app.get("/krxgex", (req, res) => {
+  pool
+    .getConnection()
+    .then((conn) => {
+      return (
+        conn
+          .query(
+            "SELECT * FROM (SELECT * FROM krx_gamma_exposure ORDER BY `ID` DESC LIMIT 10) AS subquery ORDER BY `ID` ASC;"
           )
           // .query("SELECT * FROM gamma_exposure LIMIT 10;")
           .then((rows) => res.json(rows))

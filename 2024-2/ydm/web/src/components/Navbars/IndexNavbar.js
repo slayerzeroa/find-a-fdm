@@ -51,7 +51,12 @@ function IndexNavbar() {
           }}
         />
       ) : null}
-      <Navbar className={"fixed-top " + navbarColor} expand="lg" color="info">
+      <Navbar
+        className={"fixed-top " + navbarColor}
+        expand="lg"
+        color="info"
+        style={{ zIndex: 990 }}
+      >
         <Container>
           <div className="navbar-translate">
             <NavLink
@@ -91,8 +96,8 @@ function IndexNavbar() {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to="/fdm" tag={Link}>
-                  About FDM
+                <NavLink to="/archive" tag={Link}>
+                  Archive
                 </NavLink>
               </NavItem>
               <NavItem>

@@ -1,8 +1,7 @@
 from json import load
 from data import api
 from data import db
-from data import data
-from data import helpful_functions
+from data import helpful_functions as hf
 
 import pandas as pd
 
@@ -49,7 +48,7 @@ def main():
 
         print("update gamma exposure...")
         option_data = db.load_index_options(datetime.datetime.now().strftime("%Y%m%d"))
-        net_gex, pc_gex = data.cal_gamma_exposure(option_data)
+        net_gex, pc_gex = hf.cal_gamma_exposure(option_data)
 
         df = pd.DataFrame()
         df['DATE'] = [datetime.datetime.now().strftime("%Y%m%d")]
@@ -63,7 +62,7 @@ def main():
         print("Today is not a business day.")
 
 schedule.every().day.at("20:00").do(main)
-# main()
+main()
 if __name__ == '__main__':
     while True:
         schedule.run_pending()
