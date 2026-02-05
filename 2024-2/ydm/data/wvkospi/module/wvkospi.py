@@ -120,29 +120,26 @@ def cutoff(option_data: pd.DataFrame, underlying):
     return data_cutoff
 
 def preprocess_option(option_data: pd.DataFrame, option_type:str):
+    print("option data:", option_data)
     if option_type == 'near':
         term_option = pd.DataFrame()
 
-        option_data['Strike_Price'] = option_data['ISU_NM'].str[-5:]
-        option_data['Option_Type'] = option_data['ISU_NM'].str[-14]
+        option_data['Strike_Price'] = option_data['ISU_NM'].str[-10:-5]
+        option_data['Option_Type'] = option_data['RGHT_TP_NM'].str[0]
 
         term_data = []
         for i in option_data.Strike_Price:
             check = option_data[option_data.Strike_Price == i]
             if len(check) == 2:
                 input_data = []
-                # [Strike Price, Call Close, Put Close, Difference]
                 input_data.append(float(check['Strike_Price'].unique()[0]))
                 input_data.append(check['TDD_CLSPRC'].to_list()[0])
                 input_data.append(check['TDD_CLSPRC'].to_list()[1])
                 input_data.append(abs(check['TDD_CLSPRC'].to_list()[0]-check['TDD_CLSPRC'].to_list()[1]))
                 if input_data not in term_data:
                     term_data.append(input_data)
-                else:
-                    pass
 
-        term_option = pd.concat([term_option, pd.DataFrame(term_data)])
-        term_option.columns = ['Strike_Price', 'Call', 'Put', 'Difference']
+        term_option = pd.concat([term_option, pd.DataFrame(term_data, columns=['Strike_Price','Call','Put','Difference'])])
         term_option = term_option[(term_option['Call']!=0) & (term_option['Put']!=0)]
 
         return term_option
@@ -150,13 +147,11 @@ def preprocess_option(option_data: pd.DataFrame, option_type:str):
     elif option_type == 'next':
         term_option = pd.DataFrame()
 
-        option_data['Strike_Price'] = option_data['ISU_NM'].str[-5:]
-        option_data['Option_Type'] = option_data['ISU_NM'].str[-14]
+        option_data['Strike_Price'] = option_data['ISU_NM'].str[-10:-5]
+        option_data['Option_Type'] = option_data['RGHT_TP_NM'].str[0]
 
-        # 월, 목 옵션 동시 존재 에러 해결
-        # 예시) 월요일에는 월요일 만기 옵션이 두 종류 존재 (오늘 만기, 다음주 만기)
-        # 다음주 만기 옵션 데이터만 남기기 (롤오버)
-        option_data['Select'] = (option_data['ISU_NM'].str[-13:-8] + option_data['ISU_NM'].str[-7:-6]).astype(int)
+        ### 같은 요일 옵션 데이터 두 개 들어올 때 (예시: 1주차 월, 2주차 월 옵션)
+        option_data['Select'] = (option_data['ISU_NM'].str[-12]).astype(int)
         option_data = option_data[option_data['Select'] == option_data['Select'].max()]
 
         next_data = []
@@ -164,21 +159,18 @@ def preprocess_option(option_data: pd.DataFrame, option_type:str):
             check = option_data[option_data.Strike_Price == i]
             if len(check) == 2:
                 input_data = []
-                # [Strike Price, Call Close, Put Close, Difference]
                 input_data.append(float(check['Strike_Price'].unique()[0]))
                 input_data.append(check['TDD_CLSPRC'].to_list()[0])
                 input_data.append(check['TDD_CLSPRC'].to_list()[1])
                 input_data.append(abs(check['TDD_CLSPRC'].to_list()[0]-check['TDD_CLSPRC'].to_list()[1]))
                 if input_data not in next_data:
                     next_data.append(input_data)
-                else:
-                    pass
 
-        term_option = pd.concat([term_option, pd.DataFrame(next_data)])
-        term_option.columns = ['Strike_Price', 'Call', 'Put', 'Difference']
+        term_option = pd.concat([term_option, pd.DataFrame(next_data, columns=['Strike_Price','Call','Put','Difference'])])
         term_option = term_option[(term_option['Call']!=0) & (term_option['Put']!=0)]
     
         return term_option
+
 
 
 '''
@@ -221,6 +213,7 @@ def get_date_data(t: datetime):
 def get_vkospi(t):
     t = t.strftime("%Y%m%d")
     vkospi_df = finance_api.get_vkospi_spot_df(start=t, end=t)
+    print('vkospi_df', vkospi_df)
     return float(vkospi_df['SPOT_PRC'])
 
 '''
@@ -277,8 +270,9 @@ def vix_formula(near_term_option, next_term_option, near_option_data, next_optio
 def cal_wvkospi(t: datetime, underlying, rate):
     near_date, next_date, near_date_diff, next_date_diff = get_date_data(t)
     rates = rf_inter(t, near_date_diff, next_date_diff, rate)
+    
     near_option_data, next_option_data = get_option_data(t, near_date=near_date)
-
+    
     near_term_option = preprocess_option(near_option_data, option_type='near')
     next_term_option = preprocess_option(next_option_data, option_type='next')
 

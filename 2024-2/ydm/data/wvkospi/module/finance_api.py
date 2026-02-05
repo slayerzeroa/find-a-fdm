@@ -84,7 +84,7 @@ def get_interest_df(start: str, end: str=today):
         temp_df = temp_df.set_index('TIME')
         temp_df.columns = [key]
         result_df = pd.concat([result_df, temp_df], axis=1)
-    
+
     return result_df
 
 
@@ -103,7 +103,7 @@ def get_weekly_option_df(start: str='20230801', end: str=today):
         res_json = response.json()['OutBlock_1']
 
         res_df = pd.DataFrame(res_json)
-        print(res_df)
+        # print(res_df)
         if res_df.empty:
             start_date += datetime.timedelta(days=1)
             continue

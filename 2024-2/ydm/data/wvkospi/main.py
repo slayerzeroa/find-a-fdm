@@ -44,26 +44,30 @@ def run_main_with_retries(max_retries=5, retry_delay=60):
                 print("모든 재시도에 실패했습니다. 다음 스케줄까지 대기합니다.")
 
 
-print("main.py is executed.")
-# 매일 19:00에 스케줄 실행
-schedule.every().day.at("19:00").do(run_main_with_retries)
+# print("main.py is executed.")
+# # 매일 19:00에 스케줄 실행
+# schedule.every().day.at("08:00").do(run_main_with_retries)
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)
 
 
+pd.set_option('display.max_columns', None)
 
-# start = datetime.datetime(2025, 1, 16).date()
+start = datetime.datetime(2025, 6, 5).date()
 
-# while start <= datetime.datetime.now().date()-datetime.timedelta(days=2):
-#     try:
-#         underlying, target = wvkospi.get_wvkospi(t=start)
-#         vkospi = wvkospi.get_vkospi(t=start)
-#         df = pd.DataFrame({'BAS_DD': [start.strftime('%Y%m%d')], 'KOSPI': [underlying], 'WVKOSPI': [target], 'VKOSPI': [vkospi]})
-#         db.update_wvkospi(df)
-#         start += datetime.timedelta(days=1)
-#     except Exception as e:
-#         print(e)
-#         start += datetime.timedelta(days=1)
-#         continue
+while start <= datetime.datetime.now().date()-datetime.timedelta(days=2):
+    try:
+        underlying, target, vkospi = wvkospi.get_wvkospi(t=start)
+        # vkospi = wvkospi.get_vkospi(t=start)
+        print("underlying", underlying)
+        print("wvkospi", target)
+        print("vkospi", vkospi)
+        df = pd.DataFrame({'BAS_DD': [start.strftime('%Y%m%d')], 'KOSPI': [underlying], 'WVKOSPI': [target], 'VKOSPI': [vkospi]})
+        db.update_wvkospi(df)
+        start += datetime.timedelta(days=1)
+    except Exception as e:
+        print(e)
+        start += datetime.timedelta(days=1)
+        continue
