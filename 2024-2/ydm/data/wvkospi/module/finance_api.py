@@ -118,6 +118,35 @@ def get_weekly_option_df(start: str='20230801', end: str=today):
     return result
 
 
+def get_option_df(start: str='20230801', end: str=today):
+    '''
+    월요일 만기 주간 옵션 신규 상장일
+    2023-08-01
+    '''
+    start_date = datetime.datetime.strptime(start, '%Y%m%d')
+    end_date = datetime.datetime.strptime(end, '%Y%m%d')
+
+    result = pd.DataFrame()
+    while start_date <= end_date:
+        url = f'http://data-dbg.krx.co.kr/svc/apis/drv/opt_bydd_trd?basDd={start_date.strftime("%Y%m%d")}'
+        response = requests.get(url=url, headers=headers)
+        res_json = response.json()['OutBlock_1']
+
+        res_df = pd.DataFrame(res_json)
+        # print(res_df)
+        if res_df.empty:
+            start_date += datetime.timedelta(days=1)
+            continue
+
+        else:
+            result = res_df
+            start_date += datetime.timedelta(days=1)
+
+        # print(start_date)
+
+    return result
+
+
 def get_vkospi_spot_df(start: str='20230801', end: str=today):
     start_date = datetime.datetime.strptime(start, '%Y%m%d')
     end_date = datetime.datetime.strptime(end, '%Y%m%d')
@@ -130,6 +159,34 @@ def get_vkospi_spot_df(start: str='20230801', end: str=today):
         res_json = response.json()['OutBlock_1']
 
         res_df = pd.DataFrame(res_json)
+        if res_df.empty:
+            start_date += datetime.timedelta(days=1)
+            continue
+
+        else:
+            part_df = res_df[res_df['ISU_NM'].str.contains('변동성지수 F')].iloc[0:1, :]
+            result = pd.concat([result, part_df], axis=0)
+            start_date += datetime.timedelta(days=1)
+
+    result = result[['BAS_DD', 'SPOT_PRC']]
+
+    return result
+
+
+def get_vkosdaq_spot_df(start: str='20230801', end: str=today):
+    start_date = datetime.datetime.strptime(start, '%Y%m%d')
+    end_date = datetime.datetime.strptime(end, '%Y%m%d')
+
+    result = pd.DataFrame()
+
+    while start_date <= end_date:
+        url = f'http://data-dbg.krx.co.kr/svc/apis/drv/fut_bydd_trd?basDd={start_date.strftime("%Y%m%d")}'
+        response = requests.get(url=url, headers=headers)
+        res_json = response.json()['OutBlock_1']
+
+        res_df = pd.DataFrame(res_json)
+        part_df = res_df[res_df['ISU_NM'].str.contains('변동성지수 F')]
+
         if res_df.empty:
             start_date += datetime.timedelta(days=1)
             continue
@@ -172,6 +229,36 @@ def get_kospi_df(start: str='20230801', end: str=today):
         # print(start_date)
 
     return result
+
+
+def get_kosdaq_df(start: str='20230801', end: str=today):
+    '''
+    Underlying Index: KOSDAQ 200
+    '''
+    start_date = datetime.datetime.strptime(start, '%Y%m%d')
+    end_date = datetime.datetime.strptime(end, '%Y%m%d')
+
+    result = pd.DataFrame()
+    while start_date <= end_date:
+        url = f'http://data-dbg.krx.co.kr/svc/apis/idx/kosdaq_dd_trd?basDd={start_date.strftime("%Y%m%d")}'
+        response = requests.get(url=url, headers=headers)
+        res_json = response.json()['OutBlock_1']
+
+        res_df = pd.DataFrame(res_json)
+        if res_df.empty:
+            start_date += datetime.timedelta(days=1)
+            continue
+
+        else:
+            part_df = res_df[res_df['IDX_NM'] == '코스닥 150']
+
+            result = pd.concat([result, part_df], axis=0)
+            start_date += datetime.timedelta(days=1)
+
+        # print(start_date)
+
+    return result
+
 
 
 # weekly_df = get_weekly_option_df()

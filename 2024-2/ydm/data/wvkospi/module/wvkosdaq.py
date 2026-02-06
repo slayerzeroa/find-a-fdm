@@ -17,7 +17,6 @@ from datetime import datetime, timedelta
 
 # from pykrx import stock
 from module import finance_api
-# import finance_api
 
 import re
 import pandas as pd
@@ -246,14 +245,14 @@ def preprocess_option(option_data: pd.DataFrame, option_type: str):
 데이터 수집 함수
 '''
 
-def get_kospi_option_data(t: datetime, near_date: datetime):
+def get_kosdaq_option_data(t: datetime, near_date: datetime):
 
     option_df = finance_api.get_weekly_option_df(t.strftime('%Y%m%d'), t.strftime('%Y%m%d'))
-    # print(option_df)
+    print(option_df)
     # 옵션 데이터 전처리
-    kospi_option_df = option_df[option_df['ISU_NM'].str.contains('코스피')]
-    option_data_m = kospi_option_df[kospi_option_df['PROD_NM'].str.contains('월')]
-    option_data_t = kospi_option_df[kospi_option_df['PROD_NM'].str.contains('목')]
+    kosdaq_option_df = option_df[option_df['ISU_NM'].str.contains('코스닥')]
+    option_data_m = kosdaq_option_df[kosdaq_option_df['PROD_NM'].str.contains('월')]
+    option_data_t = kosdaq_option_df[kosdaq_option_df['PROD_NM'].str.contains('목')]
 
     option_data_t = option_data_t[option_data_t['TDD_CLSPRC'] != '-']
     option_data_m = option_data_m[option_data_m['TDD_CLSPRC'] != '-']
@@ -280,11 +279,11 @@ def get_date_data(t: datetime):
     return near_date, next_date, near_date_diff, next_date_diff
 
 
-def get_vkospi(t):
+def get_vkosdaq(t):
     t = t.strftime("%Y%m%d")
-    vkospi_df = finance_api.get_vkospi_spot_df(start=t, end=t)
-    print('vkospi_df', vkospi_df)
-    return float(vkospi_df['SPOT_PRC'])
+    vkosdaq_df = finance_api.get_vkosdaq_spot_df(start=t, end=t)
+    print('vkosdaq_df', vkosdaq_df)
+    return float(vkosdaq_df['SPOT_PRC'])
 
 '''
 계산 함수
@@ -332,11 +331,11 @@ def vix_formula(near_term_option, next_term_option, near_option_data, next_optio
     return VIX
 
 
-def cal_wvkospi(t: datetime, underlying, rate):
+def cal_wvkosdaq(t: datetime, underlying, rate):
     near_date, next_date, near_date_diff, next_date_diff = get_date_data(t)
     rates = rf_inter(t, near_date_diff, next_date_diff, rate)
     
-    near_option_data, next_option_data = get_kospi_option_data(t, near_date=near_date)
+    near_option_data, next_option_data = get_kosdaq_option_data(t, near_date=near_date)
 
     print("before near option data:", near_option_data)
     print("before next option data:", next_option_data)
@@ -350,16 +349,9 @@ def cal_wvkospi(t: datetime, underlying, rate):
 
 
 
-def get_wvkospi(t: datetime):
-    underlying = (finance_api.get_kospi_df(t.strftime('%Y%m%d'), t.strftime('%Y%m%d')))['CLSPRC_IDX'].astype(float).values[0]
+def get_wvkosdaq(t: datetime):
+    underlying = (finance_api.get_kosdaq_df(t.strftime('%Y%m%d'), t.strftime('%Y%m%d')))['CLSPRC_IDX'].astype(float).values[0]
     rate = finance_api.get_interest_df(start=t.strftime('%Y%m%d'), end=t.strftime('%Y%m%d')).astype(float)
-    wvkospi = cal_wvkospi(t, underlying, rate)
-    vkospi = get_vkospi(t)
+    wvkosdaq = cal_wvkosdaq(t, underlying, rate)
 
-    return underlying, wvkospi, vkospi
-
-
-# target_date = datetime(2024, 10, 24).date()
-# # target_date_str = target_date.strftime('%Y%m%d')
-# rate_df = finance_api.get_interest_df(start=target_date.strftime('%Y%m%d'), end=target_date.strftime('%Y%m%d')).astype(float)
-# print(cal_wvkospi(target_date, rate_df))
+    return underlying, wvkosdaq

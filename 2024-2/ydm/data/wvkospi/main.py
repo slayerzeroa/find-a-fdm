@@ -1,5 +1,5 @@
 import pandas as pd
-from module import wvkospi, db
+from module import wvkospi, wvkosdaq, db
 import datetime
 import time
 import schedule
@@ -55,21 +55,30 @@ def run_main_with_retries(max_retries=5, retry_delay=60):
 
 pd.set_option('display.max_columns', None)
 
-start = datetime.datetime(2025, 10, 27).date()
+start = datetime.datetime(2025, 10, 28).date()
+
+kospi=False
+kosdaq=True
 
 while start <= datetime.datetime.now().date()-datetime.timedelta(days=2):
     try:
-        underlying, target, vkospi = wvkospi.get_wvkospi(t=start)
-        # vkospi = wvkospi.get_vkospi(t=start)
-        print("underlying", underlying)
-        print("wvkospi", target)
-        print("vkospi", vkospi)
-        df = pd.DataFrame({'BAS_DD': [start.strftime('%Y%m%d')], 'KOSPI': [underlying], 'WVKOSPI': [target], 'VKOSPI': [vkospi]})
-        db.update_wvkospi(df)
-        start += datetime.timedelta(days=1)
+        if kospi:
+            underlying, target, vkospi = wvkospi.get_wvkospi(t=start)
+            # vkospi = wvkospi.get_vkospi(t=start)
+            print("underlying", underlying)
+            print("wvkospi", target)
+            print("vkospi", vkospi)
+            df = pd.DataFrame({'BAS_DD': [start.strftime('%Y%m%d')], 'KOSPI': [underlying], 'WVKOSPI': [target], 'VKOSPI': [vkospi]})
+            db.update_wvkospi(df)
+        if kosdaq:
+            underlying, target = wvkosdaq.get_wvkosdaq(t=start)
+            print("underlying", underlying)
+            print("wvkosdaq", target)
+            df = pd.DataFrame({'BAS_DD': [start.strftime('%Y%m%d')], 'KOSDAQ': [underlying], 'WVKOSDAQ': [target]})
+            db.update_wvkosdaq(df)
     except Exception as e:
         print(e)
-        start += datetime.timedelta(days=1)
-        continue
+
     finally:
-        break
+        start += datetime.timedelta(days=1)
+

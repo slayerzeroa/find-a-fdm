@@ -1,342 +1,4 @@
-// // 필요한 모듈 임포트
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-// import {
-//   LineChart,
-//   Line,
-//   CartesianGrid,
-//   XAxis,
-//   YAxis,
-//   Tooltip,
-//   ResponsiveContainer,
-// } from "recharts";
-
-// function Charts() {
-//   // 차트 데이터를 저장할 상태 변수 선언
-//   const [gexData, setgexData] = useState([]);
-//   const [krxgexData, setkrxgexData] = useState([]);
-//   const [vkospiData, setvkospiData] = useState([]);
-//   const [wvkospiData, setwvkospiData] = useState([]);
-
-//   // **현재 어떤 탭을 보여줄지** 관리하는 state
-//   const [activeTab, setActiveTab] = useState("gex");
-//   // 'gex' | 'krxgex' | 'wvkospi' | 'vkospi' 중 하나를 저장
-
-//   // ------------------------------
-//   // 1) GEX 데이터 fetch
-//   // ------------------------------
-//   useEffect(() => {
-//     const fetchGexData = async () => {
-//       try {
-//         // API로부터 데이터 가져오기
-//         const response = await axios.get(
-//           "http://slayerzeroa.iptime.org:8001/gex"
-//         );
-
-//         // DATE 형식을 변환하여 새로운 데이터 생성
-//         const processedData = response.data.map((item) => {
-//           const dateString = item.DATE;
-//           const year = dateString.substring(0, 4);
-//           const month = dateString.substring(4, 6);
-//           const day = dateString.substring(6, 8);
-//           const formattedDate = `${year}-${month}-${day}`;
-
-//           return {
-//             ...item,
-//             DATE: formattedDate,
-//           };
-//         });
-
-//         setgexData(processedData); // 가공된 데이터를 상태에 저장
-//       } catch (error) {
-//         console.error("데이터 가져오기 오류:", error);
-//       }
-//     };
-
-//     fetchGexData(); // 데이터 fetch 함수 호출
-//   }, []);
-
-//   // ------------------------------
-//   // 2) KRX GEX 데이터 fetch
-//   // ------------------------------
-//   useEffect(() => {
-//     const fetchKrxGexData = async () => {
-//       try {
-//         // API로부터 데이터 가져오기
-//         const response = await axios.get(
-//           "http://slayerzeroa.iptime.org:8001/krxgex"
-//         );
-
-//         // DATE 형식을 변환하여 새로운 데이터 생성
-//         const processedData = response.data.map((item) => {
-//           const dateString = item.DATE;
-//           const year = dateString.substring(0, 4);
-//           const month = dateString.substring(4, 6);
-//           const day = dateString.substring(6, 8);
-//           const formattedDate = `${year}-${month}-${day}`;
-
-//           return {
-//             ...item,
-//             DATE: formattedDate,
-//           };
-//         });
-
-//         setkrxgexData(processedData); // 가공된 데이터를 상태에 저장
-//       } catch (error) {
-//         console.error("데이터 가져오기 오류:", error);
-//       }
-//     };
-
-//     fetchKrxGexData(); // 데이터 fetch 함수 호출
-//   }, []);
-
-//   // ------------------------------
-//   // 3) VKOSPI / WVKOSPI 데이터 fetch
-//   // ------------------------------
-//   useEffect(() => {
-//     const fetchVkospiData = async () => {
-//       try {
-//         // API 요청
-//         const response = await axios.get(
-//           "http://slayerzeroa.iptime.org:8001/vkospi"
-//         );
-
-//         // 1) BAS_DD & VKOSPI만 뽑아서 날짜 변환 후 배열 생성
-//         const extractedVkospi = response.data.map((item) => {
-//           // 날짜 가공(YYYYMMDD → YYYY-MM-DD)
-//           const dateString = item.BAS_DD;
-//           const year = dateString.substring(0, 4);
-//           const month = dateString.substring(4, 6);
-//           const day = dateString.substring(6, 8);
-//           const formattedDate = `${year}-${month}-${day}`;
-
-//           return {
-//             DATE: formattedDate,
-//             VKOSPI: item.VKOSPI,
-//           };
-//         });
-
-//         // 2) BAS_DD & WVKOSPI만 뽑아서 날짜 변환 후 배열 생성
-//         const extractedWvkospi = response.data.map((item) => {
-//           // 날짜 가공(YYYYMMDD → YYYY-MM-DD)
-//           const dateString = item.BAS_DD;
-//           const year = dateString.substring(0, 4);
-//           const month = dateString.substring(4, 6);
-//           const day = dateString.substring(6, 8);
-//           const formattedDate = `${year}-${month}-${day}`;
-
-//           return {
-//             DATE: formattedDate,
-//             WVKOSPI: item.WVKOSPI,
-//           };
-//         });
-
-//         // 3) 각각의 state에 저장
-//         setvkospiData(extractedVkospi);
-//         setwvkospiData(extractedWvkospi);
-//       } catch (error) {
-//         console.error("데이터 가져오기 오류:", error);
-//       }
-//     };
-
-//     fetchVkospiData();
-//   }, []);
-
-//   // ------------------------------
-//   // 렌더링 파트
-//   // ------------------------------
-//   return (
-//     <div style={{ width: "100%", padding: "20px" }}>
-//       {/* ---- 탭 버튼 영역 ---- */}
-//       <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
-//         <button
-//           onClick={() => setActiveTab("gex")}
-//           style={{
-//             padding: "8px 16px",
-//             cursor: "pointer",
-//             backgroundColor: activeTab === "gex" ? "#34495e" : "#bdc3c7",
-//             color: "#fff",
-//             border: "none",
-//             borderRadius: "4px",
-//           }}
-//         >
-//           GAMMA EXPOSURE
-//         </button>
-
-//         <button
-//           onClick={() => setActiveTab("krxgex")}
-//           style={{
-//             padding: "8px 16px",
-//             cursor: "pointer",
-//             backgroundColor: activeTab === "krxgex" ? "#34495e" : "#bdc3c7",
-//             color: "#fff",
-//             border: "none",
-//             borderRadius: "4px",
-//           }}
-//         >
-//           KRX GEX
-//         </button>
-
-//         <button
-//           onClick={() => setActiveTab("wvkospi")}
-//           style={{
-//             padding: "8px 16px",
-//             cursor: "pointer",
-//             backgroundColor: activeTab === "wvkospi" ? "#34495e" : "#bdc3c7",
-//             color: "#fff",
-//             border: "none",
-//             borderRadius: "4px",
-//           }}
-//         >
-//           WVKOSPI
-//         </button>
-
-//         <button
-//           onClick={() => setActiveTab("vkospi")}
-//           style={{
-//             padding: "8px 16px",
-//             cursor: "pointer",
-//             backgroundColor: activeTab === "vkospi" ? "#34495e" : "#bdc3c7",
-//             color: "#fff",
-//             border: "none",
-//             borderRadius: "4px",
-//           }}
-//         >
-//           VKOSPI
-//         </button>
-//       </div>
-
-//       {/* ---- GEX 그래프 ---- */}
-//       {activeTab === "gex" && (
-//         <>
-//           <h2
-//             style={{
-//               textAlign: "left",
-//               marginBottom: "3%",
-//               marginLeft: "5%",
-//               marginTop: "5%",
-//               fontFamily: "'Noto Sans', sans-serif",
-//               fontWeight: "700",
-//               color: "#2c3e50",
-//               fontSize: "150%",
-//             }}
-//           >
-//             KOSPI 200 GAMMA EXPOSURE HISTORY 한국투자증권(시가총액 미조정)
-//           </h2>
-//           <div style={{ paddingRight: "5%" }}>
-//             <ResponsiveContainer width="100%" aspect={16 / 9}>
-//               <LineChart data={gexData}>
-//                 <Line type="monotone" dataKey="NET_GEX" stroke="#8884d8" />
-//                 <CartesianGrid stroke="#ccc" />
-//                 <XAxis dataKey="DATE" />
-//                 <YAxis />
-//                 <Tooltip />
-//               </LineChart>
-//             </ResponsiveContainer>
-//           </div>
-//         </>
-//       )}
-
-//       {/* ---- KRX GEX 그래프 ---- */}
-//       {activeTab === "krxgex" && (
-//         <>
-//           <h2
-//             style={{
-//               textAlign: "left",
-//               marginBottom: "3%",
-//               marginLeft: "5%",
-//               marginTop: "5%",
-//               fontFamily: "'Noto Sans', sans-serif",
-//               fontWeight: "700",
-//               color: "#2c3e50",
-//               fontSize: "150%",
-//             }}
-//           >
-//             KOSPI 200 GAMMA EXPOSURE HISTORY 한국거래소(시가총액 조정)
-//           </h2>
-//           <div style={{ paddingRight: "5%" }}>
-//             <ResponsiveContainer width="100%" aspect={16 / 9}>
-//               <LineChart data={krxgexData}>
-//                 <Line type="monotone" dataKey="NET_GEX" stroke="#8884d8" />
-//                 <CartesianGrid stroke="#ccc" />
-//                 <XAxis dataKey="DATE" />
-//                 <YAxis />
-//                 <Tooltip />
-//               </LineChart>
-//             </ResponsiveContainer>
-//           </div>
-//         </>
-//       )}
-
-//       {/* ---- WVKOSPI 그래프 ---- */}
-//       {activeTab === "wvkospi" && (
-//         <>
-//           <h2
-//             style={{
-//               textAlign: "left",
-//               marginBottom: "3%",
-//               marginLeft: "5%",
-//               marginTop: "5%",
-//               fontFamily: "'Noto Sans', sans-serif",
-//               fontWeight: "700",
-//               color: "#2c3e50",
-//               fontSize: "150%",
-//             }}
-//           >
-//             KOSPI 200 WVKOSPI HISTORY
-//           </h2>
-//           <div style={{ paddingRight: "5%" }}>
-//             <ResponsiveContainer width="100%" aspect={16 / 9}>
-//               <LineChart data={wvkospiData}>
-//                 <Line type="monotone" dataKey="WVKOSPI" stroke="#8884d8" />
-//                 <CartesianGrid stroke="#ccc" />
-//                 <XAxis dataKey="DATE" />
-//                 <YAxis domain={["dataMin", "dataMax"]} />
-//                 <Tooltip />
-//               </LineChart>
-//             </ResponsiveContainer>
-//           </div>
-//         </>
-//       )}
-
-//       {/* ---- VKOSPI 그래프 ---- */}
-//       {activeTab === "vkospi" && (
-//         <>
-//           <h2
-//             style={{
-//               textAlign: "left",
-//               marginBottom: "3%",
-//               marginLeft: "5%",
-//               marginTop: "5%",
-//               fontFamily: "'Noto Sans', sans-serif",
-//               fontWeight: "700",
-//               color: "#2c3e50",
-//               fontSize: "150%",
-//             }}
-//           >
-//             KOSPI 200 VKOSPI HISTORY
-//           </h2>
-//           <div style={{ paddingRight: "5%" }}>
-//             <ResponsiveContainer width="100%" aspect={16 / 9}>
-//               <LineChart data={vkospiData}>
-//                 <Line type="monotone" dataKey="VKOSPI" stroke="#8884d8" />
-//                 <CartesianGrid stroke="#ccc" />
-//                 <XAxis dataKey="DATE" />
-//                 <YAxis domain={["dataMin", "dataMax"]} />
-//                 <Tooltip />
-//               </LineChart>
-//             </ResponsiveContainer>
-//           </div>
-//         </>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default Charts;
-
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import {
   LineChart,
@@ -350,40 +12,170 @@ import {
 } from "recharts";
 
 function Charts() {
-  const [volData, setVolData] = useState([]);
+  const [activeTab, setActiveTab] = useState("KOSPI"); // "KOSPI" | "KOSDAQ"
 
-  // 한 그래프 탭에서 라인 추가/제거
+  const [kospiData, setKospiData] = useState([]);
+  const [kosdaqData, setKosdaqData] = useState([]);
+
+  // 요청별 에러 분리
+  const [errors, setErrors] = useState({
+    kospi: null,
+    kosdaq: null,
+  });
+
+  // KOSPI 라인 on/off
   const [showVKOSPI, setShowVKOSPI] = useState(true);
   const [showWVKOSPI, setShowWVKOSPI] = useState(true);
 
+  // KOSDAQ 라인 on/off
+  const [showVKOSDAQ, setShowVKOSDAQ] = useState(true);
+  const [showWVKOSDAQ, setShowWVKOSDAQ] = useState(true);
+
+  // 기간
+  const [period, setPeriod] = useState("6M"); // "1M" | "3M" | "6M" | "1Y" | "ALL" | "CUSTOM"
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
   const formatYYYYMMDD = (v) => {
-    const s = String(v || "");
+    const s = String(v ?? "");
     if (s.length !== 8) return s;
     return `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}`;
   };
 
+  const toDate = (yyyyMmDd) => new Date(`${yyyyMmDd}T00:00:00`);
+
+  // 숫자 안전 변환
+  const n = (x) => {
+    const v = Number(x);
+    return Number.isFinite(v) ? v : null;
+  };
+
   useEffect(() => {
-    const fetchVolData = async () => {
-      try {
-        const response = await axios.get(
-          "http://slayerzeroa.iptime.org:8001/vkospi",
-        );
+    let mounted = true;
 
-        // BAS_DD, VKOSPI, WVKOSPI를 한 배열로 구성
-        const processed = response.data.map((item) => ({
-          DATE: formatYYYYMMDD(item.BAS_DD),
-          VKOSPI: item.VKOSPI,
-          WVKOSPI: item.WVKOSPI,
-        }));
+    const fetchData = async () => {
+      const [resKospi, resKosdaq] = await Promise.allSettled([
+        axios.get("http://slayerzeroa.iptime.org:8001/vkospi"),
+        axios.get("http://slayerzeroa.iptime.org:8001/vkosdaq"),
+      ]);
 
-        setVolData(processed);
-      } catch (error) {
-        console.error("데이터 가져오기 오류:", error);
+      if (!mounted) return;
+
+      // KOSPI 처리
+      if (resKospi.status === "fulfilled") {
+        const p = (resKospi.value.data || [])
+          .map((item) => ({
+            DATE: formatYYYYMMDD(item.BAS_DD ?? item.DATE),
+            VKOSPI: n(item.VKOSPI),
+            WVKOSPI: n(item.WVKOSPI),
+          }))
+          .filter((d) => d.DATE && !Number.isNaN(toDate(d.DATE).getTime()))
+          .sort((a, b) => a.DATE.localeCompare(b.DATE));
+
+        setKospiData(p);
+        setErrors((prev) => ({ ...prev, kospi: null }));
+      } else {
+        console.error("KOSPI 데이터 오류:", resKospi.reason);
+        setKospiData([]); // 실패해도 다른 탭 영향 없음
+        setErrors((prev) => ({ ...prev, kospi: "VKOSPI API 호출 실패" }));
+      }
+
+      // KOSDAQ 처리
+      if (resKosdaq.status === "fulfilled") {
+        const q = (resKosdaq.value.data || [])
+          .map((item) => ({
+            DATE: formatYYYYMMDD(item.BAS_DD ?? item.DATE),
+            VKOSDAQ: n(item.VKOSDAQ),
+            WVKOSDAQ: n(item.WVKOSDAQ),
+          }))
+          .filter((d) => d.DATE && !Number.isNaN(toDate(d.DATE).getTime()))
+          .sort((a, b) => a.DATE.localeCompare(b.DATE));
+
+        setKosdaqData(q);
+        setErrors((prev) => ({ ...prev, kosdaq: null }));
+      } else {
+        console.error("KOSDAQ 데이터 오류:", resKosdaq.reason);
+        setKosdaqData([]);
+        setErrors((prev) => ({ ...prev, kosdaq: "VKOSDAQ API 호출 실패" }));
+      }
+
+      // 날짜 초기값: 있는 데이터 우선 세팅
+      const pData =
+        resKospi.status === "fulfilled"
+          ? (resKospi.value.data || [])
+              .map((item) => ({
+                DATE: formatYYYYMMDD(item.BAS_DD ?? item.DATE),
+              }))
+              .filter((d) => d.DATE && !Number.isNaN(toDate(d.DATE).getTime()))
+              .sort((a, b) => a.DATE.localeCompare(b.DATE))
+          : [];
+
+      const qData =
+        resKosdaq.status === "fulfilled"
+          ? (resKosdaq.value.data || [])
+              .map((item) => ({
+                DATE: formatYYYYMMDD(item.BAS_DD ?? item.DATE),
+              }))
+              .filter((d) => d.DATE && !Number.isNaN(toDate(d.DATE).getTime()))
+              .sort((a, b) => a.DATE.localeCompare(b.DATE))
+          : [];
+
+      const seed = pData.length ? pData : qData;
+      if (seed.length) {
+        setStartDate(seed[0].DATE);
+        setEndDate(seed[seed.length - 1].DATE);
       }
     };
 
-    fetchVolData();
+    fetchData();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
+
+  const activeData = activeTab === "KOSPI" ? kospiData : kosdaqData;
+  const activeError = activeTab === "KOSPI" ? errors.kospi : errors.kosdaq;
+
+  const filteredData = useMemo(() => {
+    if (!activeData.length) return [];
+
+    if (period === "CUSTOM") {
+      if (!startDate || !endDate) return activeData;
+      const s = toDate(startDate);
+      const e = toDate(endDate);
+      return activeData.filter((d) => {
+        const t = toDate(d.DATE);
+        return t >= s && t <= e;
+      });
+    }
+
+    if (period === "ALL") return activeData;
+
+    const lastDate = toDate(activeData[activeData.length - 1].DATE);
+    const start = new Date(lastDate);
+
+    if (period === "1M") start.setMonth(start.getMonth() - 1);
+    if (period === "3M") start.setMonth(start.getMonth() - 3);
+    if (period === "6M") start.setMonth(start.getMonth() - 6);
+    if (period === "1Y") start.setFullYear(start.getFullYear() - 1);
+
+    return activeData.filter((d) => {
+      const t = toDate(d.DATE);
+      return t >= start && t <= lastDate;
+    });
+  }, [activeData, period, startDate, endDate]);
+
+  const tabBtnStyle = (active) => ({
+    padding: "7px 12px",
+    borderRadius: "8px",
+    border: "1px solid #cfd8dc",
+    cursor: "pointer",
+    background: active ? "#2c3e50" : "#fff",
+    color: active ? "#fff" : "#2c3e50",
+    fontSize: "13px",
+    fontWeight: 700,
+  });
 
   const toggleBtnStyle = (active) => ({
     padding: "6px 12px",
@@ -395,53 +187,174 @@ function Charts() {
     fontSize: "13px",
   });
 
+  const periodBtnStyle = (active) => ({
+    padding: "6px 10px",
+    borderRadius: "6px",
+    border: "1px solid #cfd8dc",
+    cursor: "pointer",
+    background: active ? "#34495e" : "#fff",
+    color: active ? "#fff" : "#2c3e50",
+    fontSize: "12px",
+  });
+
   return (
     <div style={{ width: "100%", padding: "12px" }}>
-      {/* 단일 그래프 탭 느낌의 카드 */}
       <div
         style={{
-          width: "min(100%, 900px)",
+          width: "min(100%, 1000px)",
           margin: "0 auto",
           border: "1px solid #e5e7eb",
           borderRadius: "10px",
-          padding: "12px 14px",
+          padding: "16px 18px",
           background: "#fff",
         }}
       >
         <h2
           style={{
-            margin: "0 0 10px 0",
+            margin: "0 0 12px 0",
             fontFamily: "'Noto Sans', sans-serif",
             fontWeight: 700,
             color: "#2c3e50",
             fontSize: "18px",
           }}
         >
-          KOSPI 200 VOLATILITY (VKOSPI / WVKOSPI)
+          VOLATILITY DASHBOARD
         </h2>
 
-        {/* 추가/제거 토글 */}
-        <div style={{ display: "flex", gap: "8px", marginBottom: "10px" }}>
+        {/* 상단 그룹 탭 */}
+        <div style={{ display: "flex", gap: "8px", marginBottom: "12px" }}>
           <button
-            onClick={() => setShowVKOSPI((v) => !v)}
-            style={toggleBtnStyle(showVKOSPI)}
+            style={tabBtnStyle(activeTab === "KOSPI")}
+            onClick={() => setActiveTab("KOSPI")}
           >
-            {showVKOSPI ? "VKOSPI 제거" : "VKOSPI 추가"}
+            KOSPI (VKOSPI / WVKOSPI)
           </button>
-
           <button
-            onClick={() => setShowWVKOSPI((v) => !v)}
-            style={toggleBtnStyle(showWVKOSPI)}
+            style={tabBtnStyle(activeTab === "KOSDAQ")}
+            onClick={() => setActiveTab("KOSDAQ")}
           >
-            {showWVKOSPI ? "WVKOSPI 제거" : "WVKOSPI 추가"}
+            KOSDAQ (VKOSDAQ / WVKOSDAQ)
           </button>
         </div>
 
-        {/* 컴팩트 차트 */}
-        <ResponsiveContainer width="100%" height={320}>
+        {/* 탭별 에러 메시지 */}
+        {activeError && (
+          <div
+            style={{
+              marginBottom: 10,
+              padding: "8px 10px",
+              borderRadius: 8,
+              background: "#fff4f4",
+              color: "#b71c1c",
+              fontSize: 13,
+              border: "1px solid #ffcdd2",
+            }}
+          >
+            {activeError}
+          </div>
+        )}
+
+        {/* 라인 표시 토글: 탭별 */}
+        {activeTab === "KOSPI" ? (
+          <div
+            style={{
+              display: "flex",
+              gap: "8px",
+              marginBottom: "10px",
+              flexWrap: "wrap",
+            }}
+          >
+            <button
+              onClick={() => setShowVKOSPI((v) => !v)}
+              style={toggleBtnStyle(showVKOSPI)}
+            >
+              VKOSPI
+            </button>
+            <button
+              onClick={() => setShowWVKOSPI((v) => !v)}
+              style={toggleBtnStyle(showWVKOSPI)}
+            >
+              WVKOSPI
+            </button>
+          </div>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              gap: "8px",
+              marginBottom: "10px",
+              flexWrap: "wrap",
+            }}
+          >
+            <button
+              onClick={() => setShowVKOSDAQ((v) => !v)}
+              style={toggleBtnStyle(showVKOSDAQ)}
+            >
+              VKOSDAQ
+            </button>
+            <button
+              onClick={() => setShowWVKOSDAQ((v) => !v)}
+              style={toggleBtnStyle(showWVKOSDAQ)}
+            >
+              WVKOSDAQ
+            </button>
+          </div>
+        )}
+
+        {/* 기간 설정 */}
+        <div
+          style={{
+            display: "flex",
+            gap: "8px",
+            alignItems: "center",
+            flexWrap: "wrap",
+            marginBottom: "12px",
+          }}
+        >
+          <span style={{ fontSize: 13, color: "#2c3e50", minWidth: 70 }}>
+            기간
+          </span>
+          {["1M", "3M", "6M", "1Y", "ALL", "CUSTOM"].map((p) => (
+            <button
+              key={p}
+              style={periodBtnStyle(period === p)}
+              onClick={() => setPeriod(p)}
+            >
+              {p}
+            </button>
+          ))}
+
+          {period === "CUSTOM" && (
+            <>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                style={{
+                  padding: "4px 6px",
+                  border: "1px solid #cfd8dc",
+                  borderRadius: 6,
+                }}
+              />
+              <span style={{ fontSize: 12 }}>~</span>
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                style={{
+                  padding: "4px 6px",
+                  border: "1px solid #cfd8dc",
+                  borderRadius: 6,
+                }}
+              />
+            </>
+          )}
+        </div>
+
+        <ResponsiveContainer width="100%" height={500}>
           <LineChart
-            data={volData}
-            margin={{ top: 8, right: 10, left: 0, bottom: 4 }}
+            data={filteredData}
+            margin={{ top: 12, right: 14, left: 6, bottom: 8 }}
           >
             <CartesianGrid stroke="#eee" />
             <XAxis dataKey="DATE" minTickGap={24} />
@@ -449,23 +362,49 @@ function Charts() {
             <Tooltip />
             <Legend />
 
-            {showVKOSPI && (
+            {activeTab === "KOSPI" && showVKOSPI && (
               <Line
                 type="monotone"
                 dataKey="VKOSPI"
                 stroke="#2ca02c"
+                strokeWidth={3}
                 dot={false}
+                activeDot={{ r: 4 }}
                 name="VKOSPI"
               />
             )}
-
-            {showWVKOSPI && (
+            {activeTab === "KOSPI" && showWVKOSPI && (
               <Line
                 type="monotone"
                 dataKey="WVKOSPI"
                 stroke="#ff7f0e"
+                strokeWidth={3}
                 dot={false}
+                activeDot={{ r: 4 }}
                 name="WVKOSPI"
+              />
+            )}
+
+            {activeTab === "KOSDAQ" && showVKOSDAQ && (
+              <Line
+                type="monotone"
+                dataKey="VKOSDAQ"
+                stroke="#2ca02c"
+                strokeWidth={3}
+                dot={false}
+                activeDot={{ r: 4 }}
+                name="VKOSDAQ"
+              />
+            )}
+            {activeTab === "KOSDAQ" && showWVKOSDAQ && (
+              <Line
+                type="monotone"
+                dataKey="WVKOSDAQ"
+                stroke="#ff7f0e"
+                strokeWidth={3}
+                dot={false}
+                activeDot={{ r: 4 }}
+                name="WVKOSDAQ"
               />
             )}
           </LineChart>
