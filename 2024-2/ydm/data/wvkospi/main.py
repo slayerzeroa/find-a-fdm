@@ -55,7 +55,7 @@ def run_main_with_retries(max_retries=5, retry_delay=60):
 
 pd.set_option('display.max_columns', None)
 
-start = datetime.datetime(2025, 6, 5).date()
+start = datetime.datetime(2025, 10, 27).date()
 
 while start <= datetime.datetime.now().date()-datetime.timedelta(days=2):
     try:
@@ -71,3 +71,5 @@ while start <= datetime.datetime.now().date()-datetime.timedelta(days=2):
         print(e)
         start += datetime.timedelta(days=1)
         continue
+    finally:
+        break

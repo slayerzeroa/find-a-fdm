@@ -68,11 +68,11 @@ def run_main_with_retries(max_retries=5, retry_delay=60):
                 print("모든 재시도에 실패했습니다. 다음 스케줄까지 대기합니다.")
 
 
-print("main.py is executed.")
-schedule.every().day.at("16:00").do(run_main_with_retries)
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+# print("main.py is executed.")
+# schedule.every().day.at("16:00").do(run_main_with_retries)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)
 
 
 
@@ -80,53 +80,53 @@ while True:
 # KRX 옵션 데이터 로딩
 # '''
 
-# start_date_str = '20250116'
-# end_date_str = '20250120'
+start_date_str = '20250605'
+end_date_str = '20260206'
 
 
-# rf_df = api.get_interest_df(start=start_date_str, end=end_date_str)
-# rf_df.index = rf_df.index.astype(str)
+rf_df = api.get_interest_df(start=start_date_str, end=end_date_str)
+rf_df.index = rf_df.index.astype(str)
 
-# # 문자열을 datetime 객체로 변환
-# start_date = datetime.datetime.strptime(start_date_str, '%Y%m%d')
-# end_date   = datetime.datetime.strptime(end_date_str, '%Y%m%d')
+# 문자열을 datetime 객체로 변환
+start_date = datetime.datetime.strptime(start_date_str, '%Y%m%d')
+end_date   = datetime.datetime.strptime(end_date_str, '%Y%m%d')
 
-# current_date = start_date
+current_date = start_date
 
-# while current_date <= end_date:
-#     try:
-#         # 현재 날짜를 YYYYMMDD 문자열로 다시 변환
-#         target_date_str = current_date.strftime('%Y%m%d')
+while current_date <= end_date:
+    try:
+        # 현재 날짜를 YYYYMMDD 문자열로 다시 변환
+        target_date_str = current_date.strftime('%Y%m%d')
 
-#         # 1) 데이터 불러오기
-#         rf = float(rf_df[(rf_df.index == target_date_str)]['콜금리'])  # 무위험 이자율
-#         krx_index_option_df = api.get_index_option_from_krx(
-#             basDd=target_date_str,
-#             include_fundamental=True,
-#             rf=rf
-#         )
+        # 1) 데이터 불러오기
+        rf = float(rf_df[(rf_df.index == target_date_str)]['콜금리'])  # 무위험 이자율
+        krx_index_option_df = api.get_index_option_from_krx(
+            basDd=target_date_str,
+            include_fundamental=True,
+            rf=rf
+        )
 
-#         db.update_krx_index_option(krx_index_option_df)
-#         print(f"KOSPI 200 옵션 DB 저장 완료: {current_date}")
+        db.update_krx_index_option(krx_index_option_df)
+        print(f"KOSPI 200 옵션 DB 저장 완료: {current_date}")
 
-#         krx_index_option_df = db.load_krx_index_options(target_date_str)
-#         net_gex, pc_gex = api.cal_gamma_exposure_krx(krx_index_option_df)
-#         market_cap = api.get_index_market_cap(target_date_str)
+        krx_index_option_df = db.load_krx_index_options(target_date_str)
+        net_gex, pc_gex = api.cal_gamma_exposure_krx(krx_index_option_df)
+        market_cap = api.get_index_market_cap(target_date_str)
 
-#         net_gex = float(net_gex / market_cap)
+        net_gex = float(net_gex / market_cap)
 
-#         krx_gamma_exposure_df = pd.DataFrame()
-#         krx_gamma_exposure_df['DATE'] = [target_date_str]
-#         krx_gamma_exposure_df['NET_GEX'] = [net_gex]
-#         krx_gamma_exposure_df['PC_GEX'] = [pc_gex]
+        krx_gamma_exposure_df = pd.DataFrame()
+        krx_gamma_exposure_df['DATE'] = [target_date_str]
+        krx_gamma_exposure_df['NET_GEX'] = [net_gex]
+        krx_gamma_exposure_df['PC_GEX'] = [pc_gex]
 
-#         db.update_krx_gamma_exposure(krx_gamma_exposure_df)
-#         print(f"KOSPI 200 옵션 GEX, DB 저장 완료: {current_date}")
+        db.update_krx_gamma_exposure(krx_gamma_exposure_df)
+        print(f"KOSPI 200 옵션 GEX, DB 저장 완료: {current_date}")
 
-#     except Exception as e:
-#         print(f"[오류 발생 - {target_date_str}] {e}")
+    except Exception as e:
+        print(f"[오류 발생 - {target_date_str}] {e}")
 
-#     finally:
-#         # 날짜를 하루 증가
-#         current_date += datetime.timedelta(days=1)
-#         print('현재 진행:', current_date.strftime('%Y-%m-%d'))
+    finally:
+        # 날짜를 하루 증가
+        current_date += datetime.timedelta(days=1)
+        print('현재 진행:', current_date.strftime('%Y-%m-%d'))

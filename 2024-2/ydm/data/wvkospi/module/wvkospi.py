@@ -87,7 +87,7 @@ def rf_inter(target_date:datetime ,near_date_diff, next_date_diff, interest_df):
 
 # following_two_cutoff 함수
 def following_two_cutoff(option_data: pd.DataFrame):
-    filter = option_data['Strike_Price_Diff'] < 7.5
+    filter = option_data['STRIKE_PRICE_DIFF'] < 7.5
     filter = list(filter)
     center = int(len(filter) / 2)
     flag = True
@@ -111,65 +111,185 @@ def following_two_cutoff(option_data: pd.DataFrame):
 
 # Cutoff 함수
 def cutoff(option_data: pd.DataFrame, underlying):
-    if option_data['Option_Type'].unique() == 'C':
+    if option_data['RGHT_TP_NM'].unique() == 'CALL':
         data_cutoff = option_data[following_two_cutoff(option_data)]
-        data_cutoff = data_cutoff[data_cutoff['Strike_Price'].astype(float) > underlying]
-    elif option_data['Option_Type'].unique() == 'P':
+        data_cutoff = data_cutoff[data_cutoff['STRIKE_PRICE'].astype(float) > underlying]
+    elif option_data['RGHT_TP_NM'].unique() == 'PUT':
         data_cutoff = option_data[following_two_cutoff(option_data)]
-        data_cutoff = data_cutoff[data_cutoff['Strike_Price'].astype(float) < underlying]
+        data_cutoff = data_cutoff[data_cutoff['STRIKE_PRICE'].astype(float) < underlying]
     return data_cutoff
 
-def preprocess_option(option_data: pd.DataFrame, option_type:str):
+# def preprocess_option(option_data: pd.DataFrame, option_type:str):
+#     # print("option data:", option_data)
+#     if option_type == 'near':
+#         term_option = pd.DataFrame()
+
+#         option_data['STRIKE_PRICE'] = option_data['ISU_NM'].str[-10:-5]
+#         option_data['Option_Type'] = option_data['RGHT_TP_NM'].str[0]
+
+#         term_data = []
+#         for i in option_data.STRIKE_PRICE:
+#             check = option_data[option_data.STRIKE_PRICE == i]
+#             if len(check) == 2:
+#                 input_data = []
+#                 input_data.append(float(check['STRIKE_PRICE'].unique()[0]))
+#                 input_data.append(check['TDD_CLSPRC'].to_list()[0])
+#                 input_data.append(check['TDD_CLSPRC'].to_list()[1])
+#                 input_data.append(abs(check['TDD_CLSPRC'].to_list()[0]-check['TDD_CLSPRC'].to_list()[1]))
+#                 if input_data not in term_data:
+#                     term_data.append(input_data)
+
+#         term_option = pd.concat([term_option, pd.DataFrame(term_data, columns=['STRIKE_PRICE','CALL','PUT','DIFFERENCE'])])
+#         term_option = term_option[(term_option['CALL']!=0) & (term_option['PUT']!=0)]
+
+#         return term_option
+    
+#     elif option_type == 'next':
+#         term_option = pd.DataFrame()
+
+#         option_data['STRIKE_PRICE'] = option_data['ISU_NM'].str[-10:-5]
+#         option_data['Option_Type'] = option_data['RGHT_TP_NM'].str[0]
+
+#         ### 같은 요일 옵션 데이터 두 개 들어올 때 (예시: 1주차 월, 2주차 월 옵션)
+#         option_data['Select'] = (option_data['ISU_NM'].str[-12]).astype(int)
+#         option_data = option_data[option_data['Select'] == option_data['Select'].max()]
+
+#         next_data = []
+#         for i in option_data.STRIKE_PRICE:
+#             check = option_data[option_data.STRIKE_PRICE == i]
+#             if len(check) == 2:
+#                 input_data = []
+#                 input_data.append(float(check['STRIKE_PRICE'].unique()[0]))
+#                 input_data.append(check['TDD_CLSPRC'].to_list()[0])
+#                 input_data.append(check['TDD_CLSPRC'].to_list()[1])
+#                 input_data.append(abs(check['TDD_CLSPRC'].to_list()[0]-check['TDD_CLSPRC'].to_list()[1]))
+#                 if input_data not in next_data:
+#                     next_data.append(input_data)
+
+#         term_option = pd.concat([term_option, pd.DataFrame(next_data, columns=['STRIKE_PRICE','CALL','PUT','DIFFERENCE'])])
+#         term_option = term_option[(term_option['CALL']!=0) & (term_option['PUT']!=0)]
+    
+#         return term_option
+
+import re
+import pandas as pd
+
+# -----------------------------
+# 안정 추출 헬퍼
+# -----------------------------
+def _extract_strike_price(series: pd.Series) -> pd.Series:
+    """
+    ISU_NM에서 행사가를 안정적으로 추출:
+    - " ... 505.0 (정규)" -> 505.0
+    - 자릿수 변화(100/1000/10000), 소수점 모두 대응
+    """
+    s = series.astype(str).str.strip()
+
+    # 1차: 문자열 끝 숫자 + optional "(...)"
+    strike = pd.to_numeric(
+        s.str.extract(r'(\d+(?:\.\d+)?)\s*(?:\([^)]*\))?\s*$', expand=False),
+        errors="coerce"
+    )
+
+    # 2차 fallback: 문자열 내 "가장 마지막 숫자"
+    miss = strike.isna()
+    if miss.any():
+        strike.loc[miss] = pd.to_numeric(
+            s[miss].str.extract(r'(\d+(?:\.\d+)?)(?!.*\d)', expand=False),
+            errors="coerce"
+        )
+
+    return strike
+
+
+def _extract_select(series: pd.Series) -> pd.Series:
+    """
+    ISU_NM에서 next 선택용 Select 추출:
+    - 우선: 2510W5 -> 5
+    - fallback: W숫자 패턴
+    """
+    s = series.astype(str).str.strip()
+
+    sel = pd.to_numeric(
+        s.str.extract(r'\b\d{4}W(\d+)\b', expand=False),
+        errors="coerce"
+    )
+
+    miss = sel.isna()
+    if miss.any():
+        sel.loc[miss] = pd.to_numeric(
+            s[miss].str.extract(r'W(\d+)', expand=False),
+            errors="coerce"
+        )
+
+    return sel
+
+
+# -----------------------------
+# 원래 로직 유지 + Strike/Select만 안정화
+# -----------------------------
+def preprocess_option(option_data: pd.DataFrame, option_type: str):
+    option_data = option_data.copy()  # 원본 보호
     print("option data:", option_data)
+
     if option_type == 'near':
         term_option = pd.DataFrame()
 
-        option_data['Strike_Price'] = option_data['ISU_NM'].str[-10:-5]
-        option_data['Option_Type'] = option_data['RGHT_TP_NM'].str[0]
+        # 기존 str[-10:-5] -> 안정 추출
+        option_data['STRIKE_PRICE'] = _extract_strike_price(option_data['ISU_NM'])
 
         term_data = []
-        for i in option_data.Strike_Price:
-            check = option_data[option_data.Strike_Price == i]
+        for i in option_data['STRIKE_PRICE']:
+            check = option_data[option_data['STRIKE_PRICE'] == i]
             if len(check) == 2:
                 input_data = []
-                input_data.append(float(check['Strike_Price'].unique()[0]))
+                input_data.append(float(check['STRIKE_PRICE'].unique()[0]))
                 input_data.append(check['TDD_CLSPRC'].to_list()[0])
                 input_data.append(check['TDD_CLSPRC'].to_list()[1])
-                input_data.append(abs(check['TDD_CLSPRC'].to_list()[0]-check['TDD_CLSPRC'].to_list()[1]))
+                input_data.append(abs(check['TDD_CLSPRC'].to_list()[0] - check['TDD_CLSPRC'].to_list()[1]))
                 if input_data not in term_data:
                     term_data.append(input_data)
 
-        term_option = pd.concat([term_option, pd.DataFrame(term_data, columns=['Strike_Price','Call','Put','Difference'])])
-        term_option = term_option[(term_option['Call']!=0) & (term_option['Put']!=0)]
+        term_option = pd.concat([
+            term_option,
+            pd.DataFrame(term_data, columns=['STRIKE_PRICE', 'CALL', 'PUT', 'DIFFERENCE'])
+        ])
+        term_option = term_option[(term_option['CALL'] != 0) & (term_option['PUT'] != 0)]
+        return term_option, option_data
 
-        return term_option
-    
     elif option_type == 'next':
         term_option = pd.DataFrame()
 
-        option_data['Strike_Price'] = option_data['ISU_NM'].str[-10:-5]
-        option_data['Option_Type'] = option_data['RGHT_TP_NM'].str[0]
+        # 기존 str[-10:-5] -> 안정 추출
+        option_data['STRIKE_PRICE'] = _extract_strike_price(option_data['ISU_NM'])
 
-        ### 같은 요일 옵션 데이터 두 개 들어올 때 (예시: 1주차 월, 2주차 월 옵션)
-        option_data['Select'] = (option_data['ISU_NM'].str[-12]).astype(int)
-        option_data = option_data[option_data['Select'] == option_data['Select'].max()]
+        # 기존 str[-12].astype(int) -> 안정 추출
+        option_data['Select'] = _extract_select(option_data['ISU_NM'])
+
+        # Select 파싱 성공한 경우에만 max 필터 적용 (실패 시 크래시 방지)
+        valid = option_data['Select'].notna()
+        if valid.any():
+            mx = option_data.loc[valid, 'Select'].max()
+            option_data = option_data[option_data['Select'] == mx]
 
         next_data = []
-        for i in option_data.Strike_Price:
-            check = option_data[option_data.Strike_Price == i]
+        for i in option_data['STRIKE_PRICE']:
+            check = option_data[option_data['STRIKE_PRICE'] == i]
             if len(check) == 2:
                 input_data = []
-                input_data.append(float(check['Strike_Price'].unique()[0]))
+                input_data.append(float(check['STRIKE_PRICE'].unique()[0]))
                 input_data.append(check['TDD_CLSPRC'].to_list()[0])
                 input_data.append(check['TDD_CLSPRC'].to_list()[1])
-                input_data.append(abs(check['TDD_CLSPRC'].to_list()[0]-check['TDD_CLSPRC'].to_list()[1]))
+                input_data.append(abs(check['TDD_CLSPRC'].to_list()[0] - check['TDD_CLSPRC'].to_list()[1]))
                 if input_data not in next_data:
                     next_data.append(input_data)
 
-        term_option = pd.concat([term_option, pd.DataFrame(next_data, columns=['Strike_Price','Call','Put','Difference'])])
-        term_option = term_option[(term_option['Call']!=0) & (term_option['Put']!=0)]
-    
-        return term_option
+        term_option = pd.concat([
+            term_option,
+            pd.DataFrame(next_data, columns=['STRIKE_PRICE', 'CALL', 'PUT', 'DIFFERENCE'])
+        ])
+        term_option = term_option[(term_option['CALL'] != 0) & (term_option['PUT'] != 0)]
+        return term_option, option_data
 
 
 
@@ -177,13 +297,14 @@ def preprocess_option(option_data: pd.DataFrame, option_type:str):
 데이터 수집 함수
 '''
 
-def get_option_data(t: datetime, near_date: datetime):
+def get_kospi_option_data(t: datetime, near_date: datetime):
 
     option_df = finance_api.get_weekly_option_df(t.strftime('%Y%m%d'), t.strftime('%Y%m%d'))
     # print(option_df)
     # 옵션 데이터 전처리
-    option_data_m = option_df[option_df['PROD_NM'].str.contains('월')]
-    option_data_t = option_df[option_df['PROD_NM'].str.contains('목')]
+    kospi_option_df = option_df[option_df['ISU_NM'].str.contains('코스피')]
+    option_data_m = kospi_option_df[kospi_option_df['PROD_NM'].str.contains('월')]
+    option_data_t = kospi_option_df[kospi_option_df['PROD_NM'].str.contains('목')]
 
     option_data_t = option_data_t[option_data_t['TDD_CLSPRC'] != '-']
     option_data_m = option_data_m[option_data_m['TDD_CLSPRC'] != '-']
@@ -223,40 +344,35 @@ def vix_formula(near_term_option, next_term_option, near_option_data, next_optio
     Nt=[60*24*near_date_diff, 60*24*next_date_diff]		#minutes
     T=[Nt[0]/(60*24*365), Nt[1]/(60*24*365)]	#years
     
-    F1_data = near_term_option[near_term_option['Difference'] == near_term_option['Difference'].min()]
-    F2_data = next_term_option[next_term_option['Difference'] == next_term_option['Difference'].min()]
+    F1_data = near_term_option[near_term_option['DIFFERENCE'] == near_term_option['DIFFERENCE'].min()]
+    F2_data = next_term_option[next_term_option['DIFFERENCE'] == next_term_option['DIFFERENCE'].min()]
 
-    F1 = float(F1_data['Strike_Price'].iloc[0] + math.exp(rates[0] * T[0]) * (F1_data['Call'].iloc[0] - F1_data['Put'].iloc[0]))
-    F2 = float(F2_data['Strike_Price'].iloc[0] + math.exp(rates[1] * T[1]) * (F2_data['Call'].iloc[0] - F2_data['Put'].iloc[0]))
+    F1 = float(F1_data['STRIKE_PRICE'].iloc[0] + math.exp(rates[0] * T[0]) * (F1_data['CALL'].iloc[0] - F1_data['PUT'].iloc[0]))
+    F2 = float(F2_data['STRIKE_PRICE'].iloc[0] + math.exp(rates[1] * T[1]) * (F2_data['CALL'].iloc[0] - F2_data['PUT'].iloc[0]))
 
-    K_0_1 = near_term_option[(near_term_option['Strike_Price'].astype(float) - F1 < 1)].Difference == near_term_option[(near_term_option['Strike_Price'].astype(float) - F1 < 1)].Difference.min()
-    K_0_1 = float((near_term_option[(near_term_option['Strike_Price'].astype(float) - F1 < 1)][K_0_1].Strike_Price).iloc[0])
-    K_0_2 = next_term_option[(next_term_option['Strike_Price'].astype(float) - F2 < 1)].Difference == next_term_option[(next_term_option['Strike_Price'].astype(float) - F2 < 1)].Difference.min()
-    K_0_2 = float((next_term_option[(next_term_option['Strike_Price'].astype(float) - F2 < 1)][K_0_2].Strike_Price).iloc[0])
+    K_0_1 = near_term_option[(near_term_option['STRIKE_PRICE'].astype(float) - F1 < 1)].DIFFERENCE == near_term_option[(near_term_option['STRIKE_PRICE'].astype(float) - F1 < 1)].DIFFERENCE.min()
+    K_0_1 = float((near_term_option[(near_term_option['STRIKE_PRICE'].astype(float) - F1 < 1)][K_0_1].STRIKE_PRICE).iloc[0])
+    K_0_2 = next_term_option[(next_term_option['STRIKE_PRICE'].astype(float) - F2 < 1)].DIFFERENCE == next_term_option[(next_term_option['STRIKE_PRICE'].astype(float) - F2 < 1)].DIFFERENCE.min()
+    K_0_2 = float((next_term_option[(next_term_option['STRIKE_PRICE'].astype(float) - F2 < 1)][K_0_2].STRIKE_PRICE).iloc[0])
 
-    near_option_data_call = near_option_data[near_option_data['Option_Type'] == 'C']
-    near_option_data_put = near_option_data[near_option_data['Option_Type'] == 'P']
-    next_option_data_call = next_option_data[next_option_data['Option_Type'] == 'C']
-    next_option_data_put = next_option_data[next_option_data['Option_Type'] == 'P']
+    near_option_data_call = near_option_data[near_option_data['RGHT_TP_NM'] == 'CALL'].copy()
+    near_option_data_put = near_option_data[near_option_data['RGHT_TP_NM'] == 'PUT'].copy()
+    next_option_data_call = next_option_data[next_option_data['RGHT_TP_NM'] == 'CALL'].copy()
+    next_option_data_put = next_option_data[next_option_data['RGHT_TP_NM'] == 'PUT'].copy()
 
-    near_option_data_call = near_option_data_call.copy()
-    near_option_data_put = near_option_data_put.copy()
-    next_option_data_call = next_option_data_call.copy()
-    next_option_data_put = next_option_data_put.copy()
-
-    near_option_data_call['Strike_Price_Diff'] = near_option_data_call['Strike_Price'].astype(float).diff()
-    near_option_data_put['Strike_Price_Diff'] = near_option_data_put['Strike_Price'].astype(float).diff()
-    next_option_data_call['Strike_Price_Diff'] = next_option_data_call['Strike_Price'].astype(float).diff()
-    next_option_data_put['Strike_Price_Diff'] = next_option_data_put['Strike_Price'].astype(float).diff()
+    near_option_data_call['STRIKE_PRICE_DIFF'] = near_option_data_call['STRIKE_PRICE'].astype(float).diff()
+    near_option_data_put['STRIKE_PRICE_DIFF'] = near_option_data_put['STRIKE_PRICE'].astype(float).diff()
+    next_option_data_call['STRIKE_PRICE_DIFF'] = next_option_data_call['STRIKE_PRICE'].astype(float).diff()
+    next_option_data_put['STRIKE_PRICE_DIFF'] = next_option_data_put['STRIKE_PRICE'].astype(float).diff()
 
     near_call = cutoff(near_option_data_call, underlying)
     near_put = cutoff(near_option_data_put, underlying)
     next_call = cutoff(next_option_data_call, underlying)
     next_put = cutoff(next_option_data_put, underlying)
-    near_call['Contribution_by_Strike'] = (2.5/(near_call['Strike_Price'].astype(float).pow(2))) * math.exp(rates[0] * T[0]) * near_call['TDD_CLSPRC']
-    near_put['Contribution_by_Strike'] = (2.5/(near_put['Strike_Price'].astype(float).pow(2))) * math.exp(rates[0] * T[0]) * near_put['TDD_CLSPRC']
-    next_call['Contribution_by_Strike'] = (2.5/(next_call['Strike_Price'].astype(float).pow(2))) * math.exp(rates[1] * T[1]) * next_call['TDD_CLSPRC']
-    next_put['Contribution_by_Strike'] = (2.5/(next_put['Strike_Price'].astype(float).pow(2))) * math.exp(rates[1] * T[1]) * next_put['TDD_CLSPRC']
+    near_call['Contribution_by_Strike'] = (2.5/(near_call['STRIKE_PRICE'].astype(float).pow(2))) * math.exp(rates[0] * T[0]) * near_call['TDD_CLSPRC']
+    near_put['Contribution_by_Strike'] = (2.5/(near_put['STRIKE_PRICE'].astype(float).pow(2))) * math.exp(rates[0] * T[0]) * near_put['TDD_CLSPRC']
+    next_call['Contribution_by_Strike'] = (2.5/(next_call['STRIKE_PRICE'].astype(float).pow(2))) * math.exp(rates[1] * T[1]) * next_call['TDD_CLSPRC']
+    next_put['Contribution_by_Strike'] = (2.5/(next_put['STRIKE_PRICE'].astype(float).pow(2))) * math.exp(rates[1] * T[1]) * next_put['TDD_CLSPRC']
     near = pd.concat([near_call, near_put])
     next = pd.concat([next_call, next_put])
     sigmasquared_1 = (2/T[0])*near['Contribution_by_Strike'].sum() - (1/T[0])*((F1/K_0_1)-1)**2
@@ -271,10 +387,13 @@ def cal_wvkospi(t: datetime, underlying, rate):
     near_date, next_date, near_date_diff, next_date_diff = get_date_data(t)
     rates = rf_inter(t, near_date_diff, next_date_diff, rate)
     
-    near_option_data, next_option_data = get_option_data(t, near_date=near_date)
+    near_option_data, next_option_data = get_kospi_option_data(t, near_date=near_date)
+
+    print("before near option data:", near_option_data)
+    print("before next option data:", next_option_data)
     
-    near_term_option = preprocess_option(near_option_data, option_type='near')
-    next_term_option = preprocess_option(next_option_data, option_type='next')
+    near_term_option, near_option_data = preprocess_option(near_option_data, option_type='near')
+    next_term_option, next_option_data = preprocess_option(next_option_data, option_type='next')
 
     VIX = vix_formula(near_term_option, next_term_option, near_option_data, next_option_data, underlying, rates, near_date_diff, next_date_diff)
 

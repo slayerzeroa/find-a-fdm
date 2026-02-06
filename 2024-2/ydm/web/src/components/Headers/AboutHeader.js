@@ -41,7 +41,7 @@ function AboutHeader() {
             <p className="title">We find α opportunities</p>
           </div>
           <h6 className="category category-absolute">
-            Designed by{" YDM"}. Coded by{" YDM"}.
+            Coded by{" slayerzeroa"}.
           </h6>
         </Container>
       </div>
