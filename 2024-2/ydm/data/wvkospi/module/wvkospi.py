@@ -6,6 +6,7 @@
 - 데이터 관련
 '''
 import math
+from click import option
 import pandas as pd
 import numpy as np
 from scipy import interpolate
@@ -153,7 +154,7 @@ def _extract_strike_price(series: pd.Series) -> pd.Series:
 
 def _extract_select(series: pd.Series) -> pd.Series:
     """
-    ISU_NM에서 next 선택용 Select 추출:
+    ISU_NM에서 next 선택용 SELECT 추출:
     - 우선: 2510W5 -> 5
     - fallback: W숫자 패턴
     """
@@ -173,19 +174,39 @@ def _extract_select(series: pd.Series) -> pd.Series:
 
     return sel
 
+def _extract_session(series: pd.Series) -> pd.Series:
+    """
+    ISU_NM에서 세션 추출:
+    - '(정규)' -> 정규
+    - '(야간)' -> 야간
+    """
+    s = series.astype(str)
+    return np.select(
+        [
+            s.str.contains(r'\(정규\)|\b정규\b', na=False),
+            s.str.contains(r'\(야간\)|\b야간\b', na=False),
+        ],
+        ['정규', '야간'],
+        default='기타'
+    )
+
 
 # -----------------------------
-# 원래 로직 유지 + Strike/Select만 안정화
+# 원래 로직 유지 + Strike/SELECT만 안정화
 # -----------------------------
 def preprocess_option(option_data: pd.DataFrame, option_type: str):
     option_data = option_data.copy()  # 원본 보호
-    print("option data:", option_data)
+    # print("option data:", option_data)
 
     if option_type == 'near':
         term_option = pd.DataFrame()
 
         # 기존 str[-10:-5] -> 안정 추출
         option_data['STRIKE_PRICE'] = _extract_strike_price(option_data['ISU_NM'])
+
+        option_data['SESSION'] = _extract_session(option_data['ISU_NM'])
+        option_data = option_data[option_data['SESSION'] == '정규']
+
 
         term_data = []
         for i in option_data['STRIKE_PRICE']:
@@ -213,13 +234,19 @@ def preprocess_option(option_data: pd.DataFrame, option_type: str):
         option_data['STRIKE_PRICE'] = _extract_strike_price(option_data['ISU_NM'])
 
         # 기존 str[-12].astype(int) -> 안정 추출
-        option_data['Select'] = _extract_select(option_data['ISU_NM'])
+        option_data['SELECT'] = _extract_select(option_data['ISU_NM'])
+        option_data['SESSION'] = _extract_session(option_data['ISU_NM'])
 
-        # Select 파싱 성공한 경우에만 max 필터 적용 (실패 시 크래시 방지)
-        valid = option_data['Select'].notna()
+        option_data = option_data[option_data['SESSION'] == '정규']
+
+
+        # SELECT 파싱 성공한 경우에만 max 필터 적용 (실패 시 크래시 방지)
+        # SELECT는 당일에 근주물, 근원물 동시 방지
+        valid = option_data['SELECT'].notna()
         if valid.any():
-            mx = option_data.loc[valid, 'Select'].max()
-            option_data = option_data[option_data['Select'] == mx]
+            mx = option_data.loc[valid, 'SELECT'].max()
+            option_data = option_data[option_data['SELECT'] == mx]
+
 
         next_data = []
         for i in option_data['STRIKE_PRICE']:
@@ -255,6 +282,9 @@ def get_kospi_option_data(t: datetime, near_date: datetime):
     option_data_m = kospi_option_df[kospi_option_df['PROD_NM'].str.contains('월')]
     option_data_t = kospi_option_df[kospi_option_df['PROD_NM'].str.contains('목')]
 
+    # print("option_data_m:", option_data_m)
+    # print("option_data_t:", option_data_t)
+
     option_data_t = option_data_t[option_data_t['TDD_CLSPRC'] != '-']
     option_data_m = option_data_m[option_data_m['TDD_CLSPRC'] != '-']
 
@@ -283,7 +313,7 @@ def get_date_data(t: datetime):
 def get_vkospi(t):
     t = t.strftime("%Y%m%d")
     vkospi_df = finance_api.get_vkospi_spot_df(start=t, end=t)
-    print('vkospi_df', vkospi_df)
+    # print('vkospi_df', vkospi_df)
     return float(vkospi_df['SPOT_PRC'])
 
 '''
@@ -295,6 +325,12 @@ def vix_formula(near_term_option, next_term_option, near_option_data, next_optio
     
     F1_data = near_term_option[near_term_option['DIFFERENCE'] == near_term_option['DIFFERENCE'].min()]
     F2_data = next_term_option[next_term_option['DIFFERENCE'] == next_term_option['DIFFERENCE'].min()]
+
+    # print("near term option data:", near_term_option)
+    # print("next term option data:", next_term_option)
+
+    # print("F1_data:", F1_data)
+    # print("F2_data:", F2_data)
 
     F1 = float(F1_data['STRIKE_PRICE'].iloc[0] + math.exp(rates[0] * T[0]) * (F1_data['CALL'].iloc[0] - F1_data['PUT'].iloc[0]))
     F2 = float(F2_data['STRIKE_PRICE'].iloc[0] + math.exp(rates[1] * T[1]) * (F2_data['CALL'].iloc[0] - F2_data['PUT'].iloc[0]))
@@ -338,11 +374,14 @@ def cal_wvkospi(t: datetime, underlying, rate):
     
     near_option_data, next_option_data = get_kospi_option_data(t, near_date=near_date)
 
-    print("before near option data:", near_option_data)
-    print("before next option data:", next_option_data)
+    # print("before near option data:", near_option_data)
+    # print("before next option data:", next_option_data)
     
     near_term_option, near_option_data = preprocess_option(near_option_data, option_type='near')
     next_term_option, next_option_data = preprocess_option(next_option_data, option_type='next')
+
+    # print("after near option data:", near_term_option)
+    # print("after next option data:", next_term_option)
 
     VIX = vix_formula(near_term_option, next_term_option, near_option_data, next_option_data, underlying, rates, near_date_diff, next_date_diff)
 

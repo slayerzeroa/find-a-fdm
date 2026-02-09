@@ -5,25 +5,39 @@ import time
 import schedule
 
 
-def main():
-    # 현재 날짜와 시간
+def main(kospi=True, kosdaq=True):
+    # 현재 날짜/시간
     now = datetime.datetime.now()
-    
-    # 기본적으로 하루 전 날짜로 설정
+
+    # 기본: D-2
     t = (now - datetime.timedelta(days=2)).date()
-    
-    # 월요일인 경우 지난 주 금요일로 설정
-    if now.weekday() == 0:  # 월요일 (Monday는 0)
+
+    # 월요일이면 금요일 데이터 기준(D-3)
+    if now.weekday() == 0:
         t = (now - datetime.timedelta(days=3)).date()
-    
-    # wvkospi 데이터 가져오기
-    underlying, target, vkospi = wvkospi.get_wvkospi(t=t)
-    
-    # DataFrame 생성
-    df = pd.DataFrame({'BAS_DD': [t.strftime('%Y%m%d')], 'KOSPI': [underlying], 'WVKOSPI': [target], 'VKOSPI': [vkospi]})
-    
-    # DB 업데이트
-    db.update_wvkospi(df)
+
+    # KOSPI
+    if kospi:
+        underlying_kospi, target_kospi, vkospi = wvkospi.get_wvkospi(t=t)
+        df_kospi = pd.DataFrame({
+            'BAS_DD': [t.strftime('%Y%m%d')],
+            'KOSPI': [underlying_kospi],
+            'WVKOSPI': [target_kospi],
+            'VKOSPI': [vkospi]
+        })
+        db.update_wvkospi(df_kospi)
+        print(f"[KOSPI] {t} 업데이트 완료")
+
+    # KOSDAQ
+    if kosdaq:
+        underlying_kosdaq, target_kosdaq = wvkosdaq.get_wvkosdaq(t=t)
+        df_kosdaq = pd.DataFrame({
+            'BAS_DD': [t.strftime('%Y%m%d')],
+            'KOSDAQ': [underlying_kosdaq],
+            'WVKOSDAQ': [target_kosdaq]
+        })
+        db.update_wvkosdaq(df_kosdaq)
+        print(f"[KOSDAQ] {t} 업데이트 완료")
 
 
 def run_main_with_retries(max_retries=5, retry_delay=60):
@@ -33,8 +47,8 @@ def run_main_with_retries(max_retries=5, retry_delay=60):
     """
     for attempt in range(1, max_retries + 1):
         try:
-            main()
-            return  # main() 성공 시 즉시 함수 종료
+            main(kospi=True, kosdaq=True)   # 여기서 둘 다 실행
+            return
         except Exception as e:
             print(f"[{attempt}/{max_retries}] 알 수 없는 오류 발생: {e}")
             if attempt < max_retries:
@@ -44,41 +58,11 @@ def run_main_with_retries(max_retries=5, retry_delay=60):
                 print("모든 재시도에 실패했습니다. 다음 스케줄까지 대기합니다.")
 
 
-# print("main.py is executed.")
-# # 매일 19:00에 스케줄 실행
-# schedule.every().day.at("08:00").do(run_main_with_retries)
+print("main.py is executed.")
 
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
+# 매일 08:00에 실행 (주석/시간 맞춰서 사용)
+schedule.every().day.at("08:00").do(run_main_with_retries)
 
-
-pd.set_option('display.max_columns', None)
-
-start = datetime.datetime(2025, 10, 28).date()
-
-kospi=False
-kosdaq=True
-
-while start <= datetime.datetime.now().date()-datetime.timedelta(days=2):
-    try:
-        if kospi:
-            underlying, target, vkospi = wvkospi.get_wvkospi(t=start)
-            # vkospi = wvkospi.get_vkospi(t=start)
-            print("underlying", underlying)
-            print("wvkospi", target)
-            print("vkospi", vkospi)
-            df = pd.DataFrame({'BAS_DD': [start.strftime('%Y%m%d')], 'KOSPI': [underlying], 'WVKOSPI': [target], 'VKOSPI': [vkospi]})
-            db.update_wvkospi(df)
-        if kosdaq:
-            underlying, target = wvkosdaq.get_wvkosdaq(t=start)
-            print("underlying", underlying)
-            print("wvkosdaq", target)
-            df = pd.DataFrame({'BAS_DD': [start.strftime('%Y%m%d')], 'KOSDAQ': [underlying], 'WVKOSDAQ': [target]})
-            db.update_wvkosdaq(df)
-    except Exception as e:
-        print(e)
-
-    finally:
-        start += datetime.timedelta(days=1)
-
+while True:
+    schedule.run_pending()
+    time.sleep(1)
