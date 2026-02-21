@@ -9,7 +9,7 @@ def main(kospi=True, kosdaq=True):
     # 현재 날짜/시간
     now = datetime.datetime.now()
 
-    # 기본: D-2
+    # 기본: KRX 데이터는 D-1 기준일 사용
     t = (now - datetime.timedelta(days=1)).date()
 
     # # 월요일이면 금요일 데이터 기준(D-3)
