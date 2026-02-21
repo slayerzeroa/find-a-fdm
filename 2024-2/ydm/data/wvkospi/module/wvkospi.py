@@ -374,14 +374,14 @@ def cal_wvkospi(t: datetime, underlying, rate):
     
     near_option_data, next_option_data = get_kospi_option_data(t, near_date=near_date)
 
-    # print("before near option data:", near_option_data)
-    # print("before next option data:", next_option_data)
+    print("before near option data:", near_option_data)
+    print("before next option data:", next_option_data)
     
     near_term_option, near_option_data = preprocess_option(near_option_data, option_type='near')
     next_term_option, next_option_data = preprocess_option(next_option_data, option_type='next')
 
-    # print("after near option data:", near_term_option)
-    # print("after next option data:", next_term_option)
+    print("after near option data:", near_term_option)
+    print("after next option data:", next_term_option)
 
     VIX = vix_formula(near_term_option, next_term_option, near_option_data, next_option_data, underlying, rates, near_date_diff, next_date_diff)
 
@@ -389,9 +389,14 @@ def cal_wvkospi(t: datetime, underlying, rate):
 
 
 
+
+from datetime import timedelta
 def get_wvkospi(t: datetime):
     underlying = (finance_api.get_kospi_df(t.strftime('%Y%m%d'), t.strftime('%Y%m%d')))['CLSPRC_IDX'].astype(float).values[0]
-    rate = finance_api.get_interest_df(start=t.strftime('%Y%m%d'), end=t.strftime('%Y%m%d')).astype(float)
+    print("underlying:", underlying)
+    # rate = finance_api.get_interest_df(start=t.strftime('%Y%m%d'), end=t.strftime('%Y%m%d')).astype(float)
+    rate = finance_api.get_interest_df(start=(t-timedelta(days=1)).strftime('%Y%m%d'), end=(t-timedelta(days=1)).strftime('%Y%m%d')).astype(float)
+    print("rate:", rate)
     wvkospi = cal_wvkospi(t, underlying, rate)
     vkospi = get_vkospi(t)
 
