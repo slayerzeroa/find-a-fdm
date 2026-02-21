@@ -89,6 +89,31 @@ def rf_inter(target_date:datetime ,near_date_diff, next_date_diff, interest_df):
     return [y1, y2]
 
 
+def get_latest_interest_rate_df(base_date: datetime, lookback_days: int = 14):
+    start_date = (base_date - timedelta(days=lookback_days - 1)).strftime('%Y%m%d')
+    end_date = base_date.strftime('%Y%m%d')
+
+    rate_df = finance_api.get_interest_df(start=start_date, end=end_date)
+    if rate_df.empty:
+        raise ValueError(f"ECOS 금리 데이터가 없습니다. 조회 구간: {start_date}~{end_date}")
+
+    rate_df = rate_df.copy()
+    rate_df.index = rate_df.index.astype(str)
+
+    for col in ['콜금리', 'CD91일']:
+        rate_df[col] = pd.to_numeric(rate_df[col], errors='coerce')
+
+    valid_rate_df = rate_df[['콜금리', 'CD91일']].dropna()
+    if valid_rate_df.empty:
+        raise ValueError(f"ECOS 금리 유효 데이터가 없습니다. 조회 구간: {start_date}~{end_date}")
+
+    latest_rate_date_str = valid_rate_df.index.max()
+    latest_rate_df = valid_rate_df.loc[[latest_rate_date_str]]
+    latest_rate_date = datetime.strptime(latest_rate_date_str, '%Y%m%d')
+
+    return latest_rate_date, latest_rate_df
+
+
 # following_two_cutoff 함수
 def following_two_cutoff(option_data: pd.DataFrame):
     filter = option_data['STRIKE_PRICE_DIFF'] < 7.5
@@ -374,14 +399,14 @@ def cal_wvkospi(t: datetime, underlying, rate, rate_target_date: datetime):
     
     near_option_data, next_option_data = get_kospi_option_data(t, near_date=near_date)
 
-    print("before near option data:", near_option_data)
-    print("before next option data:", next_option_data)
+    # print("before near option data:", near_option_data)
+    # print("before next option data:", next_option_data)
     
     near_term_option, near_option_data = preprocess_option(near_option_data, option_type='near')
     next_term_option, next_option_data = preprocess_option(next_option_data, option_type='next')
 
-    print("after near option data:", near_term_option)
-    print("after next option data:", next_term_option)
+    # print("after near option data:", near_term_option)
+    # print("after next option data:", next_term_option)
 
     VIX = vix_formula(near_term_option, next_term_option, near_option_data, next_option_data, underlying, rates, near_date_diff, next_date_diff)
 
@@ -390,20 +415,18 @@ def cal_wvkospi(t: datetime, underlying, rate, rate_target_date: datetime):
 
 
 
-from datetime import timedelta
+# from datetime import timedelta
 def get_wvkospi(t: datetime):
     # KRX(옵션/기초자산): D-1, ECOS(금리): D-2
     krx_target_date = t
     ecos_target_date = t - timedelta(days=1)
 
     underlying = (finance_api.get_kospi_df(krx_target_date.strftime('%Y%m%d'), krx_target_date.strftime('%Y%m%d')))['CLSPRC_IDX'].astype(float).values[0]
-    print("underlying:", underlying)
-    rate = finance_api.get_interest_df(
-        start=ecos_target_date.strftime('%Y%m%d'),
-        end=ecos_target_date.strftime('%Y%m%d')
-    ).astype(float)
-    print("rate:", rate)
-    wvkospi = cal_wvkospi(krx_target_date, underlying, rate, rate_target_date=ecos_target_date)
+    # print("underlying:", underlying)
+    rate_target_date, rate = get_latest_interest_rate_df(ecos_target_date, lookback_days=14)
+    # print(f"rate date: {rate_target_date.strftime('%Y%m%d')}")
+    # print("rate:", rate)
+    wvkospi = cal_wvkospi(krx_target_date, underlying, rate, rate_target_date=rate_target_date)
     vkospi = get_vkospi(krx_target_date)
 
     return underlying, wvkospi, vkospi

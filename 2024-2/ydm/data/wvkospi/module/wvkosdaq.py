@@ -87,6 +87,31 @@ def rf_inter(target_date:datetime ,near_date_diff, next_date_diff, interest_df):
     return [y1, y2]
 
 
+def get_latest_interest_rate_df(base_date: datetime, lookback_days: int = 14):
+    start_date = (base_date - timedelta(days=lookback_days - 1)).strftime('%Y%m%d')
+    end_date = base_date.strftime('%Y%m%d')
+
+    rate_df = finance_api.get_interest_df(start=start_date, end=end_date)
+    if rate_df.empty:
+        raise ValueError(f"ECOS 금리 데이터가 없습니다. 조회 구간: {start_date}~{end_date}")
+
+    rate_df = rate_df.copy()
+    rate_df.index = rate_df.index.astype(str)
+
+    for col in ['콜금리', 'CD91일']:
+        rate_df[col] = pd.to_numeric(rate_df[col], errors='coerce')
+
+    valid_rate_df = rate_df[['콜금리', 'CD91일']].dropna()
+    if valid_rate_df.empty:
+        raise ValueError(f"ECOS 금리 유효 데이터가 없습니다. 조회 구간: {start_date}~{end_date}")
+
+    latest_rate_date_str = valid_rate_df.index.max()
+    latest_rate_df = valid_rate_df.loc[[latest_rate_date_str]]
+    latest_rate_date = datetime.strptime(latest_rate_date_str, '%Y%m%d')
+
+    return latest_rate_date, latest_rate_df
+
+
 # following_two_cutoff 함수
 def following_two_cutoff(option_data: pd.DataFrame):
     filter = option_data['STRIKE_PRICE_DIFF'] < 7.5
@@ -355,10 +380,9 @@ def get_wvkosdaq(t: datetime):
     ecos_target_date = t - timedelta(days=1)
 
     underlying = (finance_api.get_kosdaq_df(krx_target_date.strftime('%Y%m%d'), krx_target_date.strftime('%Y%m%d')))['CLSPRC_IDX'].astype(float).values[0]
-    rate = finance_api.get_interest_df(
-        start=ecos_target_date.strftime('%Y%m%d'),
-        end=ecos_target_date.strftime('%Y%m%d')
-    ).astype(float)
-    wvkosdaq = cal_wvkosdaq(krx_target_date, underlying, rate, rate_target_date=ecos_target_date)
+    rate_target_date, rate = get_latest_interest_rate_df(ecos_target_date, lookback_days=14)
+    print(f"rate date: {rate_target_date.strftime('%Y%m%d')}")
+    print("rate:", rate)
+    wvkosdaq = cal_wvkosdaq(krx_target_date, underlying, rate, rate_target_date=rate_target_date)
 
     return underlying, wvkosdaq

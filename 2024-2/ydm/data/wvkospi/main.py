@@ -25,48 +25,44 @@ def main(kospi=True, kosdaq=True):
             'WVKOSPI': [target_kospi],
             'VKOSPI': [vkospi]
         })
-        # db.update_wvkospi(df_kospi)
-        print(df_kospi)
+        db.update_wvkospi(df_kospi)
         print(f"[KOSPI] {t} 업데이트 완료")
 
-    # # KOSDAQ
-    # if kosdaq:
-    #     underlying_kosdaq, target_kosdaq = wvkosdaq.get_wvkosdaq(t=t)
-    #     df_kosdaq = pd.DataFrame({
-    #         'BAS_DD': [t.strftime('%Y%m%d')],
-    #         'KOSDAQ': [underlying_kosdaq],
-    #         'WVKOSDAQ': [target_kosdaq]
-    #     })
-    #     db.update_wvkosdaq(df_kosdaq)
-    #     print(f"[KOSDAQ] {t} 업데이트 완료")
+    # KOSDAQ
+    if kosdaq:
+        underlying_kosdaq, target_kosdaq = wvkosdaq.get_wvkosdaq(t=t)
+        df_kosdaq = pd.DataFrame({
+            'BAS_DD': [t.strftime('%Y%m%d')],
+            'KOSDAQ': [underlying_kosdaq],
+            'WVKOSDAQ': [target_kosdaq]
+        })
+        db.update_wvkosdaq(df_kosdaq)
+        print(f"[KOSDAQ] {t} 업데이트 완료")
 
 
-# def run_main_with_retries(max_retries=5, retry_delay=60):
-#     """
-#     main()을 실행하되, 실패 시 일정 횟수 재시도.
-#     그래도 실패하면 스크립트를 죽이지 않고 에러 로그만 남김.
-#     """
-#     for attempt in range(1, max_retries + 1):
-#         try:
-#             main(kospi=True, kosdaq=True)   # 여기서 둘 다 실행
-#             return
-#         except Exception as e:
-#             print(f"[{attempt}/{max_retries}] 알 수 없는 오류 발생: {e}")
-#             if attempt < max_retries:
-#                 print(f"{retry_delay}초 후 재시도합니다.")
-#                 time.sleep(retry_delay)
-#             else:
-#                 print("모든 재시도에 실패했습니다. 다음 스케줄까지 대기합니다.")
+def run_main_with_retries(max_retries=5, retry_delay=60):
+    """
+    main()을 실행하되, 실패 시 일정 횟수 재시도.
+    그래도 실패하면 스크립트를 죽이지 않고 에러 로그만 남김.
+    """
+    for attempt in range(1, max_retries + 1):
+        try:
+            main(kospi=True, kosdaq=True)   # 여기서 둘 다 실행
+            return
+        except Exception as e:
+            print(f"[{attempt}/{max_retries}] 알 수 없는 오류 발생: {e}")
+            if attempt < max_retries:
+                print(f"{retry_delay}초 후 재시도합니다.")
+                time.sleep(retry_delay)
+            else:
+                print("모든 재시도에 실패했습니다. 다음 스케줄까지 대기합니다.")
 
 
 print("main.py is executed.")
 
-if __name__ == "__main__":
-    main(kospi=True, kosdaq=True)
+# 매일 08:00에 실행 (주석/시간 맞춰서 사용)
+schedule.every().day.at("08:00").do(run_main_with_retries)
 
-# # 매일 08:00에 실행 (주석/시간 맞춰서 사용)
-# schedule.every().day.at("08:00").do(run_main_with_retries)
-
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
+while True:
+    schedule.run_pending()
+    time.sleep(1)
