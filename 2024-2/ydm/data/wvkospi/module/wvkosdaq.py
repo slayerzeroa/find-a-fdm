@@ -331,9 +331,9 @@ def vix_formula(near_term_option, next_term_option, near_option_data, next_optio
     return VIX
 
 
-def cal_wvkosdaq(t: datetime, underlying, rate):
+def cal_wvkosdaq(t: datetime, underlying, rate, rate_target_date: datetime):
     near_date, next_date, near_date_diff, next_date_diff = get_date_data(t)
-    rates = rf_inter(t, near_date_diff, next_date_diff, rate)
+    rates = rf_inter(rate_target_date, near_date_diff, next_date_diff, rate)
     
     near_option_data, next_option_data = get_kosdaq_option_data(t, near_date=near_date)
 
@@ -350,8 +350,15 @@ def cal_wvkosdaq(t: datetime, underlying, rate):
 
 
 def get_wvkosdaq(t: datetime):
-    underlying = (finance_api.get_kosdaq_df(t.strftime('%Y%m%d'), t.strftime('%Y%m%d')))['CLSPRC_IDX'].astype(float).values[0]
-    rate = finance_api.get_interest_df(start=t.strftime('%Y%m%d'), end=t.strftime('%Y%m%d')).astype(float)
-    wvkosdaq = cal_wvkosdaq(t, underlying, rate)
+    # KRX(옵션/기초자산): D-1, ECOS(금리): D-2
+    krx_target_date = t
+    ecos_target_date = t - timedelta(days=1)
+
+    underlying = (finance_api.get_kosdaq_df(krx_target_date.strftime('%Y%m%d'), krx_target_date.strftime('%Y%m%d')))['CLSPRC_IDX'].astype(float).values[0]
+    rate = finance_api.get_interest_df(
+        start=ecos_target_date.strftime('%Y%m%d'),
+        end=ecos_target_date.strftime('%Y%m%d')
+    ).astype(float)
+    wvkosdaq = cal_wvkosdaq(krx_target_date, underlying, rate, rate_target_date=ecos_target_date)
 
     return underlying, wvkosdaq
