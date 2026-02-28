@@ -365,7 +365,7 @@ app.get(
     try {
       const limit = parseLimit(req, 500, 3000);
       const rows = await runQuery(
-        `SELECT ID, BAS_DD, KOSDAQ, WVKOSDAQ
+        `SELECT ID, BAS_DD, KOSDAQ, WVKOSDAQ, VKOSDAQ
        FROM wvkosdaq
        ORDER BY ID DESC
        LIMIT ?`,
