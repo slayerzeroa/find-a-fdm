@@ -1,0 +1,27 @@
+{
+  "date": "20260427",
+  "stocks": [
+    { "stock_code": "005930", "market": "KOSPI" },
+    { "stock_code": "035420", "market": "KOSPI" },
+    { "stock_code": "357780", "market": "KOSDAQ" }
+  ],
+  "etfs": [
+    { "etf_code": "A001", "etf_name": "ETF A" },
+    { "etf_code": "B001", "etf_name": "ETF B" },
+    { "etf_code": "C001", "etf_name": "ETF C" }
+  ],
+  "holdings": [
+    { "etf_code": "A001", "stock_code": "005930", "weight": 0.20 },
+    { "etf_code": "A001", "stock_code": "357780", "weight": 0.10 },
+    { "etf_code": "B001", "stock_code": "357780", "weight": 0.70 },
+    { "etf_code": "C001", "stock_code": "035420", "weight": 0.05 }
+  ],
+  "etf_trading": [
+    { "etf_code": "A001", "trading_value": 1000.0 },
+    { "etf_code": "B001", "trading_value": 300.0 },
+    { "etf_code": "C001", "trading_value": 700.0 }
+  ],
+  "market_trading": [
+    { "market": "KOSPI", "trading_value": 10000.0 }
+  ]
+}

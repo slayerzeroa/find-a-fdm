@@ -1,0 +1,16 @@
+{
+  "OutBlock_1": [
+    {
+      "ISU_SRT_CD": "005930",
+      "MKT_NM": "KOSPI"
+    },
+    {
+      "ISU_SRT_CD": "035420",
+      "MKT_NM": "KOSPI"
+    },
+    {
+      "ISU_SRT_CD": "357780",
+      "MKT_NM": "KOSDAQ"
+    }
+  ]
+}
