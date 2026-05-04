@@ -1,0 +1,2067 @@
+{
+  "date": "20260427",
+  "selected_etf_count": 294,
+  "selected_total_trading_value": 14065831139149.0,
+  "kospi_trading_value": 33410304671355.0,
+  "ratio": 0.42100277975640926,
+  "details": [
+    {
+      "etf_code": "451060",
+      "etf_name": "1Q 200액티브",
+      "index_name": "코스피 200",
+      "trading_value": 13210889066.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0182R0",
+      "etf_name": "1Q K반도체TOP2+",
+      "index_name": "NICE K반도체 TOP2 MAX+ 지수",
+      "trading_value": 13995366295.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0103T0",
+      "etf_name": "1Q K소버린AI",
+      "index_name": "iSelect K소버린AI 지수",
+      "trading_value": 610520557.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "495330",
+      "etf_name": "1Q 코리아밸류업",
+      "index_name": "코리아 밸류업 지수",
+      "trading_value": 3186381554.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "105190",
+      "etf_name": "ACE 200",
+      "index_name": "코스피 200",
+      "trading_value": 29551945354.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "332500",
+      "etf_name": "ACE 200TR",
+      "index_name": "코스피 200 TR",
+      "trading_value": 1336139010.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "385600",
+      "etf_name": "ACE 2차전지&친환경차액티브",
+      "index_name": "FnGuide 친환경 자동차 밸류체인 지수",
+      "trading_value": 910934702.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "469150",
+      "etf_name": "ACE AI반도체TOP3+",
+      "index_name": "FnGuide AI반도체 TOP3+ 지수",
+      "trading_value": 105072566515.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "475050",
+      "etf_name": "ACE KPOP포커스",
+      "index_name": "iSelect K-POP 포커스지수(시장가격)",
+      "trading_value": 5196685329.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0172Y0",
+      "etf_name": "ACE K수출핵심TOP10산업액티브",
+      "index_name": "iSelect K수출핵심산업 지수 (시장가격)",
+      "trading_value": 978739299.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0177X0",
+      "etf_name": "ACE K휴머노이드로봇산업TOP2+",
+      "index_name": "Akros K-휴머노이드 로봇 TOP2+ 지수 (시장가격)",
+      "trading_value": 23930661646.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0139P0",
+      "etf_name": "ACE 고배당주",
+      "index_name": "KRX-Akros 고배당주 20 지수",
+      "trading_value": 3062682091.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "152500",
+      "etf_name": "ACE 레버리지",
+      "index_name": "코스피 200",
+      "trading_value": 3078856874.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "145670",
+      "etf_name": "ACE 인버스",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 287240254.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "447430",
+      "etf_name": "ACE 주주환원가치주액티브",
+      "index_name": "FnGuide 올라운드 가치주 지수",
+      "trading_value": 1006055656.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "380340",
+      "etf_name": "ACE 코리아AI테크핵심산업",
+      "index_name": "FnGuide 코리아AI테크핵심산업지수 (Price Return)",
+      "trading_value": 1004802312.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "496120",
+      "etf_name": "ACE 코리아밸류업",
+      "index_name": "코리아 밸류업 지수",
+      "trading_value": 194741601.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "305050",
+      "etf_name": "ACE 코스피",
+      "index_name": "코스피",
+      "trading_value": 431118987.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "466810",
+      "etf_name": "BNK 2차전지양극재",
+      "index_name": "iSelect 2차전지양극재 지수",
+      "trading_value": 1702512000.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "486240",
+      "etf_name": "DAISHIN343 AI반도체&인프라액티브",
+      "index_name": "FnGuide AI반도체&인프라 지수",
+      "trading_value": 224077350.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "434960",
+      "etf_name": "DAISHIN343 K200",
+      "index_name": "코스피 200",
+      "trading_value": 418628356.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0098Z0",
+      "etf_name": "FOCUS 200",
+      "index_name": "코스피 200",
+      "trading_value": 1540790.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0176P0",
+      "etf_name": "FOCUS AI반도체위클리고정커버드콜",
+      "index_name": "AI 반도체 위클리 고정 30% 커버드콜 지수",
+      "trading_value": 438933760.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "448570",
+      "etf_name": "FOCUS AI코리아액티브",
+      "index_name": "코스피",
+      "trading_value": 116356264.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "285690",
+      "etf_name": "FOCUS ESG리더스",
+      "index_name": "KRX ESG Leaders 150",
+      "trading_value": 521665.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "293180",
+      "etf_name": "HANARO 200",
+      "index_name": "코스피 200",
+      "trading_value": 2453870075.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "407310",
+      "etf_name": "HANARO 200 TOP10",
+      "index_name": "코스피 200 Top 10 지수",
+      "trading_value": 146427165.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "332930",
+      "etf_name": "HANARO 200TR",
+      "index_name": "코스피 200 TR",
+      "trading_value": 527378989.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "304780",
+      "etf_name": "HANARO 200선물레버리지",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 552189546.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "306520",
+      "etf_name": "HANARO 200선물인버스",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 2933765.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "395290",
+      "etf_name": "HANARO Fn K-POP&미디어",
+      "index_name": "FnGuide K-POP & 미디어 지수",
+      "trading_value": 681085044.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "395280",
+      "etf_name": "HANARO Fn K-게임",
+      "index_name": "FnGuide K-게임 지수",
+      "trading_value": 87320750.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "368190",
+      "etf_name": "HANARO Fn K-뉴딜디지털플러스",
+      "index_name": "FnGuide K-뉴딜 디지털 플러스 지수",
+      "trading_value": 114401780.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "402460",
+      "etf_name": "HANARO Fn K-메타버스MZ",
+      "index_name": "FnGuide K-메타버스 MZ 지수(시장가격)",
+      "trading_value": 99612145.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "395270",
+      "etf_name": "HANARO Fn K-반도체",
+      "index_name": "FnGuide K-반도체 지수",
+      "trading_value": 275012606208.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "438900",
+      "etf_name": "HANARO Fn K-푸드",
+      "index_name": "FnGuide K-푸드 지수 (시장가격)",
+      "trading_value": 370704573.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "441540",
+      "etf_name": "HANARO Fn조선해운",
+      "index_name": "FnGuide 조선해운지수",
+      "trading_value": 3664854036.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "479850",
+      "etf_name": "HANARO K-뷰티",
+      "index_name": "FnGuide K-뷰티 지수",
+      "trading_value": 2270033788.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "304760",
+      "etf_name": "HANARO KRX300",
+      "index_name": "KRX 300",
+      "trading_value": 57592820.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "322410",
+      "etf_name": "HANARO K고배당",
+      "index_name": "FnGuide 고배당 알파 지수",
+      "trading_value": 861408941.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0155N0",
+      "etf_name": "HANARO K휴머노이드테마TOP10",
+      "index_name": "iSelect K휴머노이드테마TOP10 지수",
+      "trading_value": 4383705057.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "498050",
+      "etf_name": "HANARO 바이오코리아액티브",
+      "index_name": "iSelect K-바이오헬스케어",
+      "trading_value": 1110082737.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "476260",
+      "etf_name": "HANARO 반도체핵심공정주도주",
+      "index_name": "FnGuide 반도체 핵심공정 지수",
+      "trading_value": 2070187919.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "491820",
+      "etf_name": "HANARO 전력설비투자",
+      "index_name": "iSelect 전력설비투자 지수",
+      "trading_value": 19959144551.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0111J0",
+      "etf_name": "HANARO 증권고배당TOP3플러스",
+      "index_name": "FnGuide 증권 고배당 TOP3 플러스 지수",
+      "trading_value": 8388987783.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "495750",
+      "etf_name": "HANARO 코리아밸류업",
+      "index_name": "코리아 밸류업 지수",
+      "trading_value": 20154257.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "491700",
+      "etf_name": "HK 200",
+      "index_name": "코스피 200",
+      "trading_value": 87091935.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "391670",
+      "etf_name": "HK 베스트일레븐액티브",
+      "index_name": "코스피 200",
+      "trading_value": 1094930.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "472840",
+      "etf_name": "ITF 200",
+      "index_name": "코스피 200",
+      "trading_value": 180247440.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0005G0",
+      "etf_name": "ITF K-AI반도체코어테크",
+      "index_name": "FnGuide K-AI반도체 코어테크 지수",
+      "trading_value": 3324747210.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "069660",
+      "etf_name": "KIWOOM 200",
+      "index_name": "코스피 200",
+      "trading_value": 17026257565.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "294400",
+      "etf_name": "KIWOOM 200TR",
+      "index_name": "코스피 200 TR",
+      "trading_value": 18297283960.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "253250",
+      "etf_name": "KIWOOM 200선물레버리지",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 2293652225.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "253240",
+      "etf_name": "KIWOOM 200선물인버스",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 31712816.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "253230",
+      "etf_name": "KIWOOM 200선물인버스2X",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 87621362.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "488200",
+      "etf_name": "KIWOOM K-2차전지북미공급망",
+      "index_name": "Solactive K-Battery North America Supply Chain 지수",
+      "trading_value": 245323322.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "488210",
+      "etf_name": "KIWOOM K-반도체북미공급망",
+      "index_name": "Solactive K-Semiconductor North America Supply Chain 지수",
+      "trading_value": 109195516.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "469790",
+      "etf_name": "KIWOOM K-테크TOP10",
+      "index_name": "Solactive K-TechTOP10 Index(PR)",
+      "trading_value": 201249590.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "100910",
+      "etf_name": "KIWOOM KRX100",
+      "index_name": "KRX 100",
+      "trading_value": 179007024.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "104530",
+      "etf_name": "KIWOOM 고배당",
+      "index_name": "MKF 웰스 고배당20",
+      "trading_value": 3845500591.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "496090",
+      "etf_name": "KIWOOM 코리아밸류업",
+      "index_name": "코리아 밸류업 지수",
+      "trading_value": 262276964.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "153270",
+      "etf_name": "KIWOOM 코스피100",
+      "index_name": "코스피 100",
+      "trading_value": 585606262.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "069500",
+      "etf_name": "KODEX 200",
+      "index_name": "코스피 200",
+      "trading_value": 1579271989119.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "226980",
+      "etf_name": "KODEX 200 중소형",
+      "index_name": "코스피 200 중소형주지수",
+      "trading_value": 251020621.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "337160",
+      "etf_name": "KODEX 200ESG",
+      "index_name": "코스피 200 ESG 지수",
+      "trading_value": 4127732480.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "363580",
+      "etf_name": "KODEX 200IT TR",
+      "index_name": "코스피200 정보기술 TR",
+      "trading_value": 4410133802.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "278530",
+      "etf_name": "KODEX 200TR",
+      "index_name": "코스피 200 TR",
+      "trading_value": 56741005843.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "337150",
+      "etf_name": "KODEX 200exTOP",
+      "index_name": "코스피 200 초대형제외 지수",
+      "trading_value": 16864850.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "223190",
+      "etf_name": "KODEX 200가치저변동",
+      "index_name": "코스피 200 가치저변동성",
+      "trading_value": 125086885.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "252650",
+      "etf_name": "KODEX 200동일가중",
+      "index_name": "코스피 200 동일가중지수",
+      "trading_value": 15691980.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "252670",
+      "etf_name": "KODEX 200선물인버스2X",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 565441192706.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "494890",
+      "etf_name": "KODEX 200액티브",
+      "index_name": "코스피 200",
+      "trading_value": 19261999224.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "498400",
+      "etf_name": "KODEX 200타겟위클리커버드콜",
+      "index_name": "코스피 200 타겟 15% 위클리 커버드콜 지수",
+      "trading_value": 139471765369.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "305720",
+      "etf_name": "KODEX 2차전지산업",
+      "index_name": "FnGuide 2차전지 산업 지수",
+      "trading_value": 173180002664.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "462330",
+      "etf_name": "KODEX 2차전지산업레버리지",
+      "index_name": "FnGuide 2차전지 산업 지수",
+      "trading_value": 102511633071.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "461950",
+      "etf_name": "KODEX 2차전지핵심소재10",
+      "index_name": "FnGuide 2차전지핵심소재10 지수",
+      "trading_value": 12906124915.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "395160",
+      "etf_name": "KODEX AI반도체",
+      "index_name": "FnGuide AI반도체지수",
+      "trading_value": 119349045892.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "471990",
+      "etf_name": "KODEX AI반도체핵심장비",
+      "index_name": "iSelect AI 반도체핵심장비 지수",
+      "trading_value": 70658914046.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "487240",
+      "etf_name": "KODEX AI전력핵심설비",
+      "index_name": "iSelect AI 전력핵심설비 지수(Price Return)",
+      "trading_value": 537654642929.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "266370",
+      "etf_name": "KODEX IT",
+      "index_name": "KRX 정보기술",
+      "trading_value": 2385302644.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "368680",
+      "etf_name": "KODEX K-뉴딜디지털플러스",
+      "index_name": "FnGuide K-뉴딜 디지털 플러스 지수",
+      "trading_value": 15902630.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "292190",
+      "etf_name": "KODEX KRX300",
+      "index_name": "KRX 300",
+      "trading_value": 3016451071.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "306950",
+      "etf_name": "KODEX KRX300레버리지",
+      "index_name": "KRX 300",
+      "trading_value": 571018925.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "266360",
+      "etf_name": "KODEX K콘텐츠",
+      "index_name": "KRX K콘텐츠",
+      "trading_value": 893372335.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "117700",
+      "etf_name": "KODEX 건설",
+      "index_name": "KRX 건설",
+      "trading_value": 46423609216.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "300950",
+      "etf_name": "KODEX 게임산업",
+      "index_name": "FnGuide 게임 산업 지수",
+      "trading_value": 1449372783.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "266390",
+      "etf_name": "KODEX 경기소비재",
+      "index_name": "KRX 경기소비재",
+      "trading_value": 475437002.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "279530",
+      "etf_name": "KODEX 고배당주",
+      "index_name": "FnGuide 고배당 Plus 지수",
+      "trading_value": 6522764971.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "102960",
+      "etf_name": "KODEX 기계장비",
+      "index_name": "KRX 기계장비",
+      "trading_value": 980673544.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "404260",
+      "etf_name": "KODEX 기후변화솔루션",
+      "index_name": "KRX 기후변화 솔루션지수",
+      "trading_value": 36277090.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "122630",
+      "etf_name": "KODEX 레버리지",
+      "index_name": "코스피 200",
+      "trading_value": 2039276307578.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "445290",
+      "etf_name": "KODEX 로봇액티브",
+      "index_name": "iSelect K-로봇테마 지수",
+      "trading_value": 111931722388.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "401470",
+      "etf_name": "KODEX 메타버스액티브",
+      "index_name": "FnGuide K-메타버스 지수",
+      "trading_value": 576939780.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "244580",
+      "etf_name": "KODEX 바이오",
+      "index_name": "FnGuide 바이오 지수",
+      "trading_value": 14298055115.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "091160",
+      "etf_name": "KODEX 반도체",
+      "index_name": "KRX 반도체",
+      "trading_value": 689195299745.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "494310",
+      "etf_name": "KODEX 반도체레버리지",
+      "index_name": "KRX 반도체",
+      "trading_value": 632675148229.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0080G0",
+      "etf_name": "KODEX 방산TOP10",
+      "index_name": "iSelect 방산 TOP10 지수(Price Return)",
+      "trading_value": 68296088268.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0100K0",
+      "etf_name": "KODEX 방산TOP10레버리지",
+      "index_name": "iSelect 방산 TOP10 지수(Price Return)",
+      "trading_value": 14484380125.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "325020",
+      "etf_name": "KODEX 배당가치",
+      "index_name": "FnGuide SLV 배당가치 지수",
+      "trading_value": 1737304863.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "140700",
+      "etf_name": "KODEX 보험",
+      "index_name": "KRX 보험",
+      "trading_value": 3377920187.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "325010",
+      "etf_name": "KODEX 성장주",
+      "index_name": "FnGuide 성장 지수(PR)",
+      "trading_value": 2549494840.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "446690",
+      "etf_name": "KODEX 아시아AI반도체exChina액티브",
+      "index_name": "iSelect 아시아반도체 제조동맹 지수(시장가격)",
+      "trading_value": 3237585775.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "140710",
+      "etf_name": "KODEX 운송",
+      "index_name": "KRX 운송",
+      "trading_value": 577247209.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "114800",
+      "etf_name": "KODEX 인버스",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 340211076051.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "091180",
+      "etf_name": "KODEX 자동차",
+      "index_name": "KRX 자동차",
+      "trading_value": 35151108891.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "385520",
+      "etf_name": "KODEX 자율주행액티브",
+      "index_name": "FnGuide K-미래차 지수",
+      "trading_value": 501432123.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0115D0",
+      "etf_name": "KODEX 조선TOP10",
+      "index_name": "KRX 조선 TOP10",
+      "trading_value": 110814592784.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0153K0",
+      "etf_name": "KODEX 주주환원고배당주",
+      "index_name": "Akros 주주환원 고배당 지수 (Price Return)",
+      "trading_value": 7290013752.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "102970",
+      "etf_name": "KODEX 증권",
+      "index_name": "KRX 증권",
+      "trading_value": 142261613194.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "117680",
+      "etf_name": "KODEX 철강",
+      "index_name": "KRX 철강",
+      "trading_value": 2705411568.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "279540",
+      "etf_name": "KODEX 최소변동성",
+      "index_name": "KRX 최소변동성지수",
+      "trading_value": 400680.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "445150",
+      "etf_name": "KODEX 친환경조선해운액티브",
+      "index_name": "FnGuide K-친환경 선박 지수",
+      "trading_value": 3077436829.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "211900",
+      "etf_name": "KODEX 코리아배당성장",
+      "index_name": "코스피 배당성장 50",
+      "trading_value": 914920018.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "495850",
+      "etf_name": "KODEX 코리아밸류업",
+      "index_name": "코리아 밸류업 지수",
+      "trading_value": 19023542655.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0115E0",
+      "etf_name": "KODEX 코리아소버린AI",
+      "index_name": "KRX 코리아 소버린 AI 지수",
+      "trading_value": 2106937803.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "373490",
+      "etf_name": "KODEX 코리아혁신성장액티브",
+      "index_name": "FnGuide K-이노베이션 지수",
+      "trading_value": 266779497.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "226490",
+      "etf_name": "KODEX 코스피",
+      "index_name": "코스피",
+      "trading_value": 15833875332.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "237350",
+      "etf_name": "KODEX 코스피100",
+      "index_name": "코스피 100",
+      "trading_value": 23409144408.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "359210",
+      "etf_name": "KODEX 코스피TR",
+      "index_name": "코스피 TR",
+      "trading_value": 1475498626.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "337140",
+      "etf_name": "KODEX 코스피대형주",
+      "index_name": "코스피 대형주",
+      "trading_value": 1654832850.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "266410",
+      "etf_name": "KODEX 필수소비재",
+      "index_name": "KRX 필수소비재",
+      "trading_value": 477236882.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "450190",
+      "etf_name": "KODEX 한중반도체(합성)",
+      "index_name": "KRX CSI 한·중 반도체지수",
+      "trading_value": 8300702.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "450180",
+      "etf_name": "KODEX 한중전기차(합성)",
+      "index_name": "KRX CSI 한·중 전기차지수",
+      "trading_value": 6394745.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "266420",
+      "etf_name": "KODEX 헬스케어",
+      "index_name": "KRX 헬스케어",
+      "trading_value": 1991756854.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "364690",
+      "etf_name": "KODEX 혁신기술테마액티브",
+      "index_name": "코스피",
+      "trading_value": 137219794.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0074K0",
+      "etf_name": "KoAct K수출핵심기업TOP30액티브",
+      "index_name": "KEDI K수출핵심기업TOP30 지수(PR)",
+      "trading_value": 2309336032.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "462900",
+      "etf_name": "KoAct 바이오헬스케어액티브",
+      "index_name": "iSelect 바이오헬스케어 PR 지수",
+      "trading_value": 51420172016.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "482030",
+      "etf_name": "KoAct 반도체&2차전지핵심소재액티브",
+      "index_name": "iSelect 반도체&2차전지핵심소재 지수",
+      "trading_value": 1633652071.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "476850",
+      "etf_name": "KoAct 배당성장액티브",
+      "index_name": "코스피",
+      "trading_value": 2633757609.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0150K0",
+      "etf_name": "KoAct 수소전력ESS인프라액티브",
+      "index_name": "FnGuide 수소전력ESS인프라 지수(PR)",
+      "trading_value": 2458033322.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "495230",
+      "etf_name": "KoAct 코리아밸류업액티브",
+      "index_name": "코리아 밸류업 지수",
+      "trading_value": 20578349818.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "438740",
+      "etf_name": "MIDAS 중소형액티브",
+      "index_name": "코스피 중형주",
+      "trading_value": 5267230.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "403790",
+      "etf_name": "MIDAS 코스피액티브",
+      "index_name": "코스피",
+      "trading_value": 450591201.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "152100",
+      "etf_name": "PLUS 200",
+      "index_name": "코스피 200",
+      "trading_value": 42979446176.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "491220",
+      "etf_name": "PLUS 200TR",
+      "index_name": "코스피 200 TR",
+      "trading_value": 643965609.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "253150",
+      "etf_name": "PLUS 200선물레버리지",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 103264384.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "253160",
+      "etf_name": "PLUS 200선물인버스2X",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 197594041.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "395750",
+      "etf_name": "PLUS ESG가치주액티브",
+      "index_name": "FnGuide 한화 ESG 가치 지수",
+      "trading_value": 2355395.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "395760",
+      "etf_name": "PLUS ESG성장주액티브",
+      "index_name": "FnGuide 한화 ESG 성장 지수",
+      "trading_value": 177099960.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "449450",
+      "etf_name": "PLUS K방산",
+      "index_name": "FnGuide K-방위산업 지수",
+      "trading_value": 84623850262.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0104G0",
+      "etf_name": "PLUS K방산레버리지",
+      "index_name": "FnGuide K-방위산업 지수",
+      "trading_value": 4260214505.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0090B0",
+      "etf_name": "PLUS K방산소부장",
+      "index_name": "Akros K방산소부장 지수(PR)",
+      "trading_value": 4039678458.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "251590",
+      "etf_name": "PLUS 고배당저변동50",
+      "index_name": "FnGuide 고배당저변동50 지수",
+      "trading_value": 91389645.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "161510",
+      "etf_name": "PLUS 고배당주",
+      "index_name": "FnGuide 배당주 지수",
+      "trading_value": 45684376829.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0018C0",
+      "etf_name": "PLUS 고배당주위클리고정커버드콜",
+      "index_name": "코스피 고배당 위클리 고정 커버드콜 지수",
+      "trading_value": 3338415824.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "489030",
+      "etf_name": "PLUS 고배당주위클리커버드콜",
+      "index_name": "코스피 고배당 위클리 콜매도 ATM 지수",
+      "trading_value": 14773161539.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "421320",
+      "etf_name": "PLUS 우주항공&UAM",
+      "index_name": "iSelect 우주항공UAM 지수",
+      "trading_value": 16801679317.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0098N0",
+      "etf_name": "PLUS 자사주매입고배당주",
+      "index_name": "FnGuide 고배당주 플러스 자사주 지수 (PR)",
+      "trading_value": 1805827561.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "495040",
+      "etf_name": "PLUS 코리아밸류업",
+      "index_name": "코리아 밸류업 지수",
+      "trading_value": 87646221.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "227830",
+      "etf_name": "PLUS 코스피",
+      "index_name": "코스피",
+      "trading_value": 110524336.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "122090",
+      "etf_name": "PLUS 코스피50",
+      "index_name": "코스피 50",
+      "trading_value": 3161487536.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "328370",
+      "etf_name": "PLUS 코스피TR",
+      "index_name": "코스피 TR",
+      "trading_value": 621660059.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0000J0",
+      "etf_name": "PLUS 한화그룹주",
+      "index_name": "FnGuide 한화그룹주 지수",
+      "trading_value": 10518878739.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "148020",
+      "etf_name": "RISE 200",
+      "index_name": "코스피 200",
+      "trading_value": 130064861031.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "361580",
+      "etf_name": "RISE 200TR",
+      "index_name": "코스피 200 TR",
+      "trading_value": 9864729658.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "290080",
+      "etf_name": "RISE 200고배당커버드콜ATM",
+      "index_name": "코스피 200 고배당커버드콜 ATM 지수(시장가격지수)",
+      "trading_value": 162228851.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "252400",
+      "etf_name": "RISE 200선물레버리지",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 705336797.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "252410",
+      "etf_name": "RISE 200선물인버스",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 81678332.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "252420",
+      "etf_name": "RISE 200선물인버스2X",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 994415179.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "475720",
+      "etf_name": "RISE 200위클리커버드콜",
+      "index_name": "코스피 200 위클리 커버드콜 ATM 지수",
+      "trading_value": 27362379181.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "465330",
+      "etf_name": "RISE 2차전지TOP10",
+      "index_name": "iSelect 2차전지 TOP10 지수(PR)",
+      "trading_value": 5638790509.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "465350",
+      "etf_name": "RISE 2차전지TOP10인버스(합성)",
+      "index_name": "iSelect 2차전지 TOP10 지수(PR)",
+      "trading_value": 3266507388.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "422420",
+      "etf_name": "RISE 2차전지액티브",
+      "index_name": "iSelect 2차전지 지수 (시장가격지수)",
+      "trading_value": 18602282620.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "105780",
+      "etf_name": "RISE 5대그룹주",
+      "index_name": "MKF 5대그룹주",
+      "trading_value": 228745780.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0093A0",
+      "etf_name": "RISE AI반도체TOP10",
+      "index_name": "FnGuide AI반도체TOP10 지수",
+      "trading_value": 46156564488.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0101N0",
+      "etf_name": "RISE AI전력인프라",
+      "index_name": "KRX-Akros AI 전력인프라 지수",
+      "trading_value": 79448957529.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "427120",
+      "etf_name": "RISE AI플랫폼",
+      "index_name": "FnGuide AI 플랫폼 지수",
+      "trading_value": 161415100.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "290130",
+      "etf_name": "RISE ESG사회책임투자",
+      "index_name": "KRX ESG 사회책임경영지수(S)",
+      "trading_value": 33887263508.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "270800",
+      "etf_name": "RISE KQ고배당",
+      "index_name": "FnGuide KQ고배당포커스 지수",
+      "trading_value": 144800287.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "292050",
+      "etf_name": "RISE KRX300",
+      "index_name": "KRX 300",
+      "trading_value": 8596270.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "388280",
+      "etf_name": "RISE K엔터&여행레저",
+      "index_name": "FnGuide K엔터&여행레저 지수",
+      "trading_value": 636177564.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "300640",
+      "etf_name": "RISE 게임테마",
+      "index_name": "WISE 게임 테마 지수 (시장가격지수)",
+      "trading_value": 287416015.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "266160",
+      "etf_name": "RISE 고배당",
+      "index_name": "FnGuide 고배당포커스 지수",
+      "trading_value": 4351999871.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "315960",
+      "etf_name": "RISE 대형고배당10TR",
+      "index_name": "WISE 대형고배당10 TR 지수",
+      "trading_value": 11864028911.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0000Z0",
+      "etf_name": "RISE 바이오TOP10액티브",
+      "index_name": "KRX 바이오 TOP 10 지수",
+      "trading_value": 9893170990.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "446700",
+      "etf_name": "RISE 배터리 리사이클링",
+      "index_name": "iSelect 배터리 리사이클링 지수",
+      "trading_value": 316054450.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "388420",
+      "etf_name": "RISE 비메모리반도체액티브",
+      "index_name": "iSelect 비메모리반도체 지수(시장가격지수)",
+      "trading_value": 6436265997.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "281990",
+      "etf_name": "RISE 중소형고배당",
+      "index_name": "FnGuide 중소형고배당포커스 지수",
+      "trading_value": 28366244.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "495050",
+      "etf_name": "RISE 코리아밸류업",
+      "index_name": "코리아 밸류업 지수",
+      "trading_value": 124537363600.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0094M0",
+      "etf_name": "RISE 코리아밸류업위클리고정커버드콜",
+      "index_name": "코리아 밸류업 위클리 커버드콜 30% 지수",
+      "trading_value": 3620140373.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0151P0",
+      "etf_name": "RISE 코리아전략산업액티브",
+      "index_name": "KAP 코리아전략산업지수",
+      "trading_value": 15919179499.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "302450",
+      "etf_name": "RISE 코스피",
+      "index_name": "코스피",
+      "trading_value": 359684826.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "411540",
+      "etf_name": "SOL 200 Top10",
+      "index_name": "코스피 200 Top 10 지수",
+      "trading_value": 476142892.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "295040",
+      "etf_name": "SOL 200TR",
+      "index_name": "코스피 200 TR",
+      "trading_value": 5299617244.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0167B0",
+      "etf_name": "SOL 200타겟위클리커버드콜",
+      "index_name": "코스피 200 타겟 15% 위클리 커버드콜 지수",
+      "trading_value": 52061918384.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "455860",
+      "etf_name": "SOL 2차전지소부장Fn",
+      "index_name": "FnGuide 2차전지 소부장 지수(PR)",
+      "trading_value": 7025367682.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0167A0",
+      "etf_name": "SOL AI반도체TOP2플러스",
+      "index_name": "FnGuide AI반도체 TOP2 플러스 지수(PR)",
+      "trading_value": 131580587001.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "455850",
+      "etf_name": "SOL AI반도체소부장",
+      "index_name": "FnGuide AI 반도체 소부장 지수",
+      "trading_value": 116746585727.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "292500",
+      "etf_name": "SOL KRX300",
+      "index_name": "KRX 300",
+      "trading_value": 6869000.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "404650",
+      "etf_name": "SOL KRX기후변화솔루션",
+      "index_name": "KRX 기후변화 솔루션지수",
+      "trading_value": 16439290.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "490480",
+      "etf_name": "SOL K방산",
+      "index_name": "KEDI K방산 지수(PR)",
+      "trading_value": 4779138711.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "475300",
+      "etf_name": "SOL 반도체전공정",
+      "index_name": "FnGuide 반도체 전공정 지수(PR)",
+      "trading_value": 5053313799.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "475310",
+      "etf_name": "SOL 반도체후공정",
+      "index_name": "FnGuide 반도체 후공정 지수(PR)",
+      "trading_value": 9785284564.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0152E0",
+      "etf_name": "SOL 배당성향탑픽액티브",
+      "index_name": "FnGuide 배당성향탑픽 지수(PR)",
+      "trading_value": 2981868616.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "464610",
+      "etf_name": "SOL 의료기기소부장Fn",
+      "index_name": "FnGuide 의료기기소부장지수(PR)",
+      "trading_value": 515164638.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "466930",
+      "etf_name": "SOL 자동차TOP3플러스",
+      "index_name": "FnGuide 자동차TOP3플러스지수(PR)",
+      "trading_value": 10296210610.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "464600",
+      "etf_name": "SOL 자동차소부장Fn",
+      "index_name": "FnGuide 자동차소부장지수(PR)",
+      "trading_value": 472992774.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0005D0",
+      "etf_name": "SOL 전고체배터리&실리콘음극재",
+      "index_name": "FnGuide 전고체배터리&실리콘음극재 지수(PR)",
+      "trading_value": 55502960727.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "466920",
+      "etf_name": "SOL 조선TOP3플러스",
+      "index_name": "FnGuide 조선TOP3플러스지수(PR)",
+      "trading_value": 305448941140.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0080Y0",
+      "etf_name": "SOL 조선TOP3플러스레버리지",
+      "index_name": "FnGuide 조선TOP3플러스지수(PR)",
+      "trading_value": 71237559556.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0141S0",
+      "etf_name": "SOL 조선기자재",
+      "index_name": "FnGuide 조선기자재 지수(PR)",
+      "trading_value": 38764402437.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0105E0",
+      "etf_name": "SOL 코리아고배당",
+      "index_name": "FnGuide 코리아 고배당 지수(PR)",
+      "trading_value": 13637901491.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "444200",
+      "etf_name": "SOL 코리아메가테크액티브",
+      "index_name": "KEDI 메가테크지수(PR)",
+      "trading_value": 88570972382.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "495550",
+      "etf_name": "SOL 코리아밸류업TR",
+      "index_name": "코리아 밸류업 TR 지수",
+      "trading_value": 4525727148.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0008T0",
+      "etf_name": "SOL 화장품TOP3플러스",
+      "index_name": "FnGuide 화장품TOP3 플러스 지수(PR)",
+      "trading_value": 8776585437.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "102110",
+      "etf_name": "TIGER 200",
+      "index_name": "코스피 200",
+      "trading_value": 359662294496.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "139260",
+      "etf_name": "TIGER 200 IT",
+      "index_name": "코스피 200 정보기술",
+      "trading_value": 89129035422.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "139220",
+      "etf_name": "TIGER 200 건설",
+      "index_name": "코스피 200 건설",
+      "trading_value": 33126509926.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "139290",
+      "etf_name": "TIGER 200 경기소비재",
+      "index_name": "코스피 200 경기소비재",
+      "trading_value": 1034476708.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "227550",
+      "etf_name": "TIGER 200 산업재",
+      "index_name": "코스피 200 산업재",
+      "trading_value": 67763755.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "227560",
+      "etf_name": "TIGER 200 생활소비재",
+      "index_name": "코스피 200 생활소비재",
+      "trading_value": 30239365.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "139230",
+      "etf_name": "TIGER 200 중공업",
+      "index_name": "코스피 200 중공업",
+      "trading_value": 20885231223.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "139240",
+      "etf_name": "TIGER 200 철강소재",
+      "index_name": "코스피 200 철강/소재",
+      "trading_value": 302868795.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "227540",
+      "etf_name": "TIGER 200 헬스케어",
+      "index_name": "코스피 200 헬스케어",
+      "trading_value": 961086398.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "243880",
+      "etf_name": "TIGER 200IT레버리지",
+      "index_name": "코스피 200 정보기술",
+      "trading_value": 25050963365.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "310960",
+      "etf_name": "TIGER 200TR",
+      "index_name": "코스피 200 TR",
+      "trading_value": 3466985956.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "252000",
+      "etf_name": "TIGER 200동일가중",
+      "index_name": "코스피 200 동일가중지수",
+      "trading_value": 161320130.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "267770",
+      "etf_name": "TIGER 200선물레버리지",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 18340922920.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "252710",
+      "etf_name": "TIGER 200선물인버스2X",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 7696095615.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "315270",
+      "etf_name": "TIGER 200커뮤니케이션서비스",
+      "index_name": "코스피 200 커뮤니케이션서비스",
+      "trading_value": 18344475.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "289480",
+      "etf_name": "TIGER 200커버드콜",
+      "index_name": "코스피 200 커버드콜 ATM 지수",
+      "trading_value": 581317223.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "166400",
+      "etf_name": "TIGER 200커버드콜OTM",
+      "index_name": "코스피 200 커버드콜 5% OTM",
+      "trading_value": 92316028.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0104N0",
+      "etf_name": "TIGER 200타겟위클리커버드콜",
+      "index_name": "코스피 200 타겟 7% 위클리 커버드콜 지수",
+      "trading_value": 6359652847.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "364980",
+      "etf_name": "TIGER 2차전지TOP10",
+      "index_name": "KRX 2차전지 TOP 10 지수",
+      "trading_value": 74970505441.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "412570",
+      "etf_name": "TIGER 2차전지TOP10레버리지",
+      "index_name": "KRX 2차전지 TOP 10 지수",
+      "trading_value": 32364749132.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "462010",
+      "etf_name": "TIGER 2차전지소재Fn",
+      "index_name": "FnGuide 2차전지소재 (Price Return) 지수",
+      "trading_value": 38768326609.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "305540",
+      "etf_name": "TIGER 2차전지테마",
+      "index_name": "WISE 2차전지 테마 지수",
+      "trading_value": 33026966092.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "471760",
+      "etf_name": "TIGER AI반도체핵심공정",
+      "index_name": "iSelect AI반도체핵심공정지수",
+      "trading_value": 29699612264.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "365040",
+      "etf_name": "TIGER AI코리아그로스액티브",
+      "index_name": "코스피",
+      "trading_value": 354087458.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "364960",
+      "etf_name": "TIGER BBIG",
+      "index_name": "KRX BBIG 지수",
+      "trading_value": 492540885.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "412560",
+      "etf_name": "TIGER BBIG레버리지",
+      "index_name": "KRX BBIG 지수",
+      "trading_value": 33153865.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "292160",
+      "etf_name": "TIGER KRX300",
+      "index_name": "KRX 300",
+      "trading_value": 148315338.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "404540",
+      "etf_name": "TIGER KRX기후변화솔루션",
+      "index_name": "KRX 기후변화 솔루션지수",
+      "trading_value": 17488235.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "300610",
+      "etf_name": "TIGER K게임",
+      "index_name": "WISE K게임 테마 지수",
+      "trading_value": 192364055.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "463250",
+      "etf_name": "TIGER K방산&우주",
+      "index_name": "iSelect K방산&우주",
+      "trading_value": 54934440453.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "445910",
+      "etf_name": "TIGER MKF배당귀족",
+      "index_name": "MKF 배당귀족 지수(시장가격지수)",
+      "trading_value": 408676845.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "364990",
+      "etf_name": "TIGER 게임TOP10",
+      "index_name": "KRX 게임 TOP 10 지수",
+      "trading_value": 1740372170.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "139280",
+      "etf_name": "TIGER 경기방어",
+      "index_name": "코스피 200 경기방어소비재",
+      "trading_value": 417869450.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0168K0",
+      "etf_name": "TIGER 기술이전바이오액티브",
+      "index_name": "KRX 기술이전 바이오 지수",
+      "trading_value": 20490584337.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "123320",
+      "etf_name": "TIGER 레버리지",
+      "index_name": "코스피 200",
+      "trading_value": 33636897219.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "364970",
+      "etf_name": "TIGER 바이오TOP10",
+      "index_name": "KRX 바이오 TOP 10 지수",
+      "trading_value": 14860989200.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "091230",
+      "etf_name": "TIGER 반도체",
+      "index_name": "KRX 반도체",
+      "trading_value": 111287076049.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "396500",
+      "etf_name": "TIGER 반도체TOP10",
+      "index_name": "FnGuide 반도체TOP10 지수",
+      "trading_value": 1242920382155.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "488080",
+      "etf_name": "TIGER 반도체TOP10레버리지",
+      "index_name": "FnGuide 반도체TOP10 지수",
+      "trading_value": 469688031808.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0177R0",
+      "etf_name": "TIGER 반도체TOP10커버드콜액티브",
+      "index_name": "FnGuide 반도체 TOP10 Capped 지수(Price Return)",
+      "trading_value": 72250188559.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "211560",
+      "etf_name": "TIGER 배당성장",
+      "index_name": "코스피 배당성장 50",
+      "trading_value": 4985599814.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "472150",
+      "etf_name": "TIGER 배당커버드콜액티브",
+      "index_name": "코스피 200 커버드콜 5% OTM",
+      "trading_value": 133850381252.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "261140",
+      "etf_name": "TIGER 우선주",
+      "index_name": "코스피 우선주 지수",
+      "trading_value": 1061862068.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "123310",
+      "etf_name": "TIGER 인버스",
+      "index_name": "코스피 200 선물지수",
+      "trading_value": 5525659003.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "365000",
+      "etf_name": "TIGER 인터넷TOP10",
+      "index_name": "KRX 인터넷 TOP 10 지수",
+      "trading_value": 1175079401.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "494670",
+      "etf_name": "TIGER 조선TOP10",
+      "index_name": "iSelect 조선TOP10 Index(PR)",
+      "trading_value": 97109570235.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "157500",
+      "etf_name": "TIGER 증권",
+      "index_name": "FnGuide 증권 지수",
+      "trading_value": 78001080304.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "307520",
+      "etf_name": "TIGER 지주회사",
+      "index_name": "FnGuide 지주회사 지수",
+      "trading_value": 12787415816.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0117V0",
+      "etf_name": "TIGER 코리아AI전력기기TOP3플러스",
+      "index_name": "KEDI 코리아AI전력기기TOP3플러스 지수",
+      "trading_value": 220932731830.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "292150",
+      "etf_name": "TIGER 코리아TOP10",
+      "index_name": "FnGuide TOP10 지수",
+      "trading_value": 101500227564.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0104P0",
+      "etf_name": "TIGER 코리아배당다우존스위클리커버드콜",
+      "index_name": "KRX 다우존스 코리아 배당 30 타겟 7% 위클리 커버드콜 지수",
+      "trading_value": 313826671.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "496080",
+      "etf_name": "TIGER 코리아밸류업",
+      "index_name": "코리아 밸류업 지수",
+      "trading_value": 11940957137.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0091P0",
+      "etf_name": "TIGER 코리아원자력",
+      "index_name": "iSelect 코리아 원자력 지수 (Price Return)",
+      "trading_value": 152366995805.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "471780",
+      "etf_name": "TIGER 코리아테크액티브",
+      "index_name": "KRX 정보기술",
+      "trading_value": 10913175807.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0148J0",
+      "etf_name": "TIGER 코리아휴머노이드로봇산업",
+      "index_name": "KEDI 코리아 휴머노이드로봇산업 지수 (PR)",
+      "trading_value": 204589208023.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "277630",
+      "etf_name": "TIGER 코스피",
+      "index_name": "코스피",
+      "trading_value": 6724760290.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "210780",
+      "etf_name": "TIGER 코스피고배당",
+      "index_name": "코스피 고배당 50",
+      "trading_value": 1027271632.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "277640",
+      "etf_name": "TIGER 코스피대형주",
+      "index_name": "코스피 대형주",
+      "trading_value": 1424141630.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "277650",
+      "etf_name": "TIGER 코스피중형주",
+      "index_name": "코스피 중형주",
+      "trading_value": 11233455.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "449690",
+      "etf_name": "TIGER 한중반도체(합성)",
+      "index_name": "KRX CSI 한·중 반도체지수",
+      "trading_value": 21826335.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "449680",
+      "etf_name": "TIGER 한중전기차(합성)",
+      "index_name": "KRX CSI 한·중 전기차지수",
+      "trading_value": 2558420.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "143860",
+      "etf_name": "TIGER 헬스케어",
+      "index_name": "KRX 헬스케어",
+      "trading_value": 4138246815.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "228790",
+      "etf_name": "TIGER 화장품",
+      "index_name": "WISE 화장품 지수",
+      "trading_value": 18373942428.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "441800",
+      "etf_name": "TIME Korea플러스배당액티브",
+      "index_name": "코스피 200",
+      "trading_value": 19227294506.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "463050",
+      "etf_name": "TIME K바이오액티브",
+      "index_name": "KRX 헬스케어",
+      "trading_value": 13433352706.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "385710",
+      "etf_name": "TIME K이노베이션액티브",
+      "index_name": "KRX BBIG 지수",
+      "trading_value": 434053470.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "410870",
+      "etf_name": "TIME K컬처액티브",
+      "index_name": "FnGuide K-컬처 지수",
+      "trading_value": 408869722.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "495060",
+      "etf_name": "TIME 코리아밸류업액티브",
+      "index_name": "코리아 밸류업 지수",
+      "trading_value": 5003655380.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "385720",
+      "etf_name": "TIME 코스피액티브",
+      "index_name": "코스피",
+      "trading_value": 10581523211.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "108590",
+      "etf_name": "TREX 200",
+      "index_name": "코스피 200",
+      "trading_value": 100595870.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "145850",
+      "etf_name": "TREX 펀더멘탈 200",
+      "index_name": "FnGuide-RAFI 코리아200 지수",
+      "trading_value": 2191197.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "472720",
+      "etf_name": "TRUSTON 주주가치액티브",
+      "index_name": "코스피 200",
+      "trading_value": 69810935.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "496130",
+      "etf_name": "TRUSTON 코리아밸류업액티브",
+      "index_name": "코리아 밸류업 지수",
+      "trading_value": 2538305.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "433250",
+      "etf_name": "UNICORN R&D 액티브",
+      "index_name": "코스피 200",
+      "trading_value": 415240.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "448100",
+      "etf_name": "WON 200",
+      "index_name": "코스피 200",
+      "trading_value": 751765925.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "413930",
+      "etf_name": "WON AI ESG액티브",
+      "index_name": "MK-iSelect AI ESG 지수(시장가격지수)",
+      "trading_value": 12380275.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "474590",
+      "etf_name": "WON 반도체밸류체인액티브",
+      "index_name": "FnGuide 반도체 밸류체인 (Price Return) 지수",
+      "trading_value": 40719823964.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0053M0",
+      "etf_name": "더제이 중소형포커스액티브",
+      "index_name": "코스피 200 중소형주지수",
+      "trading_value": 183528295.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0112X0",
+      "etf_name": "마이티 200TR",
+      "index_name": "코스피 200 TR",
+      "trading_value": 245888174.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "442260",
+      "etf_name": "마이티 다이나믹퀀트액티브",
+      "index_name": "코스피 200",
+      "trading_value": 237831635.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0001P0",
+      "etf_name": "마이티 바이오시밀러&CDMO액티브",
+      "index_name": "FnGuide 바이오시밀러&CDMO 지수",
+      "trading_value": 108906800.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "159800",
+      "etf_name": "마이티 코스피100",
+      "index_name": "코스피 100",
+      "trading_value": 135458915.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "0007N0",
+      "etf_name": "아이엠에셋 200",
+      "index_name": "코스피 200",
+      "trading_value": 15862750.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "442090",
+      "etf_name": "에셋플러스 코리아대장장이액티브",
+      "index_name": "FnGuide 대장장이 지수(Price Return)",
+      "trading_value": 50942313.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "407820",
+      "etf_name": "에셋플러스 코리아플랫폼액티브",
+      "index_name": "FnGuide 플랫폼 지수(Price Return)",
+      "trading_value": 12512975.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "152870",
+      "etf_name": "파워 200",
+      "index_name": "코스피 200",
+      "trading_value": 943587331.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "491510",
+      "etf_name": "파워 K-주주가치액티브",
+      "index_name": "FnGuide K-주주가치 지수",
+      "trading_value": 3096210.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "192720",
+      "etf_name": "파워 고배당저변동성",
+      "index_name": "코스피 200 고배당지수",
+      "trading_value": 1071162905.0,
+      "include_reason": "domestic_equity_keyword"
+    },
+    {
+      "etf_code": "140950",
+      "etf_name": "파워 코스피100",
+      "index_name": "코스피 100",
+      "trading_value": 282171671.0,
+      "include_reason": "domestic_equity_keyword"
+    }
+  ]
+}

@@ -4,3 +4,4 @@
 token.txt
 *.pyc
 node_modules/
+*.db
