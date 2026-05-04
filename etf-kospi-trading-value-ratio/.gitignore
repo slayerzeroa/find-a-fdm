@@ -1,7 +1,0 @@
-.env
-__pycache__/
-*.pyc
-output/
-raw/
-tests/_tmp/
-tmp*/
