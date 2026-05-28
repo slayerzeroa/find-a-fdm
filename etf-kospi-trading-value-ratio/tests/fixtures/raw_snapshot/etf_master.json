@@ -1,0 +1,16 @@
+{
+  "OutBlock_1": [
+    {
+      "ISU_SRT_CD": "A001",
+      "ISU_NM": "ETF A"
+    },
+    {
+      "ISU_SRT_CD": "B001",
+      "ISU_NM": "ETF B"
+    },
+    {
+      "ISU_SRT_CD": "C001",
+      "ISU_NM": "ETF C"
+    }
+  ]
+}

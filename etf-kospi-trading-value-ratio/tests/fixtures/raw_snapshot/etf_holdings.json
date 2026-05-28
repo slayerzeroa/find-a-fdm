@@ -1,0 +1,24 @@
+{
+  "OutBlock_1": [
+    {
+      "ETF_CODE": "A001",
+      "STK_CD": "005930",
+      "CMP_WGT": "0.20"
+    },
+    {
+      "ETF_CODE": "A001",
+      "STK_CD": "357780",
+      "CMP_WGT": "0.10"
+    },
+    {
+      "ETF_CODE": "B001",
+      "STK_CD": "357780",
+      "CMP_WGT": "0.70"
+    },
+    {
+      "ETF_CODE": "C001",
+      "STK_CD": "035420",
+      "CMP_WGT": "0.05"
+    }
+  ]
+}

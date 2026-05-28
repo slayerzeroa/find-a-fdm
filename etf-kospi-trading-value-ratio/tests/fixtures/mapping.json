@@ -1,0 +1,23 @@
+{
+  "stock_master": {
+    "stock_code": "code",
+    "market": "market"
+  },
+  "etf_master": {
+    "etf_code": "code",
+    "etf_name": "name"
+  },
+  "holdings": {
+    "etf_code": "etf_code",
+    "stock_code": "stock_code",
+    "weight": "weight"
+  },
+  "etf_trading": {
+    "etf_code": "etf_code",
+    "trading_value": "trading_value"
+  },
+  "market_trading": {
+    "market": "market",
+    "trading_value": "trading_value"
+  }
+}

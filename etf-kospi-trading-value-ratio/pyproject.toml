@@ -1,0 +1,9 @@
+[project]
+name = "etf-kospi-trading-value-ratio"
+version = "0.1.0"
+description = "Daily KOSPI-included ETF trading-value ratio pipeline"
+requires-python = ">=3.10"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
